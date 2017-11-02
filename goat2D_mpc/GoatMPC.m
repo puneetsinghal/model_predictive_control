@@ -1,3 +1,6 @@
+clear;
+clc;
+
 addpath('lib')
 
 %Sample Time

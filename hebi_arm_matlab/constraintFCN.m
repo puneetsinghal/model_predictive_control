@@ -1,4 +1,4 @@
-function [c, ceq] = constraintFCN(u, x, xref, Ts, N)
+function [c, ceq] = constraintFCN(u, x, xref, Ts, N, m, COM, I, y, z, L1)
 %% Constraint function of nonlinear MPC for pendulum swing-up and balancing control
 %
 % Inputs:
@@ -14,12 +14,11 @@ function [c, ceq] = constraintFCN(u, x, xref, Ts, N)
 % Copyright 2016 The MathWorks, Inc.
 
 %% Nonlinear MPC design parameters
-% Range of cart position: from -10 to 10
-zMin = -10;
-zMax = 10;
+% zMin = -10;
+% zMax = 10;
 
 %% Inequality constraints calculation
-c = zeros(N*2,2);
+c = [];
 % Apply 2*N cart position constraints across prediction horizon, from time
 % k+1 to k+N
 xk = x;
@@ -27,7 +26,7 @@ uk = u(:,1);
 for ct=1:N
     % obtain new cart position at next prediction step
     
-    xk1 = goatDynamicsDT(xk, uk, Ts);
+    xk1 = dynamicsDT(m, COM, I, y, z, L1, xk, uk, Ts);
     % -z + zMin < 0
 %     c(2*ct-1) = -xk1(1)+zMin;
     % z - zMax < 0
@@ -42,6 +41,6 @@ end
 % c = 
 %% No equality constraints
 ceq = [];
-if (norm(xk(1:6) - xref) > 0.001)
-    ceq = 10000;
-end
+% if (norm(xk(1:4) - xref(1:4)) > 0.001)
+%     ceq = 1;
+% end

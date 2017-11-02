@@ -1,0 +1,23 @@
+function dq = dynamicsCT(m, COM, I, y, z, q, u)
+    
+    theta = q(1:5);
+    M = Mq(m, COM, I, y, z, q);
+    
+    C0 = CMatrix(m, COM, I, y, z, theta);
+    C_hat = [H, eye(3)] * M * [HDot; zeros(3)] + [H, eye(3)] * C0 * [H; eye(3)];
+    
+    gR = gq( [ q1 ; q2] );
+    G_hat = [H, eye(3)] * gR;
+    
+    B = [0 0;
+         0 0;
+         1 0;
+         0 0;
+         0 0;
+         0 1];
+
+    B_hat = [H, eye(3)]*B;
+
+    dq = [dq2; M_hat\( B_hat*u - C_hat * dq2 - G_hat); q1];
+    
+end
