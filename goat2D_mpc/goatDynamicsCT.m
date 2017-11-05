@@ -1,11 +1,10 @@
-function dq =goatDynamicsCT(q, u)
-    global global_link_length
+function dq =goatDynamicsCT(q, u, link_length)
     q10 = q(7:9);
     q = q(1:6);
     q2 = q(1:3);
     dq2 = q(4:6);
 %   q1 = fsolve(@(q1) constraints(q1,q2), q10);
-    q1 = findFeasibleConfiguration(q2, q10, global_link_length);
+    q1 = findFeasibleConfiguration(q2, q10, link_length);
     
 %     q1(2:3) = wrapToPi(q1(2:3));
     q1 = wrapToPi(q1);
