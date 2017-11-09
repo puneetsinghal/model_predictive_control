@@ -1,4 +1,4 @@
-function [c, ceq] = constraintFCN(u, x, xref, Ts, N, m, COM, I, y, z, L1)
+function [c, ceq] = constraintFCN(u, x, xref, params)
 %% Constraint function of nonlinear MPC for pendulum swing-up and balancing control
 %
 % Inputs:
@@ -23,10 +23,11 @@ c = [];
 % k+1 to k+N
 xk = x;
 uk = u(:,1);
+N = params.N;
 for ct=1:N
     % obtain new cart position at next prediction step
     
-    xk1 = dynamicsDT(m, COM, I, y, z, L1, xk, uk, Ts);
+    xk1 = acrobotDynamicsDT(xk, uk, params);
     % -z + zMin < 0
 %     c(2*ct-1) = -xk1(1)+zMin;
     % z - zMax < 0
@@ -41,9 +42,10 @@ end
 % c = 
 %% No equality constraints
 ceq = [];
-% if (norm(xk(1:4) - xref(1:4)) > 0.005)
-%     [xk(1:4); xref(1:4)]'
-%     ceq = 1
+% temp = norm(xk(1:2) - xref(1:2));
+% if (temp > 0.005)
+% %     [xk(1:2); xref(1:2)]'
+%     ceq = temp;
 % else
 %     disp('good');
 % end

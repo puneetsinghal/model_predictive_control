@@ -1,3 +1,5 @@
+clear;
+clc;
 addpath('lib')
 addpath('functions')
 
@@ -5,7 +7,7 @@ addpath('functions')
 Ts = 0.001;
 
 %Prediction Horizon
-N = 1000;
+N = 10;
 
 parameters();
 
@@ -13,18 +15,18 @@ parameters();
 theta0 = [0; 0; 0; 0; 0; 0; 0; 0];
 x = theta0;
 %Final State
-thetaf = [0.; 0; 0; 0; 0; 0; 0; 0];
+thetaf = [0.01; 0.01; 0.01; 0.01; 0; 0; 0; 0];
 
 %Initial Optimized Input Values over the trajectory
 optimal_input = zeros(4,N);
 
 %Fmincon Options
-options = optimoptions(@fmincon,'TolFun',0.001,'MaxIter',50,'MaxFunEvals',100,...
-                       'DiffMinChange',0.001,'Display','iter','Algorithm','sqp');
+options = optimoptions(@fmincon, 'TolFun', 0.001, 'MaxIter', 50, 'MaxFunEvals', 10000,...
+                       'DiffMinChange', 0.001,'Display', 'iter', 'Algorithm', 'sqp');
                    
 %Input Bounds
-LB = -4*ones(5,N);
-UB = 4*ones(5,N);
+LB = -4*ones(4,N);
+UB = 4*ones(4,N);
 
 %Store Data
 xHist = zeros(length(x),N);
@@ -34,17 +36,18 @@ for ct = 1:N
     ct
     xHist(:,ct) = x;
     costfun = @(u) cost(u, x, thetaf, N, optimal_input(:,1), Ts, m, COM, I, y, z, L1);
-    constrfun = @(u) constraintFCN(u, theta, thetaf, Ts, N);
+    constrfun = @(u) constraintFCN(u, theta, thetaf, Ts, N, m, COM, I, y, z, L1);
     optimal_input = fmincon(costfun, optimal_input, [], [], [], [], LB, UB, constrfun, options);
 
-    [x, y] = dynamicsDT(m, COM, I, y, z, x, optimal_input(:,1), Ts); 
+    [x, ~] = dynamicsDT(m, COM, I, y, z, L1, x, optimal_input(:,1), Ts); 
 %     x = [(x(1:6) + dx*ts); x10];
+    save('results', 'xHist', 'optimal_input');
 end
 
 %Cost Function
 function J = cost(u, xk, xref, N, u0, Ts, m, COM, I, y, z, L1)
 
-    Q = [10*eye(4), zeros(4);zeros(4), eye(4)];
+    Q = [10000*eye(4), zeros(4);zeros(4), 0.01*eye(4)];
     R = 0.01*eye(4);
 
     J = 0;
@@ -63,10 +66,9 @@ function J = cost(u, xk, xref, N, u0, Ts, m, COM, I, y, z, L1)
             J = J + (uk-u(i-1))' * R * (uk-u(i-1));
         end
     end  
-%     if(norm(xkd-xf)>0.001)
-%         J = NaN;
-%     end
-    
+%     if (norm(xk1(1:4) - xref(1:4)) > 0.001)
+%         J = 10000;
+%     end    
 end
 
 %Constraint Function

@@ -15,5 +15,4 @@ function dq = dynamicsCT(m, COM, I, y, z, L1, q, u)
     G_cropped = G(1:4);
     
     dq = [dtheta; pinv(M_cropped)*( B*u - C_cropped * dtheta - G_cropped)];
-    
 end

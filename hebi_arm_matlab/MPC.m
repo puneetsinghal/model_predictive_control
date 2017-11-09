@@ -2,12 +2,13 @@ clear;
 clc;
 addpath('lib')
 addpath('functions')
-
+profile on
 %Sample Time
 Ts = 0.001;
 
+profile viewer
 %Prediction Horizon
-N = 10;
+N = 100;
 
 parameters();
 
@@ -47,7 +48,7 @@ end
 %Cost Function
 function J = cost(u, xk, xref, N, u0, Ts, m, COM, I, y, z, L1)
 
-    Q = [10000*eye(4), zeros(4);zeros(4), 0.01*eye(4)];
+    Q = diag([10000; 10000; 10000; 10000; 0.01; 0.01; 0.01; 0.01]); %[10000*eye(4), zeros(4);zeros(4), 0.01*eye(4)];
     R = 0.01*eye(4);
 
     J = 0;
@@ -58,7 +59,8 @@ function J = cost(u, xk, xref, N, u0, Ts, m, COM, I, y, z, L1)
         uk = u(:,i);
         xk1 = dynamicsDT(m, COM, I, y, z, L1, xk1, uk, Ts);
         
-        J = J + (xk1-xref)'*Q*(xk1-xref);
+%         J = J + (xk1-xref)'*Q*(xk1-xref);
+        J = J + (xk1)'*Q*(xk1);
 
         if i ==1
             J = J + (uk-u0)' * R * (uk-u0);
