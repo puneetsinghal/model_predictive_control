@@ -1,4 +1,4 @@
-function [c, ceq] = constraintFCN(u, x, xref, Ts, N, global_link_length)
+function [c, ceq] = constraintFCN(u, x, xref, Ts, N, link_length)
 %% Constraint function of nonlinear MPC for pendulum swing-up and balancing control
 %
 % Inputs:
@@ -25,11 +25,13 @@ c = zeros(12,N);
 xk = x;
 uk = u(:,1);
 for ct=1:N
-    xk1 = goatDynamicsDT(xk, uk, Ts, global_link_length);
-   
-    c(1:6,ct) = -[xk1(1:3);xk1(7:9)] + zMin;
-    c(7:12,ct) =  [xk1(1:3);xk1(7:9)] - zMax;
-    
+    xk1 = goatDynamicsDT(xk, uk, Ts, link_length);
+    xk2 = findFeasibleConfigurationAnalytical(xk1, link_length);
+%     c(1:6,ct) = -[xk1(1:3);xk2] + zMin;
+%     c(7:12,ct) =  [xk1(1:3);xk2] - zMax;
+%     c(1:6,ct) = -[xk1(1:3);xk1(7:9)] + zMin;
+%     c(7:12,ct) =  [xk1(1:3);xk1(7:9)] - zMax;
+%     
      % update plant state and input for next step
     xk = xk1;
     
@@ -37,10 +39,8 @@ for ct=1:N
         uk = u(:,ct+1);
     end
 end
-
-% c = 
 %% No equality constraints
-ceq = [];
-if (norm(xk(1:6) - xref) > 0.001)
-    ceq = 10000;
-end
+ceq = 0;
+% if (norm(xk - xref) > 0.01)
+%     ceq = 10000;
+% end
