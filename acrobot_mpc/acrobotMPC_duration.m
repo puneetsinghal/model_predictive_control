@@ -17,7 +17,7 @@ params.Ts = 0.01;
 profile viewer
 %Prediction Horizon
 params.N = 10;
-params.Duration = 3;
+params.Duration = 10;
 params.M = floor(params.Duration/params.Ts);
 %Initial State
 theta0 = [1.0; 1.0; 0; 0];
@@ -26,7 +26,7 @@ x = theta0;
 xf = [pi; 0; 0; 0];
 
 %Initial Optimized Input Values over the trajectory
-uopt = zeros(1,params.N);
+uopt = zeros(1,params.M);
 optimal_inputs = zeros(1, params.M);
 %Fmincon Options
 options = optimoptions(@fmincon, 'TolFun', 0.001, 'MaxIter', 500, 'MaxFunEvals', 10000,...
