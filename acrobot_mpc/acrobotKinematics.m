@@ -34,6 +34,10 @@ q2 = z(2,:);
 dq1 = z(3,:);
 dq2 = z(4,:);
 
-[p1,p2,dp1,dp2] = autoGen_acrobotKinematics(q1,q2,dq1,dq2,p.l1,p.l2);
+% [p1,p2,dp1,dp2] = autoGen_acrobotKinematics(q1,q2,dq1,dq2,p.l1,p.l2);
+p1 = p.l1*[sin(q1);-cos(q1)];
+p2 = p1 + p.l2*[sin(q1+q2);-cos(q1+q2)];
+dp1 = 0;
+dp2 = 0;
 
 end

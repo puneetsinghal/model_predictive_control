@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    391184,       8619]
-NotebookOptionsPosition[    387389,       8493]
-NotebookOutlinePosition[    387769,       8509]
-CellTagsIndexPosition[    387726,       8506]
+NotebookDataLength[    420015,       9247]
+NotebookOptionsPosition[    415880,       9110]
+NotebookOutlinePosition[    416258,       9126]
+CellTagsIndexPosition[    416215,       9123]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -619,7 +619,8 @@ Cell[BoxData[
    3.7014375003553696`*^9, 3.7014721038179607`*^9, {3.7014721421568327`*^9, 
    3.7014721784482684`*^9}, {3.701472225559493*^9, 3.701472230102564*^9}, 
    3.7016265972532682`*^9, 3.701627047033083*^9, 3.701630563838557*^9, 
-   3.7016339867417736`*^9, 3.701635581327075*^9, 3.701649132417742*^9}]
+   3.7016339867417736`*^9, 3.701635581327075*^9, 3.701649132417742*^9, 
+   3.7195080575558825`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -675,7 +676,7 @@ Cell[BoxData[
   3.701357650414465*^9, {3.701357771275618*^9, 3.7013577764985056`*^9}, 
    3.701363816891867*^9, 3.70143750194058*^9, {3.701626604116822*^9, 
    3.70162661334444*^9}, 3.7016305644779797`*^9, 3.7016339890758867`*^9, 
-   3.7016491340188084`*^9}]
+   3.7016491340188084`*^9, 3.7195080594467106`*^9}]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1074,7 +1075,8 @@ Cell[BoxData[{
    3.7014512883796215`*^9, 3.7014516752415476`*^9, 3.701453572280239*^9, {
    3.7016354175134325`*^9, 3.7016354378324404`*^9}, {3.701635480646307*^9, 
    3.7016355086478148`*^9}, {3.7016514673083515`*^9, 3.7016514759075546`*^9}, 
-   3.701651528029127*^9, 3.7016516945855927`*^9}]
+   3.701651528029127*^9, 3.7016516945855927`*^9, {3.7195081881561203`*^9, 
+   3.719508192016788*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1416,7 +1418,24 @@ Cell[BoxData[
  CellChangeTimes->{{3.7013637484133034`*^9, 3.701363751883525*^9}, {
   3.7013650206702704`*^9, 3.7013650793813124`*^9}, {3.70144579644306*^9, 
   3.701445844959982*^9}, {3.7016357879478674`*^9, 3.701635813885273*^9}, {
-  3.7016515541184278`*^9, 3.7016515805414543`*^9}}]
+  3.7016515541184278`*^9, 3.7016515805414543`*^9}, {3.7195081087788143`*^9, 
+  3.7195081179735327`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.7195081496583967`*^9, 3.719508201270937*^9}, {
+  3.7195083561977053`*^9, 3.719508357276825*^9}}],
+
+Cell[BoxData[
+ TagBox["Dgq",
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.719508166021902*^9, 3.719508227952858*^9}}]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.7195081131119714`*^9, 3.7195081142689333`*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1511,6 +1530,37 @@ Cell[BoxData[{
    RowBox[{"DGHatqMatlab", " ", "//", "MatrixForm"}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
+  RowBox[{"Dgq", " ", "=", " ", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{"Outer", "[", 
+     RowBox[{"D", ",", "gq", ",", "q"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DgqMatlab", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Dgq", "/.", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Theta]11", "[", "t", "]"}], "\[Rule]", "theta11"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "\[Rule]", "theta12"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]13", "[", "t", "]"}], "\[Rule]", "theta13"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]21", "[", "t", "]"}], "\[Rule]", "theta21"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]22", "[", "t", "]"}], "\[Rule]", "theta22"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]23", "[", "t", "]"}], "\[Rule]", "theta23"}]}], 
+      "}"}]}], "//", "Chop"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Dimensions", "[", "Dgq", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"DgqMatlab", " ", "//", "MatrixForm"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
   RowBox[{
    RowBox[{"Chatq", " ", "=", " ", 
     RowBox[{
@@ -1555,7 +1605,8 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"Dimensions", "[", "Bhatq", "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Bhatq", " ", "//", "MatrixForm"}], 
+  RowBox[{
+   RowBox[{"Bhatq", " ", "//", "MatrixForm"}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"DBHat1q", " ", "=", " ", 
@@ -1638,7 +1689,72 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"Dimensions", "[", "DBHat1q", "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Dimensions", "[", "DBHat2q", "]"}], ";"}]}], "Input",
+  RowBox[{
+   RowBox[{"Dimensions", "[", "DBHat2q", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Bq", " ", "//", "MatrixForm"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DB1q", " ", "=", " ", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{"Outer", "[", 
+     RowBox[{"D", ",", 
+      RowBox[{"Bq", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"1", ";;", "6"}], ",", "1"}], "]"}], "]"}], ",", "q"}], 
+     "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DB1q", " ", "//", "MatrixForm"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DB2q", " ", "=", " ", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{"Outer", "[", 
+     RowBox[{"D", ",", 
+      RowBox[{"Bq", "[", 
+       RowBox[{"[", 
+        RowBox[{
+         RowBox[{"1", ";;", "6"}], ",", "2"}], "]"}], "]"}], ",", "q"}], 
+     "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"DB2q", " ", "//", "MatrixForm"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DB1qMatlab", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"DB1q", "/.", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Theta]11", "[", "t", "]"}], "\[Rule]", "theta11"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "\[Rule]", "theta12"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]13", "[", "t", "]"}], "\[Rule]", "theta13"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]21", "[", "t", "]"}], "\[Rule]", "theta21"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]22", "[", "t", "]"}], "\[Rule]", "theta22"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]23", "[", "t", "]"}], "\[Rule]", "theta23"}]}], 
+      "}"}]}], "//", "Chop"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DB2qMatlab", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"DB2q", "/.", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[Theta]11", "[", "t", "]"}], "\[Rule]", "theta11"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "\[Rule]", "theta12"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]13", "[", "t", "]"}], "\[Rule]", "theta13"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]21", "[", "t", "]"}], "\[Rule]", "theta21"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]22", "[", "t", "]"}], "\[Rule]", "theta22"}], ",", 
+       RowBox[{
+        RowBox[{"\[Theta]23", "[", "t", "]"}], "\[Rule]", "theta23"}]}], 
+      "}"}]}], "//", "Chop"}]}], ";"}]}], "Input",
  CellChangeTimes->{{3.701451447580966*^9, 3.701451590488308*^9}, {
    3.701451641369544*^9, 3.701451651442275*^9}, {3.70145173009648*^9, 
    3.7014517330342865`*^9}, {3.701451792747989*^9, 3.701451885988504*^9}, {
@@ -1657,91 +1773,192 @@ Cell[BoxData[{
    3.7016388025532784`*^9}, {3.7016389850265427`*^9, 3.701639016167365*^9}, {
    3.7016496280419655`*^9, 3.701649633430038*^9}, {3.7016516392298803`*^9, 
    3.7016516747804565`*^9}, 3.701651710123899*^9, {3.7017046822334433`*^9, 
-   3.701704687357073*^9}, 3.7017047306592383`*^9}],
+   3.701704687357073*^9}, 3.7017047306592383`*^9, 3.7195082696488633`*^9, {
+   3.719508697213729*^9, 3.719508784817315*^9}, {3.7195088204090204`*^9, 
+   3.719508919930188*^9}, {3.719508963878012*^9, 3.7195090273281336`*^9}, {
+   3.7195100944091864`*^9, 3.719510131358122*^9}}],
 
 Cell[BoxData[
  TagBox[
   RowBox[{"(", "\[NoBreak]", GridBox[{
      {
       RowBox[{
-       RowBox[{"-", "1.`"}], " ", 
-       RowBox[{"Csc", "[", 
-        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
        RowBox[{"(", 
         RowBox[{
-         RowBox[{
-          RowBox[{"-", "1.`"}], " ", 
-          RowBox[{"Sin", "[", 
-           RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}], "-", 
-         RowBox[{"0.4`", " ", 
-          RowBox[{"Sin", "[", 
-           RowBox[{
-            RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
-            RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "-", 
          RowBox[{"2.`", " ", 
-          RowBox[{"Sin", "[", 
+          RowBox[{"Cos", "[", 
            RowBox[{
             RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
-            RowBox[{"\[Theta]21", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"\[Theta]21", "[", "t", "]"}]}], "]"}]}], "+", 
          RowBox[{"1.`", " ", 
-          RowBox[{"Sin", "[", 
+          RowBox[{"Cos", "[", 
            RowBox[{
             RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
             RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
-            RowBox[{"\[Theta]22", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"\[Theta]22", "[", "t", "]"}]}], "]"}]}], "+", 
          RowBox[{"0.4`", " ", 
-          RowBox[{"Sin", "[", 
+          RowBox[{"Cos", "[", 
            RowBox[{
             RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
             RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
             RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
-            RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}]}], "0"},
-     {
-      RowBox[{"1.`", "\[VeryThinSpace]", "+", 
-       RowBox[{
-        RowBox[{"Csc", "[", 
-         RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
-        RowBox[{"(", 
+            RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}], " ", 
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}], 
+      RowBox[{
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"0.4`", " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+            RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "+", 
          RowBox[{
-          RowBox[{"0.4`", " ", 
-           RowBox[{"Sin", "[", 
+          RowBox[{"Cot", "[", 
+           RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
+          RowBox[{"(", 
+           RowBox[{
             RowBox[{
-             RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
-             RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "+", 
-          RowBox[{"1.`", " ", 
-           RowBox[{"Sin", "[", 
-            RowBox[{
-             RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]22", "[", "t", "]"}]}], "]"}]}], "+", 
-          RowBox[{"0.4`", " ", 
-           RowBox[{"Sin", "[", 
-            RowBox[{
-             RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}]}]}], 
-      "0"},
+             RowBox[{"-", "0.4`"}], " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+               RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"2.`", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]21", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"1.`", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]22", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"0.4`", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}]}]}], 
+        ")"}]}], 
+      RowBox[{"0.4`", " ", 
+       RowBox[{"Cos", "[", 
+        RowBox[{
+         RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+         RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}], " ", 
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}]},
      {
-      RowBox[{"1.`", "\[VeryThinSpace]", "+", 
-       RowBox[{
-        RowBox[{"Csc", "[", 
-         RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
-        RowBox[{"(", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"1.`", " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+            RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+            RowBox[{"\[Theta]22", "[", "t", "]"}]}], "]"}]}], "+", 
+         RowBox[{"0.4`", " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+            RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+            RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
+            RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}], " ", 
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}], 
+      RowBox[{
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"0.4`", " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+            RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "+", 
          RowBox[{
-          RowBox[{"0.4`", " ", 
-           RowBox[{"Sin", "[", 
+          RowBox[{"Cot", "[", 
+           RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
+          RowBox[{"(", 
+           RowBox[{
             RowBox[{
-             RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
-             RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "+", 
-          RowBox[{"0.4`", " ", 
-           RowBox[{"Sin", "[", 
+             RowBox[{"-", "0.4`"}], " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+               RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"1.`", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]22", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"0.4`", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}]}]}], 
+        ")"}]}], 
+      RowBox[{"0.4`", " ", 
+       RowBox[{"Cos", "[", 
+        RowBox[{
+         RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+         RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}], " ", 
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}]},
+     {
+      RowBox[{"0.4`", " ", 
+       RowBox[{"Cos", "[", 
+        RowBox[{
+         RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+         RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+         RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
+         RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}], " ", 
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}], 
+      RowBox[{
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"0.4`", " ", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+            RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "+", 
+         RowBox[{
+          RowBox[{"Cot", "[", 
+           RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}], " ", 
+          RowBox[{"(", 
+           RowBox[{
             RowBox[{
-             RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
-             RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}]}]}], 
-      "1"}
+             RowBox[{"-", "0.4`"}], " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+               RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}]}], "-", 
+            RowBox[{"0.4`", " ", 
+             RowBox[{"Sin", "[", 
+              RowBox[{
+               RowBox[{"\[Theta]11", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]21", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]22", "[", "t", "]"}], "-", 
+               RowBox[{"\[Theta]23", "[", "t", "]"}]}], "]"}]}]}], ")"}]}]}], 
+        ")"}]}], 
+      RowBox[{"0.4`", " ", 
+       RowBox[{"Cos", "[", 
+        RowBox[{
+         RowBox[{"\[Theta]12", "[", "t", "]"}], "+", 
+         RowBox[{"\[Theta]13", "[", "t", "]"}]}], "]"}], " ", 
+       RowBox[{"Csc", "[", 
+        RowBox[{"\[Theta]12", "[", "t", "]"}], "]"}]}]}
     },
     GridBoxAlignment->{
      "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
@@ -1755,7 +1972,87 @@ Cell[BoxData[
         Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
   Function[BoxForm`e$, 
    MatrixForm[BoxForm`e$]]]], "Output",
- CellChangeTimes->{3.7016517157771473`*^9}]
+ CellChangeTimes->{
+  3.7016517157771473`*^9, 3.7195088649413943`*^9, 3.7195088975322027`*^9, 
+   3.7195090374420347`*^9, {3.719510106912345*^9, 3.7195101224489346`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "0"},
+     {"0", "0"},
+     {"1", "0"},
+     {"0", "0"},
+     {"0", "0"},
+     {"0", "1"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{
+  3.7016517157771473`*^9, 3.7195088649413943`*^9, 3.7195088975322027`*^9, 
+   3.7195090374420347`*^9, {3.719510106912345*^9, 3.719510122464525*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{
+  3.7016517157771473`*^9, 3.7195088649413943`*^9, 3.7195088975322027`*^9, 
+   3.7195090374420347`*^9, {3.719510106912345*^9, 3.719510122464525*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"},
+     {"0", "0", "0", "0", "0", "0"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{
+  3.7016517157771473`*^9, 3.7195088649413943`*^9, 3.7195088975322027`*^9, 
+   3.7195090374420347`*^9, {3.719510106912345*^9, 3.719510122464525*^9}}]
 }, Open  ]]
 }, Open  ]],
 
@@ -1783,9 +2080,8 @@ Cell[BoxData[
    RowBox[{"fMq", "=", 
     RowBox[{
     "OpenWrite", "[", 
-     "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\MqQ.m\>\"", 
-     "]"}]}], "\n", 
+     "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\MqQ.m\>\"", "]"}]}], "\n", 
    RowBox[{
     RowBox[{"WriteMatlab", "[", 
      RowBox[{"MqMatlab", ",", "fMq"}], "]"}], ";"}], "\n", 
@@ -1794,7 +2090,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\MqQ.m\>\"",
  CellChangeTimes->{{3.70136430997264*^9, 3.7013643268063707`*^9}, {
    3.7013644647307215`*^9, 3.7013645105855303`*^9}, {3.7013648659904385`*^9, 
    3.701364866779527*^9}, 3.70147142037286*^9, {3.7014714978176994`*^9, 
-   3.701471509992049*^9}}],
+   3.701471509992049*^9}, 3.719509201680485*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -1819,9 +2115,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -1972,9 +2267,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -2080,9 +2374,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\MqQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\MqQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -2108,9 +2401,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\MqQ.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\MqQ.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -2159,13 +2451,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\MqQ.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\MqQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\MqQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.701364511469881*^9, 3.7013648677220306`*^9, 
-  3.7016340285367947`*^9}]
+  3.7016340285367947`*^9, 3.719509399061322*^9}]
 }, Open  ]],
 
 Cell[BoxData[
@@ -2182,8 +2474,8 @@ Cell[BoxData[{
  RowBox[{"fCq", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\CqQ.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\CqQ.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -2191,7 +2483,8 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\CqQ.m\>\"",
  RowBox[{
   RowBox[{"Close", "[", "fCq", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.701364582728958*^9, 3.7013645858753195`*^9}, {
-   3.7013648628230124`*^9, 3.70136486359109*^9}, 3.7014715383704834`*^9}],
+   3.7013648628230124`*^9, 3.70136486359109*^9}, 3.7014715383704834`*^9, 
+   3.719509218983772*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -2216,9 +2509,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -2369,9 +2661,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -2477,9 +2768,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\CqQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\CqQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -2505,9 +2795,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\CqQ.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\CqQ.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -2556,13 +2845,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\CqQ.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\CqQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\CqQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.7013645883689485`*^9, 3.701364632263585*^9, 
-  3.7013648745063868`*^9, 3.7016342383987927`*^9}]
+  3.7013648745063868`*^9, 3.7016342383987927`*^9, 3.719509408231617*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2571,8 +2860,8 @@ Cell[BoxData[{
  RowBox[{"fgq", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\gqQ.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\gqQ.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -2581,7 +2870,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\gqQ.m\>\"",
   RowBox[{"Close", "[", "fgq", "]"}], ";"}]}], "Input",
  CellChangeTimes->{
   3.7013646611055107`*^9, {3.7013648596917276`*^9, 3.701364860482828*^9}, 
-   3.701471541958991*^9}],
+   3.701471541958991*^9, 3.7195092251263266`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -2606,9 +2895,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -2759,9 +3047,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -2867,9 +3154,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\gqQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\gqQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -2895,9 +3181,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\gqQ.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\gqQ.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -2946,13 +3231,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\gqQ.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\gqQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\gqQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.7013646626666284`*^9, 3.701364875637391*^9, 
-  3.701634240548498*^9}]
+  3.701634240548498*^9, 3.7195094095911665`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2961,8 +3246,8 @@ Cell[BoxData[{
  RowBox[{"fAq", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\AqQ.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\AqQ.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -2971,7 +3256,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\AqQ.m\>\"",
   RowBox[{"Close", "[", "fAq", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.701364672506774*^9, 3.701364683864955*^9}, 
    3.701364765355728*^9, {3.7013648563808956`*^9, 3.7013648569313583`*^9}, 
-   3.7014715451574907`*^9}],
+   3.7014715451574907`*^9, 3.7195092308157983`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -2996,9 +3281,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -3149,9 +3433,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -3257,9 +3540,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\AqQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\AqQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -3285,9 +3567,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\AqQ.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\AqQ.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -3336,13 +3617,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\AqQ.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\AqQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\AqQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.7013647662604284`*^9, 3.7013648765758853`*^9, 
-  3.701634242307211*^9}]
+  3.701634242307211*^9, 3.719509410466231*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -3351,8 +3632,8 @@ Cell[BoxData[{
  RowBox[{"fDaq", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\Daq.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\Daq.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -3361,7 +3642,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\Daq.m\>\"",
   RowBox[{"Close", "[", "fDaq", "]"}], ";"}]}], "Input",
  CellChangeTimes->{
   3.7013647723005085`*^9, {3.7013648519591846`*^9, 3.7013648526048603`*^9}, 
-   3.701471549264436*^9, 3.7016361367876425`*^9}],
+   3.701471549264436*^9, 3.7016361367876425`*^9, 3.7195092349419584`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -3386,9 +3667,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -3539,9 +3819,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -3647,9 +3926,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\Daq.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\Daq.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -3675,9 +3953,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\Daq.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\Daq.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -3726,13 +4003,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\Daq.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\Daq.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\Daq.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.701364773329212*^9, 3.7013648774642787`*^9, 
-  3.701634245171794*^9}]
+  3.701634245171794*^9, 3.719509411623559*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -3743,9 +4020,9 @@ Cell[BoxData[
    RowBox[{"fg13", "=", 
     RowBox[{
     "OpenWrite", "[", 
-     "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\g13Q.m\>\"",
-      "]"}]}], "\[IndentingNewLine]", 
+     "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\g13Q.m\>\"", "]"}]}], 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"WriteMatlab", "[", 
      RowBox[{"g13DMatlab", ",", "fg13"}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -3753,7 +4030,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\g13Q.m\>\"",
     RowBox[{"Close", "[", "fg13", "]"}], ";"}]}]}]], "Input",
  CellChangeTimes->{{3.701364720402042*^9, 3.7013647213545737`*^9}, 
    3.7013647783967104`*^9, {3.7013648428128815`*^9, 3.701364844932474*^9}, {
-   3.70147161630755*^9, 3.7014716167397003`*^9}}],
+   3.70147161630755*^9, 3.7014716167397003`*^9}, 3.7195092401458273`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -3778,9 +4055,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -3931,9 +4207,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -4039,9 +4314,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\g13Q.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\g13Q.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -4067,9 +4341,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\g13Q.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\g13Q.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -4118,13 +4391,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\g13Q.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\g13Q.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\g13Q.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.7013647790012817`*^9, 3.7013648782473526`*^9, 
-  3.7016342464231215`*^9}]
+  3.7016342464231215`*^9, 3.7195094125391483`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -4133,16 +4406,17 @@ Cell[BoxData[{
  RowBox[{"fg23", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\g23Q.m\>\"",
-    "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\g23Q.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
    RowBox[{"g23DMatlab", ",", "fg23"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Close", "[", "fg23", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.701364783924362*^9, 3.7013647850614185`*^9}, {
-   3.701364847199498*^9, 3.7013648480106535`*^9}, 3.7014716223385763`*^9}],
+   3.701364847199498*^9, 3.7013648480106535`*^9}, 3.7014716223385763`*^9, 
+   3.719509245585269*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -4167,9 +4441,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -4320,9 +4593,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -4428,9 +4700,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\g23Q.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\g23Q.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -4456,9 +4727,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\g23Q.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\g23Q.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -4507,13 +4777,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\g23Q.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\g23Q.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\g23Q.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.701364785459443*^9, 3.7013648789913034`*^9, 
-  3.7016342470858855`*^9}]
+  3.7016342470858855`*^9, 3.719509413586134*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -4522,8 +4792,8 @@ Cell[BoxData[{
  RowBox[{"fCM", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\CMQ.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\CMQ.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -4533,7 +4803,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\CMQ.m\>\"",
  CellChangeTimes->{
   3.701364798777833*^9, {3.701364833985423*^9, 3.701364834179921*^9}, {
    3.701471630725899*^9, 3.70147163302999*^9}, 3.7014717340527544`*^9, 
-   3.701471979132793*^9, 3.701472046409562*^9}],
+   3.701471979132793*^9, 3.701472046409562*^9, 3.719509249711544*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -4558,9 +4828,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -4711,9 +4980,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -4819,9 +5087,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\CMQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\CMQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -4847,9 +5114,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\CMQ.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\CMQ.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -4898,13 +5164,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\CMQ.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\CMQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\CMQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.7013647992551003`*^9, 3.7013648804772525`*^9, 
-  3.701634248210878*^9}]
+  3.701634248210878*^9, 3.7195094146018705`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -4913,8 +5179,8 @@ Cell[BoxData[{
  RowBox[{"fHQ", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\HQ.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\HQ.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -4923,7 +5189,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\HQ.m\>\"",
   RowBox[{"Close", "[", "fHQ", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.7013649080928264`*^9, 3.701364934436091*^9}, {
    3.7013650940483236`*^9, 3.7013650962611656`*^9}, 3.701472055032474*^9, {
-   3.7016517736725473`*^9, 3.701651779665021*^9}}],
+   3.7016517736725473`*^9, 3.701651779665021*^9}, 3.7195092550717306`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -4948,9 +5214,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -5101,9 +5366,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -5209,9 +5473,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\HQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\HQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -5237,9 +5500,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\HQ.m", 3]] =!= {},
-                 StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\HQ.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -5288,13 +5550,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\HQ.m", 3]] =!= {},
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\HQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\HQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.7013649585541763`*^9, 3.701365102982024*^9, 
-  3.701634255719847*^9}]
+  3.701634255719847*^9, 3.7195094158062105`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -5303,8 +5565,8 @@ Cell[BoxData[{
  RowBox[{"fHDotQ", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\B_Dokmak\\\\Desktop\\\\Working \
-Directory\\\\derivation_correct_rotation\\\\MATHSource\\\\HDotQ.m\>\"", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\HDotQ.m\>\"", 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
@@ -5314,7 +5576,7 @@ Directory\\\\derivation_correct_rotation\\\\MATHSource\\\\HDotQ.m\>\"",
   RowBox[{"Close", "[", "fHDotQ", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.7013649080928264`*^9, 3.701364934436091*^9}, {
    3.7013650940483236`*^9, 3.7013650962611656`*^9}, 3.701472055032474*^9, {
-   3.701651795395457*^9, 3.701651830904506*^9}}],
+   3.701651795395457*^9, 3.701651830904506*^9}, 3.719509262700937*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -5339,9 +5601,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -5459,7 +5720,7 @@ Cell[BoxData[
             RowBox[{
              TagBox["\<\"Unique ID: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["114",
+             TagBox["3",
               "SummaryItem"]}]}
           },
           AutoDelete->False,
@@ -5492,9 +5753,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -5600,8 +5860,9 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\B_Dokmak\\\\Desktop\\\\Working \
-Directory\\\\derivation_correct_rotation\\\\MATHSource\\\\HDotQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\HDotQ.m\"\>\
+",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -5612,7 +5873,7 @@ Directory\\\\derivation_correct_rotation\\\\MATHSource\\\\HDotQ.m\"\>",
             RowBox[{
              TagBox["\<\"Unique ID: \"\>",
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
-             TagBox["114",
+             TagBox["3",
               "SummaryItem"]}]},
            {
             RowBox[{
@@ -5627,8 +5888,8 @@ Directory\\\\derivation_correct_rotation\\\\MATHSource\\\\HDotQ.m\"\>",
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\B_Dokmak\\Desktop\\Working \
-Directory\\derivation_correct_rotation\\MATHSource\\HDotQ.m", 114]] =!= {}, 
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\HDotQ.m", 3]] =!= {}, 
                 StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
@@ -5678,12 +5939,12 @@ Directory\\derivation_correct_rotation\\MATHSource\\HDotQ.m", 114]] =!= {},
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\B_Dokmak\\Desktop\\Working \
-Directory\\derivation_correct_rotation\\MATHSource\\HDotQ.m", 114],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\HDotQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.7016518419298177`*^9}]
+ CellChangeTimes->{3.7016518419298177`*^9, 3.719509417056345*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -5692,9 +5953,9 @@ Cell[BoxData[{
  RowBox[{"fcontraintsQ", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\contraintsQ.\
-m\>\"", "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\contraintsQ.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
    RowBox[{"constraintsMatlab", ",", "fcontraintsQ"}], "]"}], 
@@ -5702,7 +5963,8 @@ m\>\"", "]"}]}], "\[IndentingNewLine]",
  RowBox[{
   RowBox[{"Close", "[", "fcontraintsQ", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.701445857913368*^9, 3.701445878788769*^9}, 
-   3.7014720587864494`*^9, {3.7016517845127354`*^9, 3.7016517921613092`*^9}}],
+   3.7014720587864494`*^9, {3.7016517845127354`*^9, 3.7016517921613092`*^9}, 
+   3.719509271437737*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -5727,9 +5989,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -5880,9 +6141,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -5988,9 +6248,9 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\contraintsQ.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\\
+contraintsQ.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -6016,9 +6276,9 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\contraintsQ.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\contraintsQ.m", 3]] =!= {}, 
+                StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -6067,12 +6327,13 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\contraintsQ.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\contraintsQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\contraintsQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.701445882168751*^9, 3.7016342572589426`*^9}]
+ CellChangeTimes->{3.701445882168751*^9, 3.7016342572589426`*^9, 
+  3.7195094181511292`*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -6106,9 +6367,9 @@ Cell[BoxData[{
  RowBox[{"fCM", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\MhatQ.m\>\"\
-", "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\MhatQ.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
    RowBox[{"MhatMatlab", ",", "fCM"}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -6118,7 +6379,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\MhatQ.m\>\"\
    3.701453412950203*^9, 3.7014534140802107`*^9}, {3.701453453672375*^9, 
    3.701453462819716*^9}, {3.7014535130247498`*^9, 3.7014535144575577`*^9}, 
    3.7014536473415766`*^9, 3.7014591852432585`*^9, 3.701472075245184*^9, 
-   3.7016360529105654`*^9}],
+   3.7016360529105654`*^9, 3.7195092890527864`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -6143,9 +6404,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -6296,9 +6556,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -6404,9 +6663,9 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_with_IK\\\\MATHSource\\\\MhatQ.\
-m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\MhatQ.m\"\>\
+",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -6432,8 +6691,8 @@ m\"\>",
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_with_IK\\MATHSource\\MhatQ.m", 3]] =!= {}, 
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\MhatQ.m", 3]] =!= {}, 
                 StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
@@ -6483,15 +6742,15 @@ Dynamic_Modelling\\derivation_with_IK\\MATHSource\\MhatQ.m", 3]] =!= {},
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_with_IK\\MATHSource\\MhatQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\MhatQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{
   3.701453274285591*^9, 3.7014534728112297`*^9, {3.7014535148415785`*^9, 
    3.7014535448239875`*^9}, {3.7014536355381804`*^9, 3.701453650715508*^9}, 
-   3.7014591881288843`*^9}]
+   3.7014591881288843`*^9, 3.7195094207019544`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -6519,9 +6778,9 @@ Cell[BoxData[{
  RowBox[{"fCM", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\GhatQ.m\>\"\
-", "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\GhatQ.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
    RowBox[{"GhatMatlab", ",", "fCM"}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -6529,7 +6788,8 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\GhatQ.m\>\"\
   RowBox[{"Close", "[", "fCM", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.7014532487517443`*^9, 3.7014532715012293`*^9}, {
    3.701453698679597*^9, 3.7014536987126846`*^9}, {3.701459393863676*^9, 
-   3.7014594180656133`*^9}, 3.701472071280649*^9, 3.701636055221712*^9}],
+   3.7014594180656133`*^9}, 3.701472071280649*^9, 3.701636055221712*^9, 
+   3.7195092958982096`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -6554,9 +6814,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -6707,9 +6966,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -6815,9 +7073,9 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_with_IK\\\\MATHSource\\\\GhatQ.\
-m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\GhatQ.m\"\>\
+",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -6843,8 +7101,8 @@ m\"\>",
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_with_IK\\MATHSource\\GhatQ.m", 3]] =!= {}, 
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\GhatQ.m", 3]] =!= {}, 
                 StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
@@ -6894,12 +7152,12 @@ Dynamic_Modelling\\derivation_with_IK\\MATHSource\\GhatQ.m", 3]] =!= {},
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_with_IK\\MATHSource\\GhatQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\GhatQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.701453275697343*^9}]
+ CellChangeTimes->{3.701453275697343*^9, 3.7195094234053717`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -6927,9 +7185,9 @@ Cell[BoxData[{
  RowBox[{"fCM", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\ChatQ.m\>\"\
-", "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\ChatQ.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
    RowBox[{"ChatMatlab", ",", "fCM"}], "]"}], ";"}], "\[IndentingNewLine]", 
@@ -6937,7 +7195,7 @@ Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\ChatQ.m\>\"\
   RowBox[{"Close", "[", "fCM", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.701453256585558*^9, 3.701453266503949*^9}, {
    3.7014594283700047`*^9, 3.701459444161957*^9}, 3.701472068204511*^9, 
-   3.701636057501776*^9}],
+   3.701636057501776*^9, 3.7195093030248294`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -6962,9 +7220,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -7115,9 +7372,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -7223,9 +7479,9 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_with_IK\\\\MATHSource\\\\ChatQ.\
-m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\ChatQ.m\"\>\
+",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -7251,8 +7507,8 @@ m\"\>",
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_with_IK\\MATHSource\\ChatQ.m", 3]] =!= {}, 
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\ChatQ.m", 3]] =!= {}, 
                 StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
@@ -7302,12 +7558,12 @@ Dynamic_Modelling\\derivation_with_IK\\MATHSource\\ChatQ.m", 3]] =!= {},
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_with_IK\\MATHSource\\ChatQ.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\ChatQ.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.701453276629821*^9}]
+ CellChangeTimes->{3.701453276629821*^9, 3.7195094245929947`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -7316,16 +7572,16 @@ Cell[BoxData[{
  RowBox[{"fCM", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\BhatQ.m\>\"\
-", "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\BhatQ.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
    RowBox[{"Bhat", ",", "fCM"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Close", "[", "fCM", "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.701453259030055*^9, 3.7014532633445196`*^9}, 
-   3.701472065225597*^9}],
+   3.701472065225597*^9, 3.7195093100115943`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -7698,38 +7954,22 @@ derivation_with_IK\\MATHSource\\BhatQ.m", 3],
  CellChangeTimes->{3.7014532815759635`*^9}]
 }, Open  ]],
 
-Cell[BoxData[{
- RowBox[{"fDghat", "=", 
-  RowBox[{
-  "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\DGQ.m\>\"", 
-   "]"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"WriteMatlab", "[", 
-   RowBox[{"DGHatqMatlab", ",", "fDghat"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Close", "[", "fDghat", "]"}], ";"}]}], "Input"],
-
 Cell[CellGroupData[{
 
 Cell[BoxData[{
- RowBox[{"fDBhat1", "=", 
+ RowBox[{"fDg", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\DB1Q.m\>\"",
-    "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\DGQ.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
-   RowBox[{"DBHat1qMatlab", ",", "fDBhat1"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
+   RowBox[{"DgqMatlab", ",", "fDg"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Close", "[", "fDBhat1", "]"}], ";"}]}], "Input",
- CellChangeTimes->{{3.701638392057742*^9, 3.701638394946433*^9}, {
-  3.701638425218972*^9, 3.7016384277837934`*^9}, {3.7016384722750864`*^9, 
-  3.7016384844334574`*^9}}],
+  RowBox[{"Close", "[", "fDg", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{
+  3.7195093144664683`*^9, {3.719509344681078*^9, 3.7195093861976905`*^9}}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -7754,9 +7994,393 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[
+          {Thickness[0.0016806722689075631`], 
+           {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {RGBColor[0.699951, 0.699951, 0.699951], Opacity[1.], 
+            JoinForm[{ElisionsDump`Miter, 10.}], 
+            JoinedCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {FaceForm[{RGBColor[0.5, 0.5, 0.5], Opacity[1.]}], 
+            FilledCurveBox[{{{0, 2, 0}, {1, 3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 
+             1, 0}, {1, 3, 3}, {1, 3, 3}}}, {{{3.52539, 
+             1.0035199999999997`}, {2.5250000000000004`, 
+             1.0035199999999997`}, {1.6828099999999997`, 
+             1.0035199999999997`}, {0.9999999999999999, 
+             1.6863299999999997`}, {0.9999999999999999, 
+             2.5285199999999994`}, {0.9999999999999999, 
+             23.474999999999998`}, {0.9999999999999999, 
+             24.317199999999996`}, {1.6828099999999997`, 
+             24.999999999999996`}, {2.5250000000000004`, 
+             24.999999999999996`}, {3.52539, 24.999999999999996`}, {3.52539, 
+             24.999999999999993`}, {5.523440000000001, 22.421099999999996`}, {
+             5.523440000000001, 13.0039}, {5.523440000000001, 
+             3.5867199999999992`}, {3.52539, 1.0035199999999997`}, {3.52539, 
+             1.0035199999999997`}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}}}, {{{22.4977, 12.9016}, {17.740599999999997`, 
+             16.8398}, {17.740599999999997`, 14.856599999999998`}, {
+             19.980900000000002`, 12.947299999999997`}, {17.740599999999997`, 
+             10.946100000000001`}, {17.740599999999997`, 8.96289}, {22.4977, 
+             12.9016}}}]}, 
+           {FaceForm[{RGBColor[
+            0.46093800000000007`, 0.46093800000000007`, 0.46093800000000007`],
+             Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {1, 3, 3}, {1, 3, 3}, {1, 3, 3}}}, {{{
+             9.202339999999998, 12.8969}, {9.202339999999998, 
+             12.335499999999998`}, {8.747660000000002, 11.880899999999999`}, {
+             8.186329999999998, 11.880899999999999`}, {7.624999999999999, 
+             11.880899999999999`}, {7.169920000000001, 12.335499999999998`}, {
+             7.169920000000001, 12.8969}, {7.169920000000001, 
+             13.458200000000003`}, {7.624999999999999, 13.9133}, {
+             8.186329999999998, 13.9133}, {8.747660000000002, 13.9133}, {
+             9.202339999999998, 13.458200000000003`}, {9.202339999999998, 
+             12.8969}}}], 
+            FilledCurveBox[{{{1, 4, 3}, {1, 3, 3}, {1, 3, 3}, {1, 3, 3}}}, {{{
+             12.6227, 12.8969}, {12.6227, 12.335499999999998`}, {
+             12.167599999999998`, 11.880899999999999`}, {11.606200000000001`, 
+             11.880899999999999`}, {11.0449, 11.880899999999999`}, {
+             10.589799999999999`, 12.335499999999998`}, {10.589799999999999`, 
+             12.8969}, {10.589799999999999`, 13.458200000000003`}, {11.0449, 
+             13.9133}, {11.606200000000001`, 13.9133}, {12.167599999999998`, 
+             13.9133}, {12.6227, 13.458200000000003`}, {12.6227, 12.8969}}}], 
+            FilledCurveBox[{{{1, 4, 3}, {1, 3, 3}, {1, 3, 3}, {1, 3, 3}}}, {{{
+             16.042600000000004`, 12.8969}, {16.042600000000004`, 
+             12.335499999999998`}, {15.587499999999999`, 
+             11.880899999999999`}, {15.026199999999998`, 
+             11.880899999999999`}, {14.464799999999997`, 
+             11.880899999999999`}, {14.010199999999998`, 
+             12.335499999999998`}, {14.010199999999998`, 12.8969}, {
+             14.010199999999998`, 13.458200000000003`}, {14.464799999999997`, 
+             13.9133}, {15.026199999999998`, 13.9133}, {15.587499999999999`, 
+             13.9133}, {16.042600000000004`, 13.458200000000003`}, {
+             16.042600000000004`, 12.8969}}}]}},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.5],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.7]],
+          FrameTicks->None,
+          ImageSize->{Automatic, 
+            Dynamic[
+            3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification])]}], GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Name: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              StyleBox[
+               PaneBox["\<\"DGQ.m\"\>",
+                BaselinePosition->Baseline,
+                ContentPadding->False,
+                FrameMargins->0,
+                ImageSize->{{1, 300}, Automatic},
+                StripOnInput->True],
+               LineBreakWithin->False],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Unique ID: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["3",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], True->GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquareMinusIconMedium"]],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = False),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[
+          {Thickness[0.0016806722689075631`], 
+           {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {RGBColor[0.699951, 0.699951, 0.699951], Opacity[1.], 
+            JoinForm[{ElisionsDump`Miter, 10.}], 
+            JoinedCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {FaceForm[{RGBColor[0.5, 0.5, 0.5], Opacity[1.]}], 
+            FilledCurveBox[{{{0, 2, 0}, {1, 3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 
+             1, 0}, {1, 3, 3}, {1, 3, 3}}}, {{{3.52539, 
+             1.0035199999999997`}, {2.5250000000000004`, 
+             1.0035199999999997`}, {1.6828099999999997`, 
+             1.0035199999999997`}, {0.9999999999999999, 
+             1.6863299999999997`}, {0.9999999999999999, 
+             2.5285199999999994`}, {0.9999999999999999, 
+             23.474999999999998`}, {0.9999999999999999, 
+             24.317199999999996`}, {1.6828099999999997`, 
+             24.999999999999996`}, {2.5250000000000004`, 
+             24.999999999999996`}, {3.52539, 24.999999999999996`}, {3.52539, 
+             24.999999999999993`}, {5.523440000000001, 22.421099999999996`}, {
+             5.523440000000001, 13.0039}, {5.523440000000001, 
+             3.5867199999999992`}, {3.52539, 1.0035199999999997`}, {3.52539, 
+             1.0035199999999997`}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}}}, {{{22.4977, 12.9016}, {17.740599999999997`, 
+             16.8398}, {17.740599999999997`, 14.856599999999998`}, {
+             19.980900000000002`, 12.947299999999997`}, {17.740599999999997`, 
+             10.946100000000001`}, {17.740599999999997`, 8.96289}, {22.4977, 
+             12.9016}}}]}, 
+           {FaceForm[{RGBColor[
+            0.46093800000000007`, 0.46093800000000007`, 0.46093800000000007`],
+             Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {1, 3, 3}, {1, 3, 3}, {1, 3, 3}}}, {{{
+             9.202339999999998, 12.8969}, {9.202339999999998, 
+             12.335499999999998`}, {8.747660000000002, 11.880899999999999`}, {
+             8.186329999999998, 11.880899999999999`}, {7.624999999999999, 
+             11.880899999999999`}, {7.169920000000001, 12.335499999999998`}, {
+             7.169920000000001, 12.8969}, {7.169920000000001, 
+             13.458200000000003`}, {7.624999999999999, 13.9133}, {
+             8.186329999999998, 13.9133}, {8.747660000000002, 13.9133}, {
+             9.202339999999998, 13.458200000000003`}, {9.202339999999998, 
+             12.8969}}}], 
+            FilledCurveBox[{{{1, 4, 3}, {1, 3, 3}, {1, 3, 3}, {1, 3, 3}}}, {{{
+             12.6227, 12.8969}, {12.6227, 12.335499999999998`}, {
+             12.167599999999998`, 11.880899999999999`}, {11.606200000000001`, 
+             11.880899999999999`}, {11.0449, 11.880899999999999`}, {
+             10.589799999999999`, 12.335499999999998`}, {10.589799999999999`, 
+             12.8969}, {10.589799999999999`, 13.458200000000003`}, {11.0449, 
+             13.9133}, {11.606200000000001`, 13.9133}, {12.167599999999998`, 
+             13.9133}, {12.6227, 13.458200000000003`}, {12.6227, 12.8969}}}], 
+            FilledCurveBox[{{{1, 4, 3}, {1, 3, 3}, {1, 3, 3}, {1, 3, 3}}}, {{{
+             16.042600000000004`, 12.8969}, {16.042600000000004`, 
+             12.335499999999998`}, {15.587499999999999`, 
+             11.880899999999999`}, {15.026199999999998`, 
+             11.880899999999999`}, {14.464799999999997`, 
+             11.880899999999999`}, {14.010199999999998`, 
+             12.335499999999998`}, {14.010199999999998`, 12.8969}, {
+             14.010199999999998`, 13.458200000000003`}, {14.464799999999997`, 
+             13.9133}, {15.026199999999998`, 13.9133}, {15.587499999999999`, 
+             13.9133}, {16.042600000000004`, 13.458200000000003`}, {
+             16.042600000000004`, 12.8969}}}]}},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.5],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.7]],
+          FrameTicks->None,
+          ImageSize->{Automatic, 
+            Dynamic[
+            3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification])]}], GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Name: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\DGQ.m\"\>",
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Unique ID: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["3",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Binary: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["False",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Open: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              DynamicBox[ToBoxes[Options[
+                  OutputStream[
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\DGQ.m", 3]] =!= {}, StandardForm],
+               UpdateInterval->1],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Encoding: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["Automatic",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Format: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["InputForm",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Page width: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["78",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Number marks: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["Automatic",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]}, Dynamic[
+      Typeset`open$$],
+      ImageSize->Automatic],
+     BaselinePosition->Baseline],
+    DynamicModuleValues:>{}], "]"}],
+  OutputStream[
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\DGQ.m", 3],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.7195093915116844`*^9, 3.7195094654167366`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"fDB1", "=", 
+  RowBox[{
+  "OpenWrite", "[", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\DB1Q.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"WriteMatlab", "[", 
+   RowBox[{"DB1qMatlab", ",", "fDB1"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Close", "[", "fDB1", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.701638392057742*^9, 3.701638394946433*^9}, {
+  3.701638425218972*^9, 3.7016384277837934`*^9}, {3.7016384722750864`*^9, 
+  3.7016384844334574`*^9}, {3.7195093187952385`*^9, 3.719509379148228*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["OutputStream",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False}, 
+    PanelBox[
+     PaneSelectorBox[{False->GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquarePlusIconMedium"],
+            ImageSizeCache->{16., {0., 16.}}],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = True),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -7907,9 +8531,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -8015,9 +8638,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\DB1Q.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\DB1Q.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -8043,9 +8665,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\DB1Q.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\DB1Q.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -8094,30 +8715,30 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\DB1Q.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\DB1Q.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\DB1Q.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.7016385147901564`*^9}]
+ CellChangeTimes->{3.7016385147901564`*^9, 3.71950946666687*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[{
- RowBox[{"fDBhat2", "=", 
+ RowBox[{"fDB2", "=", 
   RowBox[{
   "OpenWrite", "[", 
-   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\goatProject\\\\\
-Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\\\\DB2Q.m\>\"",
-    "]"}]}], "\[IndentingNewLine]", 
+   "\"\<C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\model_predictive_\
+control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\DB2Q.m\>\"", 
+   "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteMatlab", "[", 
-   RowBox[{"DBHat2qMatlab", ",", "fDBhat2"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
+   RowBox[{"DB2qMatlab", ",", "fDB2"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Close", "[", "fDBhat2", "]"}], ";"}]}], "Input",
- CellChangeTimes->{{3.701638429100296*^9, 3.7016385022227335`*^9}}],
+  RowBox[{"Close", "[", "fDB2", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.701638429100296*^9, 3.7016385022227335`*^9}, {
+  3.719509324687471*^9, 3.7195093735998993`*^9}}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -8142,9 +8763,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -8295,9 +8915,8 @@ Cell[BoxData[
           
           ImageSize->
            Dynamic[{
-            Automatic, 
-             3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
-              Magnification])}]], 
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
          GraphicsBox[
           {Thickness[0.0016806722689075631`], 
            {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
@@ -8403,9 +9022,8 @@ Cell[BoxData[
               "SummaryItemAnnotation"], "\[InvisibleSpace]", 
              TagBox[
               
-              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\Research\\\\\
-goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
-\\\\DB2Q.m\"\>",
+              PaneBox["\<\"C:\\\\Users\\\\Puneet\\\\Documents\\\\GitHub\\\\\
+model_predictive_control\\\\goat2D_fullStates_mpc\\\\MATHSource\\\\DB2Q.m\"\>",
                BaselinePosition->Baseline,
                ContentPadding->False,
                FrameMargins->0,
@@ -8431,9 +9049,8 @@ goatProject\\\\Dynamic_Modelling\\\\derivation_correct_rotation\\\\MATHSource\
              TagBox[
               DynamicBox[ToBoxes[Options[
                   OutputStream[
-                  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\\
-Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\DB2Q.m", 
-                   3]] =!= {}, StandardForm],
+                  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_\
+control\\goat2D_fullStates_mpc\\MATHSource\\DB2Q.m", 3]] =!= {}, StandardForm],
                UpdateInterval->1],
               "SummaryItem"]}]},
            {
@@ -8482,17 +9099,17 @@ Dynamic_Modelling\\derivation_correct_rotation\\MATHSource\\DB2Q.m",
      BaselinePosition->Baseline],
     DynamicModuleValues:>{}], "]"}],
   OutputStream[
-  "C:\\Users\\Puneet\\Documents\\Research\\goatProject\\Dynamic_Modelling\\\
-derivation_correct_rotation\\MATHSource\\DB2Q.m", 3],
+  "C:\\Users\\Puneet\\Documents\\GitHub\\model_predictive_control\\goat2D_\
+fullStates_mpc\\MATHSource\\DB2Q.m", 3],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.7016385365760975`*^9}]
+ CellChangeTimes->{3.7016385365760975`*^9, 3.7195094676834545`*^9}]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{1920, 997},
-WindowMargins->{{1912, Automatic}, {Automatic, -8}},
+WindowSize->{1536, 781},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
 Magnification:>1.3 Inherited,
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (September 21, 2016)",
 StyleDefinitions->"Default.nb"
@@ -8513,112 +9130,123 @@ Cell[682, 24, 1128, 32, 65, "Input"],
 Cell[1813, 58, 1322, 38, 190, "Input"],
 Cell[3138, 98, 3304, 100, 165, "Input"],
 Cell[6445, 200, 2795, 84, 190, "Input"],
-Cell[9243, 286, 3759, 105, 140, "Input"],
+Cell[9243, 286, 3759, 105, 90, "Input"],
 Cell[13005, 393, 6437, 171, 190, "Input"],
 Cell[CellGroupData[{
 Cell[19467, 568, 1411, 35, 140, "Input"],
-Cell[20881, 605, 859, 16, 331, "Output"]
+Cell[20881, 605, 887, 17, 331, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[21777, 626, 1286, 34, 115, "Input"],
-Cell[23066, 662, 739, 15, 331, "Output"]
+Cell[21805, 627, 1286, 34, 115, "Input"],
+Cell[23094, 663, 763, 15, 331, "Output"]
 }, Open  ]],
-Cell[23820, 680, 1751, 55, 165, "Input"],
-Cell[25574, 737, 1244, 37, 90, "Input"],
-Cell[26821, 776, 2405, 61, 140, "Input"],
-Cell[29229, 839, 2041, 56, 90, "Input"],
-Cell[31273, 897, 2601, 74, 140, "Input"],
-Cell[33877, 973, 2533, 56, 140, "Input"],
+Cell[23872, 681, 1751, 55, 165, "Input"],
+Cell[25626, 738, 1244, 37, 90, "Input"],
+Cell[26873, 777, 2405, 61, 140, "Input"],
+Cell[29281, 840, 2041, 56, 90, "Input"],
+Cell[31325, 898, 2601, 74, 140, "Input"],
+Cell[33929, 974, 2533, 56, 140, "Input"],
 Cell[CellGroupData[{
-Cell[36435, 1033, 316, 4, 91, "Section"],
-Cell[36754, 1039, 1464, 37, 140, "Input"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[38255, 1081, 123, 1, 91, "Section"],
-Cell[38381, 1084, 12988, 334, 540, "Input"]
+Cell[36487, 1034, 316, 4, 91, "Section"],
+Cell[36806, 1040, 1516, 38, 140, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[51406, 1423, 142, 2, 91, "Section"],
-Cell[51551, 1427, 282, 8, 39, "Input"],
+Cell[38359, 1083, 123, 1, 91, "Section"],
+Cell[38485, 1086, 13041, 335, 540, "Input"],
 Cell[CellGroupData[{
-Cell[51858, 1439, 8544, 220, 765, "Input"],
-Cell[60405, 1661, 3727, 96, 83, "Output"]
+Cell[51551, 1425, 145, 2, 39, "Input"],
+Cell[51699, 1429, 158, 4, 57, "Output"]
+}, Open  ]],
+Cell[51872, 1436, 96, 1, 39, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[52005, 1442, 142, 2, 91, "Section"],
+Cell[52150, 1446, 282, 8, 39, "Input"],
+Cell[CellGroupData[{
+Cell[52457, 1458, 12336, 320, 1115, "Input"],
+Cell[64796, 1780, 7771, 196, 101, "Output"],
+Cell[72570, 1978, 822, 24, 164, "Output"],
+Cell[73395, 2004, 942, 24, 164, "Output"],
+Cell[74340, 2030, 942, 24, 164, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[64181, 1763, 125, 1, 91, "Section"],
+Cell[75331, 2060, 125, 1, 91, "Section"],
 Cell[CellGroupData[{
-Cell[64331, 1768, 1162, 28, 115, "Input"],
-Cell[65496, 1798, 18145, 369, 87, "Output"]
+Cell[75481, 2065, 1162, 27, 115, "Input"],
+Cell[76646, 2094, 18067, 365, 87, "Output"]
 }, Open  ]],
-Cell[83656, 2170, 308, 6, 39, "Input"],
+Cell[94728, 2462, 308, 6, 39, "Input"],
 Cell[CellGroupData[{
-Cell[83989, 2180, 583, 13, 90, "Input"],
-Cell[84575, 2195, 18169, 369, 87, "Output"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[102781, 2569, 561, 14, 90, "Input"],
-Cell[103345, 2585, 18143, 369, 87, "Output"]
+Cell[95061, 2472, 593, 14, 90, "Input"],
+Cell[95657, 2488, 18091, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[121525, 2959, 610, 14, 90, "Input"],
-Cell[122138, 2975, 18145, 369, 87, "Output"]
+Cell[113785, 2858, 569, 14, 90, "Input"],
+Cell[114357, 2874, 18067, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[140320, 3349, 591, 14, 90, "Input"],
-Cell[140914, 3365, 18143, 369, 159, "Output"]
+Cell[132461, 3244, 618, 14, 90, "Input"],
+Cell[133082, 3260, 18067, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[159094, 3739, 707, 16, 193, "Input"],
-Cell[159804, 3757, 18151, 369, 159, "Output"]
+Cell[151186, 3630, 599, 14, 90, "Input"],
+Cell[151788, 3646, 18065, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[177992, 4131, 590, 13, 152, "Input"],
-Cell[178585, 4146, 18149, 369, 159, "Output"]
+Cell[169890, 4016, 713, 16, 115, "Input"],
+Cell[170606, 4034, 18075, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[196771, 4520, 657, 15, 152, "Input"],
-Cell[197431, 4537, 18145, 369, 153, "Output"]
+Cell[188718, 4404, 600, 14, 90, "Input"],
+Cell[189321, 4420, 18071, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[215613, 4911, 635, 14, 152, "Input"],
-Cell[216251, 4927, 18136, 369, 153, "Output"]
+Cell[207429, 4790, 663, 15, 90, "Input"],
+Cell[208095, 4807, 18069, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[234424, 5301, 624, 15, 152, "Input"],
-Cell[235051, 5318, 18034, 367, 209, "Output"]
+Cell[226201, 5177, 643, 14, 90, "Input"],
+Cell[226847, 5193, 18063, 365, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[253122, 5690, 629, 14, 152, "Input"],
-Cell[253754, 5706, 18150, 368, 153, "Output"]
+Cell[244947, 5563, 657, 15, 90, "Input"],
+Cell[245607, 5580, 18045, 366, 87, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[263689, 5951, 641, 15, 90, "Input"],
+Cell[264333, 5968, 18096, 367, 87, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[271953, 6080, 123, 1, 153, "Section"],
+Cell[282478, 6341, 123, 1, 91, "Section"],
 Cell[CellGroupData[{
-Cell[272101, 6085, 1507, 35, 193, "Input"],
-Cell[273611, 6122, 18229, 371, 153, "Output"]
+Cell[282626, 6346, 1517, 35, 115, "Input"],
+Cell[284146, 6383, 18202, 369, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[291877, 6498, 1403, 33, 193, "Input"],
-Cell[293283, 6533, 18072, 368, 153, "Output"]
+Cell[302385, 6757, 1417, 34, 115, "Input"],
+Cell[303805, 6793, 18045, 366, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[311392, 6906, 1351, 33, 193, "Input"],
-Cell[312746, 6941, 18072, 368, 153, "Output"]
+Cell[321887, 7164, 1361, 33, 115, "Input"],
+Cell[323251, 7199, 18045, 366, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[330855, 7314, 530, 13, 152, "Input"],
-Cell[331388, 7329, 18074, 368, 153, "Output"]
-}, Open  ]],
-Cell[349477, 7700, 456, 12, 152, "Input"],
-Cell[CellGroupData[{
-Cell[349958, 7716, 631, 15, 152, "Input"],
-Cell[350592, 7733, 18100, 368, 153, "Output"]
+Cell[341333, 7570, 540, 13, 90, "Input"],
+Cell[341876, 7585, 18074, 368, 87, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[368729, 8106, 529, 13, 152, "Input"],
-Cell[369261, 8121, 18100, 368, 153, "Output"]
+Cell[359987, 7958, 520, 13, 90, "Input"],
+Cell[360510, 7973, 18020, 364, 87, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[378567, 8342, 648, 14, 90, "Input"],
+Cell[379218, 8358, 18021, 364, 87, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[397276, 8727, 549, 13, 90, "Input"],
+Cell[397828, 8742, 18024, 364, 120, "Output"]
 }, Open  ]]
 }, Open  ]]
 }
