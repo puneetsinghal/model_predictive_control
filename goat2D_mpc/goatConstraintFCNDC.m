@@ -44,7 +44,7 @@ c = [];
 %Constarian Initial Point
 ceq = p(1:6,1) - x;
 for tk = 1:N-1   
-    
+%     tk
     xk = [p(1:6,tk)];
     uk = p(7:8,tk);
     xdotk = goatDynamicsCT(xk,uk,link_length);
