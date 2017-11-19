@@ -94,24 +94,15 @@ plot(t, optimal_input);
 %% Cost Function
 function J = cost(u, xk, xref, N, u0, Ts, link_length)
 
-    Q = [10 0 0 0 0 0;...
-            0 10 0 0 0 0;...
-            0 0 10 0 0 0;...
-            0 0 0 1 0 0;...
-            0 0 0 0 1 0;...
-            0 0 0 0 0 1];
+    Q = eye(12);
+    Q(1:6,1:6) = 10*Q(1:6,1:6);
     R = 0.01*eye(2);
-
     J = 0;
     xk1 = xk;
-
 
     for i = 1:N
         uk = u(:,i);
         [xk1,~] = goatDynamicsDT(xk1, uk, Ts, link_length);
-%         xkd = xk1(1:6);
-        
-% %         J = J + (xkd-xref)'*Q*(xkd-xref);
         J = J + (xk1-xref)'*Q*(xk1-xref);
         if i ==1
             J = J + (uk-u0)' * R * (uk-u0);
