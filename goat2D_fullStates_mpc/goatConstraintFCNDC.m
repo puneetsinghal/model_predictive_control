@@ -2,7 +2,26 @@ function [c, ceq] = goatConstraintFCNDC(p, x, xref, Ts, N, link_length)
 %% Nonlinear MPC design parameters
 % Range of theta posn
 %Constarian Initial Point
+c = [];
 ceq = p(1:12,1) - x;
+thetaeq = zeros(3,1); n=0;
+thetadoteq = zeros(3,1);
+% Impose theta and theta_dot constraints
+thetaeq(1) = link_length(1)*(cos(p(1,1))-cos(p(4,1)))...
+            + link_length(2)*(cos(p(2,1))-cos(p(5,1)))...
+            + link_length(3)*(cos(p(3,1))-cos(p(6,1)));
+thetaeq(2) = link_length(1)*(sin(p(1,1))-sin(p(4,1)))...
+            + link_length(2)*(sin(p(2,1))-sin(p(5,1)))...
+            + link_length(3)*(sin(p(3,1))-sin(p(6,1))); 
+thetaeq(3) = p(1,1) + p(2,1) + p(3,1) - p(4,1) - p(5,1) - p(6,1) - (2*n+1)*pi; % n depends on bounds on theta
+thetadoteq(1) = link_length(1)*(cos(p(1,1))*p(7,1)-cos(p(4,1))*p(10,1))...
+               + link_length(2)*(cos(p(2,1))*p(8,1)-cos(p(5,1))*p(11,1))...
+               + link_length(3)*(cos(p(3,1))*p(9,1)-cos(p(6,1))*p(12,1));
+thetadoteq(2) = link_length(1)*(sin(p(1,1))*p(7,1)-sin(p(4,1))*p(10,1))...
+               + link_length(2)*(sin(p(2,1))*p(8,1)-sin(p(5,1))*p(11,1))...
+               + link_length(3)*(sin(p(3,1))*p(9,1)-sin(p(6,1))*p(12,1));
+thetadoteq(3) = p(7,1) + p(8,1) + p(9,1) - p(10,1) - p(11,1) - p(12,1);
+ceq = [thetaeq;thetadoteq;ceq];
 for tk = 1:N-1   
     xk = [p(1:12,tk)];
     uk = p(13:14,tk);
@@ -36,10 +55,27 @@ for tk = 1:N-1
     
     %Defect
     delk = (xk - xk1) + Ts*(xdotk+4*xdotkc+xdotk1)/6;
-    ceq = [ceq thetaeq' thetadoteq' delk];
+    ceq = [ceq;thetaeq;thetadoteq;delk];
 end    
     %Constrain Final point
-    ceq = [ceq [p(1:12,N)-xref]];
-    ceq = real(ceq);
+    thetaeq = zeros(3,1); n=0;
+    thetadoteq = zeros(3,1);
+    % Impose theta and theta_dot constraints
+    thetaeq(1) = link_length(1)*(cos(p(1,1))-cos(p(4,1)))...
+                + link_length(2)*(cos(p(2,1))-cos(p(5,1)))...
+                + link_length(3)*(cos(p(3,1))-cos(p(6,1)));
+    thetaeq(2) = link_length(1)*(sin(p(1,1))-sin(p(4,1)))...
+                + link_length(2)*(sin(p(2,1))-sin(p(5,1)))...
+                + link_length(3)*(sin(p(3,1))-sin(p(6,1))); 
+    thetaeq(3) = p(1,N) + p(2,N) + p(3,N) - p(4,N) - p(5,N) - p(6,N) - (2*n+1)*pi; % n depends on bounds on theta
+    thetadoteq(1) = link_length(1)*(cos(p(1,N))*p(7,N)-cos(p(4,N))*p(10,N))...
+                   + link_length(2)*(cos(p(2,N))*p(8,N)-cos(p(5,N))*p(11,N))...
+                   + link_length(3)*(cos(p(3,N))*p(9,N)-cos(p(6,N))*p(12,N));
+    thetadoteq(2) = link_length(1)*(sin(p(1,N))*p(7,N)-sin(p(4,N))*p(10,N))...
+                   + link_length(2)*(sin(p(2,N))*p(8,N)-sin(p(5,N))*p(11,N))...
+                   + link_length(3)*(sin(p(3,N))*p(9,N)-sin(p(6,N))*p(12,N));
+    thetadoteq(3) = p(7,N) + p(8,N) + p(9,N) - p(10,N) - p(11,N) - p(12,N);
+    ceq = [ceq;thetaeq;thetadoteq;p(1:12,N)-xref];
+%     ceq = real(ceq);
 
 end
