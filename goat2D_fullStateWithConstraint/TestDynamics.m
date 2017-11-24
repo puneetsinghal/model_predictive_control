@@ -18,7 +18,7 @@ u = zeros(6,1);
 
 opt = odeset('AbsTol',1e-8,'RelTol',1e-8);
 tspan = 0:dt:T;
-[t,q] = ode45(@(t,q) goatFullDynamicsWithConstraints(t,q,u,l),tspan,qstart,opt);
+[t,q] = ode45(@(t,q) goatFDWC(t,q,u,l),tspan,qstart,opt);
 
 %% Visualize Trajectory
 

@@ -1,4 +1,4 @@
-function qdot = goatFullDynamicsWithConstraints(t,q,u,l)
+function qdot = goatFullDynamicsWithConstraints(q,u,l)
     theta = q(1:6,1);
     theta_dot = q(7:12,1);
     qdot = zeros(12,1);
