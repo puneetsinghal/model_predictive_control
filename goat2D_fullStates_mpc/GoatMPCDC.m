@@ -8,7 +8,7 @@ addpath('lib')
 Ts = 0.001;
 
 %Prediction Horizon
-N = 30;
+N = 10;
 link_length = [1.0 0.5 0.2];
 
 %Initial State
