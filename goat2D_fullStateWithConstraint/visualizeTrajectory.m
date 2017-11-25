@@ -7,7 +7,6 @@ function visualizeTrajectory(q,l)
     h3 = plot(0,0);
     h4 = plot(0,0);
     hold off;
-    waitforbuttonpress;
     for i=1:1:tsteps
         x1 = zeros(4,2);
         x2 = zeros(4,2);
