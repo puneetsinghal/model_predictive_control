@@ -1,26 +1,28 @@
 clear;
 clc;
 close all;
+profile on;
 
 %% Initialize
 
 Ts = 0.001;
-N = 100;
+N = 30;
 l = [1.0 0.5 0.2];
-finaltheta = [1.0781; 1.0701; 0.993];
+% finaltheta = [1.0781; 1.0701; 0.993];
+finaltheta = [0.6781; 1.0701; 0.993];
 finalthetaRest = findFeasibleConfigurationAnalytical(finaltheta,l);
 finaltheta = [finaltheta; finalthetaRest];
 finalthetadot = [0;0;0;0;0;0];
 qfinal = [finaltheta;finalthetadot]; 
 
-starttheta = finaltheta(1:3,1) + [0.01; 0; 0];
+starttheta = finaltheta(1:3,1) + [0; 0.01; 0];
 startthetaRest = findFeasibleConfigurationAnalytical(starttheta,l);
 starttheta = [starttheta; startthetaRest];
 startthetadot = [0;0;0;0;0;0];
 qstart = [starttheta;startthetadot];
 
-x = qstart; % Initial State
-xf = qfinal;% Final State                                          
+x = qfinal; % Initial State
+xf = qstart;% Final State                                          
 
 %% DirCol
 
@@ -59,15 +61,14 @@ infeasible = find(abs(const)>0.05);
 
 %% Cost Function
 function J = cost(p,xref)
-    Q = eye(12);
-    Q(1:6,1:6)=10*Q(1:6,1:6);
-    R = 0.01*eye(2);
-    J = 0;
+    Q = ones(12,1);
+    Q(1:6,1)=10*Q(1:6,1);
+    R = 0.01*zeros(2,1);
     [~,N] = size(p);
-    for i = 1:N
-        uk = p(13:14,i);
-        xk = p(1:12,i);
-        J = J + (xk)'*Q*(xk) + uk'*R*uk;
-    end
+    Q = Q*ones(1,N);
+    R = R*ones(1,N);
+    xref = [xref*ones(1,N);zeros(2,N)];
+    J = (p - xref).*[Q;R].*(p - xref);
+    J = sum(sum(J));
 end
 
