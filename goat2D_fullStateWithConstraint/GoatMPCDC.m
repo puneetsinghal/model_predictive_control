@@ -5,33 +5,37 @@ profile on;
 
 %% Initialize
 
-Ts = 0.001;
+Ts = 0.01;
 N = 30;
 l = [1.0 0.5 0.2];
-% finaltheta = [1.0781; 1.0701; 0.993];
-finaltheta = [0.6781; 1.0701; 0.993];
+finaltheta = [1.0781; 1.0701; 0.993];
+%finaltheta = [0.6781; 1.0701; 0.993];
 finalthetaRest = findFeasibleConfigurationAnalytical(finaltheta,l);
 finaltheta = [finaltheta; finalthetaRest];
 finalthetadot = [0;0;0;0;0;0];
 qfinal = [finaltheta;finalthetadot]; 
 
-starttheta = finaltheta(1:3,1) + [0; 0.01; 0];
+starttheta = [0.6781; 1.0701+0.4; 0.993-0.4];
+%starttheta = finaltheta(1:3,1) + [0; 0.1; 0.1];
 startthetaRest = findFeasibleConfigurationAnalytical(starttheta,l);
 starttheta = [starttheta; startthetaRest];
 startthetadot = [0;0;0;0;0;0];
 qstart = [starttheta;startthetadot];
 
-x = qfinal; % Initial State
-xf = qstart;% Final State                                          
-
+x = qstart; % Initial State
+xf = qfinal;% Final State                                          
+xHist = zeros(12,N);
+uHist = zeros(2,N);
+xint = x;
 %% DirCol
 
 %Initial Optimized Input Values over the trajectory
 p0 = zeros(14,N);
 p0(1:12,:) = x + (xf-x)*(0:1:(N-1))/(N-1);
+
 %Fmincon Options
 options = optimoptions(@fmincon,'StepTolerance',1e-15,'FunctionTolerance',1e-8,'MaxIterations',10000,'MaxFunctionEvaluations',500000,...
-                       'DiffMinChange',1e-3,'Display','iter','Algorithm','sqp');
+                       'DiffMinChange',1e-3,'Display','iter','Algorithm','interior-point');
 
 %Input Bounds
 lb_input = -inf;
@@ -45,19 +49,26 @@ for i = 1:N-1
     UB = [UB ,UB_];
 end
 
+% for ct = 1:50
+%     sprintf('iteration #: %d', ct)
+%     xHist(:,ct) = xint;
 COSTFUN = @(p) cost(p, xf);
-CONSTFUN = @(p) goatConstraintFCNDC(p,x,xf,Ts,N,l);
+CONSTFUN = @(p) goatConstraintFCNGLDC(p,x,xf,Ts,N,l);
 optimal_parameters = fmincon(COSTFUN,p0,[],[],[],[],LB,UB,CONSTFUN,options);
-
+% uHist(:,ct) = optimal_parameters(13:14,1);
+% [xint, y] = goatDynamicsDT(xint,uHist(:,ct), Ts, N,l);
+% % p0 = zeros(14,N);
+% % p0(1:12,:) = xint + (xf-xint)*(0:1:(N-1))/(N-1);
+%end
 %% Find infeasible points
 [~,const] = CONSTFUN(optimal_parameters);
 infeasible = find(abs(const)>0.05);
 
 %% Plot Trajectory
-% plotDC(Ts,optimal_parameters,xf);
+plotDC(Ts,optimal_parameters,xf);
 
 %% Visualize Trajectory
-% visualizeTrajectory(optimal_parameters',l);
+visualizeTrajectory(optimal_parameters',l);
 
 %% Cost Function
 function J = cost(p,xref)
