@@ -42,27 +42,27 @@ xHist = zeros(4,params.M);
 optimal_inputs = zeros(1, params.M);
 %%
 %Solving
-% for ct = 1:params.M - params.N+1
-%     sprintf('iteration #: %d', ct)
-%     uopt = zeros(1, params.N);
-%     COSTFUN = @(p) acrobotObjectiveFCN(p, xf, uopt(:,1), params);
-%     CONSFUN = @(p) acrobotConstraintFCN_DC(p, x0, xf, params);
-%     p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, options);
-%     
-%     xHist(:,ct:ct+params.N-1) = p(1:4,:);
-%     optimal_inputs(:,ct:ct+params.N-1) = p(5,:);
-% 
-% %     [x, ~] = acrobotDynamicsDT(x, uopt(:,1), params);
-% %     optimal_inputs(:,ct) = uopt(:,1);
-% end
-% % xHist = p(1:4,:);
-% % optimal_inputs = p(5,:);
-% 
-% save('results', 'xHist', 'optimal_inputs');
+for ct = 1:params.M - params.N+1
+    sprintf('iteration #: %d', ct)
+    uopt = zeros(1, params.N);
+    COSTFUN = @(p) acrobotObjectiveFCN(p, xf, uopt(:,1), params);
+    CONSFUN = @(p) acrobotConstraintFCN_DC(p, x0, xf, params);
+    p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, options);
+    
+    xHist(:,ct:ct+params.N-1) = p(1:4,:);
+    optimal_inputs(:,ct:ct+params.N-1) = p(5,:);
+
+%     [x, ~] = acrobotDynamicsDT(x, uopt(:,1), params);
+%     optimal_inputs(:,ct) = uopt(:,1);
+end
+xHist = p(1:4,:);
+optimal_inputs = p(5,:);
+
+save('results', 'xHist', 'optimal_inputs');
 %%
 % load('results/swingup_nice.mat');
 % load('results/working_swingup.mat');
-load('results/mpdcdc_nice.mat');
+% load('results/mpdcdc_nice.mat');
 pause(1);
 t = linspace(0, params.Duration, params.M);
 figure();
