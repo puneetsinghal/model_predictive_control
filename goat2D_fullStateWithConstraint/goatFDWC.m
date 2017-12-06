@@ -1,3 +1,7 @@
 function qdot = goatFDWC(t,q,u,l)
-    qdot = goatFullDynamicsWithConstraints(q,u,l);
+    [~,n] = size(u);
+    if (n==1)
+        qdot = goatFullDynamicsWithConstraints(q,u,l);
+    end
+    
 end
