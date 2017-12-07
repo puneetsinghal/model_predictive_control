@@ -13,7 +13,6 @@ params.I1 = 0;
 params.I2 = 0;
 %Sample Time
 params.Ts = 0.005;
-load('Acrobot_It2.mat','-mat','xHist')
 
 % profile viewer
 %Prediction Horizon
@@ -23,9 +22,7 @@ params.M = floor(params.Duration/params.Ts) + params.N;
 %Final State
 xf = [pi/2; 0; 0; 0; 0; 0];
 %Initial State
-%x0 = xf+[0; 0; 0.1; 0; 0; 0];
-x0 = xHist(:,end);
-xHist = zeros(6,20);
+x0 = xf+[0; 0; 0.1; 0; 0; 0];
 x = x0;
 xint = x;
 p0 = zeros(7,params.N);
@@ -46,7 +43,7 @@ UB = [ 2*pi*ones(2,params.N); inf*ones(4,params.N); 100*ones(1,params.N)];
 %%
 %Solving
 theta = x0;
-for ct = 1:40
+for ct = 1:20
     sprintf('iteration #: %d', ct)
     xHist(:,ct) = xint;
     COSTFUN = @(p1) acrobotObjectiveFCN(p1, xf, params);
@@ -64,41 +61,41 @@ optimal_inputs = uHist;
 
 save('results', 'xHist', 'optimal_inputs');
 %%
-t = linspace(0, params.N*params.Ts, ct);
+t = linspace(0, 10, params.N);
 figure();
 subplot(2,3,1);
 hold on;
-plot(t, xf(1)*ones(1, ct), 'k--');
+plot(t, xf(1)*ones(1, params.N), 'k--');
 plot(t,xHist(1,:),'b');
 hold off;
 
 subplot(2,3,2);
 hold on;
-plot(t, xf(2)*ones(1, ct), 'k--');
+plot(t, xf(2)*ones(1, params.M), 'k--');
 plot(t,xHist(2,:),'b');
 hold off;
 
 subplot(2,3,3);
 hold on;
-plot(t, xf(3)*ones(1, ct), 'k--');
+plot(t, xf(3)*ones(1, params.M), 'k--');
 plot(t,xHist(3,:),'b');
 hold off;
 
 subplot(2,3,4);
 hold on;
-plot(t, xf(4)*ones(1, ct), 'k--');
+plot(t, xf(4)*ones(1, params.M), 'k--');
 plot(t,xHist(4,:),'b');
 hold off;
 
 subplot(2,3,5);
 hold on;
-plot(t, xf(5)*ones(1, ct), 'k--');
+plot(t, xf(5)*ones(1, params.M), 'k--');
 plot(t,xHist(5,:),'b');
 hold off;
 
 subplot(2,3,6);
 hold on;
-plot(t, xf(6)*ones(1, ct), 'k--');
+plot(t, xf(6)*ones(1, params.M), 'k--');
 plot(t,xHist(6,:),'b');
 hold off;
 
@@ -119,7 +116,6 @@ plot(t, optimal_inputs);
 % z = xHist;
 % z(2,:) = z(1,:) + xHist(2,:);
 % animate(t,z,A)
-
 for i = 1:length(t)
     drawAcrobot(t(i), xHist(:,i), params);
 %     if (i==1)
