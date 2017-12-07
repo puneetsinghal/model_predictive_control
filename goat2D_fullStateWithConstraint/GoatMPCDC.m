@@ -15,7 +15,7 @@ finaltheta = [finaltheta; finalthetaRest];
 finalthetadot = [0;0;0;0;0;0];
 qfinal = [finaltheta;finalthetadot]; 
 
-starttheta = [1.0781; 1.0701+0.4; 0.993-0.4];
+starttheta = [1.0781; 1.0701+0.1; 0.993-0.1];
 %starttheta = finaltheta(1:3,1) + [0; 0.1; 0.1];
 startthetaRest = findFeasibleConfigurationAnalytical(starttheta,l);
 starttheta = [starttheta; startthetaRest];
