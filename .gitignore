@@ -1,3 +1,4 @@
 Self/
 .DS_Store
 goat2D_fullStateWithConstraint/Saves/
+*/*.mat
