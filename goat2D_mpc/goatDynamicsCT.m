@@ -5,6 +5,9 @@ function dq =goatDynamicsCT(q, u, link_length)
     dq2 = q(4:6);
 %   q1 = fsolve(@(q1) constraints(q1,q2), q10);
 %     q1 = findFeasibleConfiguration(q2, q10, link_length);
+    if (norm(q2) > 5)
+        fprintf('Too big q2\n')
+    end
     q1 = findFeasibleConfigurationAnalytical(q2, link_length);
 %     q1(2:3) = wrapToPi(q1(2:3));
 %     q1 = wrapToPi(q1);
