@@ -16,7 +16,7 @@ params.Ts = 0.001;
 
 % profile viewer
 %Prediction Horizon
-params.N = 100;
+params.N = 50;
 params.Duration = 1*params.N*params.Ts;
 params.M = floor(params.Duration/params.Ts);
 %Initial State
@@ -43,17 +43,23 @@ UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(1,params.N)
 
 %%
 %Solving
-% for ct = 1:params.M
-%     sprintf('iteration #: %d', ct)
+u0 = 0;
+xref = xf;
+xHist = [];
+optimal_inputs = [];
+for ct = 1:params.M
+    sprintf('iteration #: %d', ct)
     uopt = zeros(1,params.N);
 %     p1 = p(:,ct:ct+params.N-1);
-    COSTFUN = @(x) acrobotObjectiveFCN(x, xf, uopt(:,1), params);
-    CONSFUN = @(x) acrobotConstraintFCN_DC(x, x0, xf, params);
-    p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, params.options); 
+    COSTFUN = @(uopt) acrobotObjectiveFCN(uopt, x0, xref, u0, params);
+    CONSFUN = @(uopt) acrobotConstraintFCN(uopt, x0, xref, params);
+    uopt = fmincon(COSTFUN, p, [], [], [], [], [], [], CONSFUN, params.options); 
+    u0 = uopt(1);
+    x0 = acrobotDynamicsDT(x0, u0, params);
 %     p(:,ct:ct+params.N-1) = p1;
-% end
-xHist = p(1:6,:);
-optimal_inputs = p(7,:);
+    xHist = [xHist, x0];
+    optimal_inputs = [optimal_inputs, u0];
+end
 
 save('results', 'params', 'xHist', 'optimal_inputs');
 %%

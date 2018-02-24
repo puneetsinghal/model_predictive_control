@@ -2,9 +2,9 @@ clear;
 clc;
 close all;
 addpath('lib');
-params.m1 = 0.1;
-params.m2 = 0.1;
-params.m3 = 0.1;
+params.m1 = 1;
+params.m2 = 1;
+params.m3 = 1;
 params.l1 = 0.5;
 params.l2 = 0.5;
 params.l3 = 0.5;
@@ -12,18 +12,18 @@ params.g = 0;
 params.I1 = 0;
 params.I2 = 0;
 %Sample Time
-params.Ts = 0.001;
+params.Ts = 0.01;
 
 % profile viewer
 %Prediction Horizon
-params.N = 100;
+params.N = 60;
 params.Duration = 1*params.N*params.Ts;
 params.M = floor(params.Duration/params.Ts);
 %Initial State
-x0 = [pi/2-0.02; 0; 0; 0; 0; 0];
+x0 = [pi/2-0.1; 0; 0; 0; 0; 0];
 %Final State
 xf = [pi/2; 0; 0; 0; 0; 0];
-p = zeros(7,params.M);
+p = zeros(9,params.M);
 p(1:6,:) = repmat(x0,1,params.M);
 
 % for i=1:6
@@ -31,15 +31,15 @@ p(1:6,:) = repmat(x0,1,params.M);
 %     p(i,params.M+1:end) = xf(i);
 % end
 %Fmincon Options
-params.options = optimoptions(@fmincon, 'TolFun', 0.0001, 'MaxIter', 5000, 'MaxFunEvals', 10000,...
+options = optimoptions(@fmincon, 'TolFun', 0.0001, 'MaxIter', 5000, 'MaxFunEvals', 10000,...
                        'DiffMinChange', 0.0001,'Display', 'iter', 'Algorithm', 'sqp');
                    
 %Input Bounds
 inputBounds = 10;
 % LB = [-inf*ones(4,params.N); -20*ones(1,params.N)];
 % UB = [inf*ones(4,params.N); 20*ones(1,params.N)];
-LB = [-2*pi*ones(3,params.N); -inf*ones(3,params.N); -inputBounds*ones(1,params.N)];
-UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(1,params.N)];
+LB = [-2*pi*ones(3,params.N); -inf*ones(3,params.N); -inputBounds*ones(3,params.N)];
+UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(3,params.N)];
 
 %%
 %Solving
@@ -49,13 +49,13 @@ UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(1,params.N)
 %     p1 = p(:,ct:ct+params.N-1);
     COSTFUN = @(x) acrobotObjectiveFCN(x, xf, uopt(:,1), params);
     CONSFUN = @(x) acrobotConstraintFCN_DC(x, x0, xf, params);
-    p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, params.options); 
+    p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, options); 
 %     p(:,ct:ct+params.N-1) = p1;
 % end
 xHist = p(1:6,:);
 optimal_inputs = p(7,:);
 
-save('results', 'params', 'xHist', 'optimal_inputs');
+save('results', 'xHist', 'optimal_inputs');
 %%
 t = linspace(0, params.Duration, params.M);
 figure();
@@ -100,12 +100,11 @@ plot(t, optimal_inputs);
 
 %% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
 %                     Plot the solution                                   %
-%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
 
 %HINT:  type help animate to figure out how to use the keyboard to interact
 %with the animation (slow motion, pause, jump forward / backward...)
 
-figure();
 % Animate the results:
 % A.plotFunc = @(t,z)( drawAcrobot(t,z,params) );
 % A.speed = 0.25;

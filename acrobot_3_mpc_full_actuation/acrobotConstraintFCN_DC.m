@@ -36,5 +36,5 @@ c = [];
         ceq(:,tk+1) = delk;
     end
 
-%     ceq(:,end) = p(1:6,end)-xref;
+    ceq(:,end) = p(1:6,end)-xref;
 end
