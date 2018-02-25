@@ -34,8 +34,12 @@ function J = acrobotObjectiveFCN(p, xref, u0, params)
         xk1 = p(1:6,tk+1);
         uk1 = p(7:end,tk+1);
         
-        J = J + (xk)'*Q*(xk) + (xk1)'*Q*(xk1);
-        
-        J = J + (uk)' * R * (uk) + (uk1)' * R * (uk1);
+        J = J + (xk-xref)'*Q*(xk-xref) + (xk1-xref)'*Q*(xk1-xref);
+        if tk==1
+%             J = J + (uk)' * R * (uk) + (uk1)' * R * (uk1);
+            J = J + (uk-u0)' * R * (uk-u0);
+        else
+            J = J + (uk1-uk)' * R * (uk1-uk);
+        end
     end
 end
