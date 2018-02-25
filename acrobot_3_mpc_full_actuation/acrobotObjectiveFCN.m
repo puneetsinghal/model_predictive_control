@@ -1,8 +1,8 @@
 %Cost Function
 function J = acrobotObjectiveFCN(p, xref, u0, params)
 
-    Q = diag([1000; 1000; 1000; 1; 1; 1]); %[10000*eye(4), zeros(4);zeros(4), 0.01*eye(4)];
-    R = diag(1);
+    Q = diag([1000; 1000; 1000; 0.01; 0.01; 0.01]); %[10000*eye(4), zeros(4);zeros(4), 0.01*eye(4)];
+    R = diag([0.001; 0.001; 0.001]);
 %     Q = [100; 100; 0.01; 0.01];
 %     p = p- [repmat(xref,[1,params.N]);[u0, p(5,1:end-1)]];
 %     p = reshape(p,[],1);

@@ -8,55 +8,39 @@ params.m3 = 1;
 params.l1 = 0.5;
 params.l2 = 0.5;
 params.l3 = 0.5;
-params.g = 0;
+params.g = -9.81;
 params.I1 = 0;
 params.I2 = 0;
 %Sample Time
-params.Ts = 0.01;
+params.Ts = 0.005;
 
 % profile viewer
 %Prediction Horizon
-params.N = 100;
-params.Duration = 1*params.N*params.Ts;
-params.M = floor(params.Duration/params.Ts);
+params.N = 10;
+params.Duration = 10*params.N*params.Ts;
+params.M = floor(params.Duration/params.Ts) + params.N;
 %Initial State
-x0 = [pi/2-0.1; 0; 0; 0; 0; 0];
+x0 = [0; 0; 0; 0; 0; 0];
+x = x0;
 %Final State
 xf = [pi/2; 0; 0; 0; 0; 0];
 p = zeros(7,params.M);
-p(1:6,:) = repmat(x0,1,params.M);
 
-% for i=1:6
-%     p(i,1:params.M) = linspace(x0(i),xf(i),params.M);
-%     p(i,params.M+1:end) = xf(i);
-% end
+for i=1:6
+    p(i,:) = linspace(x0(i),xf(i),params.M);
+end
 %Fmincon Options
-options = optimoptions(@fmincon, 'TolFun', 0.0001, 'MaxIter', 5000, 'MaxFunEvals', 10000,...
+options = optimoptions(@fmincon, 'TolFun', 0.0001, 'MaxIter', 500, 'MaxFunEvals', 10000,...
                        'DiffMinChange', 0.0001,'Display', 'iter', 'Algorithm', 'sqp');
                    
 %Input Bounds
-inputBounds = 10;
 % LB = [-inf*ones(4,params.N); -20*ones(1,params.N)];
 % UB = [inf*ones(4,params.N); 20*ones(1,params.N)];
-LB = [-2*pi*ones(3,params.N); -inf*ones(3,params.N); -inputBounds*ones(1,params.N)];
-UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(1,params.N)];
+LB = [-2*pi*ones(2,params.N); -inf*ones(4,params.N); -20*ones(1,params.N)];
+UB = [ 2*pi*ones(2,params.N); inf*ones(4,params.N); 20*ones(1,params.N)];
 
 %%
-%Solving
-% for ct = 1:params.M
-%     sprintf('iteration #: %d', ct)
-    uopt = zeros(1,params.N);
-%     p1 = p(:,ct:ct+params.N-1);
-    COSTFUN = @(x) acrobotObjectiveFCN(x, xf, uopt(:,1), params);
-    CONSFUN = @(x) acrobotConstraintFCN_DC(x, x0, xf, params);
-    p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, options); 
-%     p(:,ct:ct+params.N-1) = p1;
-% end
-xHist = p(1:6,:);
-optimal_inputs = p(7,:);
-
-save('results', 'xHist', 'optimal_inputs');
-%%
+load results.mat
 t = linspace(0, params.Duration, params.M);
 figure();
 subplot(2,3,1);
@@ -117,5 +101,5 @@ for i = 1:length(t)
 %     if (i==1)
 %         pause(5);
 %     end
-%     pause(0.1);
+    pause(0.01);
 end

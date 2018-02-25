@@ -1,9 +1,8 @@
 clear;
 clc;
-close all;
 % addpath('lib')
 % addpath('functions')
-% profile on
+profile on
 
 params.m1 = 1;
 params.m2 = 1;
@@ -13,47 +12,44 @@ params.g = 9.81;
 params.I1 = 0;
 params.I2 = 0;
 %Sample Time
-params.Ts = 0.001;
+params.Ts = 0.01;
 
-% profile viewer
+profile viewer
 %Prediction Horizon
-params.N = 50;
-params.Duration = params.N*params.Ts;
+params.N = 10;
+params.Duration = 10;
 params.M = floor(params.Duration/params.Ts);
 %Initial State
-x0 = [1.0; 1.0; 0; 0];
-x = x0;
+theta0 = [1.0; 1.0; 0; 0];
+x = theta0;
 %Final State
-xf = [pi; pi; 0; 0];
+xf = [pi; 0; 0; 0];
 
-p = zeros(5,params.N);
-
+%Initial Optimized Input Values over the trajectory
+uopt = zeros(1,params.M);
+optimal_inputs = zeros(1, params.M);
 %Fmincon Options
 options = optimoptions(@fmincon, 'TolFun', 0.001, 'MaxIter', 500, 'MaxFunEvals', 10000,...
-                       'DiffMinChange', 0.001,'Display', 'iter', 'Algorithm', 'sqp');
+                       'DiffMinChange', 0.001,'Display', 'None', 'Algorithm', 'sqp');
                    
 %Input Bounds
-LB = [-2*pi*ones(2,params.N); -inf*ones(2,params.N); -20*ones(1,params.N)];
-UB = [ 2*pi*ones(2,params.N); inf*ones(2,params.N); 20*ones(1,params.N)];
-
-
+LB = -20*ones(1,params.N);
+UB = 20*ones(1,params.N);
 %%
+%Store Data
+xHist = zeros(length(x),params.M);
 %Solving
-theta = x0;
-% for ct = 1:params.M
-%     sprintf('iteration #: %d', ct)
-%     xHist(:,ct) = x;
-uopt = zeros(1,params.N);
-COSTFUN = @(p) acrobotObjectiveFCN(p, xf, uopt(:,1), params);
-CONSFUN = @(p) acrobotConstraintFCN_DC(p, x0, xf, params);
-p = fmincon(COSTFUN, p, [], [], [], [], LB, UB, CONSFUN, options);
+theta = theta0;
+for ct = 1:params.M
+    sprintf('iteration #: %d', ct)
+    xHist(:,ct) = x;
+    COSTFUN = @(u) acrobotObjectiveFCN(u, x, xf, uopt(:,1), params);
+    CONSFUN = @(u) acrobotConstraintFCN(u, theta, xf, params);
+    uopt = fmincon(COSTFUN, uopt, [], [], [], [], LB, UB, CONSFUN, options);
 
-%     [x, ~] = acrobotDynamicsDT(x, uopt(:,1), params);
-%     optimal_inputs(:,ct) = uopt(:,1);
-% end
-xHist = p(1:4,:);
-optimal_inputs = p(5,:);
-
+    [x, ~] = acrobotDynamicsDT(x, uopt(:,1), params);
+    optimal_inputs(:,ct) = uopt(:,1);
+end
 save('results', 'xHist', 'optimal_inputs');
 %%
 t = linspace(0, params.Duration, params.M);

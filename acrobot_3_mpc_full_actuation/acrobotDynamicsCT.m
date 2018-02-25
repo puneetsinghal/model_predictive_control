@@ -18,10 +18,10 @@ function dq =acrobotDynamicsCT(x, u, params)
     Cor = CMatrix(q, dq, params);
     G = gq( q, params );
     
-    B = [0;
-         0;
-         1];
-%     B = eye(3);
+%     B = [0;
+%          0;
+%          1];
+    B = eye(3);
 
     dq = [dq; M\( B*u - Cor * dq - G)];
 end

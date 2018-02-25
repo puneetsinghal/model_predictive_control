@@ -16,14 +16,14 @@ params.Ts = 0.01;
 
 % profile viewer
 %Prediction Horizon
-params.N = 100;
+params.N = 60;
 params.Duration = 1*params.N*params.Ts;
 params.M = floor(params.Duration/params.Ts);
 %Initial State
 x0 = [pi/2-0.1; 0; 0; 0; 0; 0];
 %Final State
 xf = [pi/2; 0; 0; 0; 0; 0];
-p = zeros(7,params.M);
+p = zeros(9,params.M);
 p(1:6,:) = repmat(x0,1,params.M);
 
 % for i=1:6
@@ -38,8 +38,8 @@ options = optimoptions(@fmincon, 'TolFun', 0.0001, 'MaxIter', 5000, 'MaxFunEvals
 inputBounds = 10;
 % LB = [-inf*ones(4,params.N); -20*ones(1,params.N)];
 % UB = [inf*ones(4,params.N); 20*ones(1,params.N)];
-LB = [-2*pi*ones(3,params.N); -inf*ones(3,params.N); -inputBounds*ones(1,params.N)];
-UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(1,params.N)];
+LB = [-2*pi*ones(3,params.N); -inf*ones(3,params.N); -inputBounds*ones(3,params.N)];
+UB = [ 2*pi*ones(3,params.N); inf*ones(3,params.N); inputBounds*ones(3,params.N)];
 
 %%
 %Solving
