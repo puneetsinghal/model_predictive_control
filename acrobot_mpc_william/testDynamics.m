@@ -13,7 +13,8 @@ u = 0;
 
 
 for i = 1:1000
-    dx = acrobotDynamicsCT(x, u, params);
+		
+    %dx = acrobotDynamicsCT(x, u, params);
     x = x + dx*ts;
     drawAcrobot(1, x, params);
 %     pause(0.01);

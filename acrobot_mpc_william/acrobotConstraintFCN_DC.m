@@ -1,4 +1,4 @@
-function [c, ceq] = acrobotConstraintFCN_DC(p, x0, xref, params)
+function [c, ceq] = acrobotConstraintFCN_DC(u_opt, x0, xref, params)
 %% Constraint function of nonlinear MPC for pendulum swing-up and balancing control
 %
 % Inputs:
@@ -13,12 +13,15 @@ function [c, ceq] = acrobotConstraintFCN_DC(p, x0, xref, params)
 %
 % Copyright 2016 The MathWorks, Inc.
 
-c = [];
 
+c = [];
+ceq = [];
+%{
 %% equality constraints
-    N = params.N;
+    N = params.Total_steps;
     ceq = zeros(4,N+1);
-    ceq(:,1) = p(1:4,1) - x0;
+		u_opt
+    ceq(:,1) = u_opt(1:4,1) - x0;
     for tk = 1:N-1
         xk = p(1:4,tk);
         uk = p(5,tk);
@@ -37,4 +40,5 @@ c = [];
     end
 
     ceq(:,end) = p(1:4,end)-xref;
+%}
 end

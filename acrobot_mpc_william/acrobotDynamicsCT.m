@@ -1,5 +1,6 @@
-function dq =acrobotDynamicsCT(q, u, params)
+function dq =acrobotDynamicsCT(t,q, u, params)
     %%
+		%params.m1
     m1 = params.m1;
     m2 = params.m2;
     l1 = params.l1;
