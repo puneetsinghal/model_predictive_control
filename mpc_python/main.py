@@ -61,9 +61,11 @@ if __name__ == '__main__':
     x = params['x0']
     
     # arrays to save data
-    uHistory = [u0]             # force history
-    xHistory = [params['x0'][:,0].tolist()]       # position history
-    xRefHistory = []
+    uHistory = np.zeros((params['numIterations']+1))
+    uHistory[0] = u0             # force history
+    xHistory = np.zeros((params['numIterations']+1, 4))
+    xHistory[0,:] = params['x0'][:,0]      # position history
+    xRefHistory = np.zeros((params['numIterations']+1, 4))
 
     robot = Acrobot(params)
     print("Robot object created")
@@ -87,7 +89,7 @@ if __name__ == '__main__':
             xref = xref.reshape((4,1))
             xref[1,0] -= xref[0,0]
             xref[3,0] -= xref[2,0]
-            xRefHistory += [xref[:,0].tolist()]
+            xRefHistory[ct,:] = xref[:,0]
             print("reference value: {}, {}".format(index, xref.T))
 
             # optimize
@@ -95,15 +97,16 @@ if __name__ == '__main__':
 
             # prepare variable for next run and save the output in history arrays
             uopt = results.x
+            print(uopt.shape)
             u0 = uopt[0]
             x = controller.IntegrationEstimation(x, u0, 30)
             print("next state: {}".format(x.T))
             
-            uHistory.append(u0)
-            xHistory += [x[:,0].tolist()]
+            uHistory[ct+1] = u0
+            xHistory[ct+1,:] = x[:,0]
 
         print(time.time()-t)
-
+        xRefHistory[ct+1,:] = xRefHistory[ct,:] 
         filename = './acrobot_results' + args.suffix
         pickle.dump([params, xHistory, uHistory, xRefHistory], open(filename, 'wb'))
     else:
@@ -112,7 +115,7 @@ if __name__ == '__main__':
     
     # Displaying Graphs
     t = np.linspace(0, params['Duration'], params['Duration']/params['Ts']+1)
-    xRefHistory += [[pi,0,0,0]]
+
     xRefHistory = np.array(xRefHistory)
     xHistory = np.array(xHistory)
 
