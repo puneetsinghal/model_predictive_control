@@ -1,4 +1,10 @@
+<<<<<<< HEAD:acrobot_mpc_william/acrobotDynamicsCT.m
 function dq =acrobotDynamicsCT(t,q, u, params)
+||||||| merged common ancestors
+function dq =acrobotDynamicsCT(q, u, params)
+=======
+function dq =acrobotDynamicsCT(t, q, u, params)
+>>>>>>> origin/deepMPC:acrobot_mpc/acrobotDynamicsCT.m
     %%
 		%params.m1
     m1 = params.m1;

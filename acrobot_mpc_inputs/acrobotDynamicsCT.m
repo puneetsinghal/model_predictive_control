@@ -1,6 +1,5 @@
-function [Alin,Blin] =acrobotDLinearize(t,q, u, params)
+function dq =acrobotDynamicsCT(t, q, u, params)
     %%
-		%params.m1
     m1 = params.m1;
     m2 = params.m2;
     l1 = params.l1;
@@ -15,7 +14,6 @@ function [Alin,Blin] =acrobotDLinearize(t,q, u, params)
     dtheta_1 = q(3);
     dtheta_2 = q(4);
     
-
     %%
     M = zeros(2,2);
 %     M(1,1) = m1*lc1^2 + m2*(l1^2 + lc2^2 + 2*l1*lc2*cos(theta_2)) + I1 + I2;
@@ -28,8 +26,6 @@ function [Alin,Blin] =acrobotDLinearize(t,q, u, params)
     M(2,1) = M(1,2);
     M(2,2) = m2*lc2^2 + I2;
 
-
-
     C = [-2*m2* l1*lc2*sin(theta_2)*dtheta_2, -m2*l1*lc2*sin(theta_2)* dtheta_2;...
         m2*l1*lc2*sin(theta_2)*dtheta_1, 0];
 
@@ -39,13 +35,4 @@ function [Alin,Blin] =acrobotDLinearize(t,q, u, params)
     B = [0; 1];
     %%
     dq = [dtheta_1; dtheta_2; pinv(M)*( B*u - C* [dtheta_1; dtheta_2] - G)];
-		
-		
-		Alin = [ zeros(2), eye(2);...
-        (-M_hat\(DGHat + uStar(1)*DB1Hat + uStar(2)*DB2Hat)), (-M_hat\C_hat)];
-		Blin = [zeros(3,2); inv(M)*B];
-
 end
-
-
-
