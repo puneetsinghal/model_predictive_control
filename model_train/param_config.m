@@ -8,4 +8,4 @@ params.g = -9.81;
 params.I1 = 0.1;
 params.I2 = 0.1;
 %Sample Time
-params.Ts = 0.005;
+params.Ts = 0.01;

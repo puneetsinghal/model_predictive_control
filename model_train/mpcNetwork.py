@@ -54,7 +54,7 @@ class Network:
         
         hidden_units = [32,32]
         
-        print("build feedforward network with hidden units %d,%d", hidden_units[0], hidden_units[1])
+        print("build feedforward network with hidden units", hidden_units[0], hidden_units[1])
         self.input_ph = tf.placeholder(tf.float32, shape=[None, self.input_dim], name="input")
         self.output_ph = tf.placeholder(tf.float32, shape=[None, self.output_dim], name="output")
         
@@ -82,7 +82,7 @@ class Network:
         input_data, output_data = load_matfile(train_file)
         data = Data(input_data, output_data)
         if reload_model is True:
-            self.load_model_weights(self.model_path)
+            self.load_model_weights(sess)
         else:
             sess.run(self.init)
         
@@ -91,10 +91,12 @@ class Network:
             feed_dict = {self.input_ph:input_batch, self.output_ph:output_batch}
             cur_loss, _ = sess.run([self.loss, self.train_step], feed_dict=feed_dict)
             if epoch % 1000 == 0:
-                print("epoch :",epoch,"\tloss:",cur_loss)
+                print("epoch",epoch,"loss",cur_loss)
                 summary = tf.Summary(value=[tf.Summary.Value(tag="training_loss",simple_value=cur_loss)])
                 self.summary_writer.add_summary(summary, self.count)
                 self.count += 1
+            if epoch % 10000 == 0:
+                self.save_model_weights(sess)
 
         print("Finish training")
         self.save_model_weights(sess)
@@ -112,10 +114,11 @@ class Network:
         test_loss = sess.run(self.loss, feed_dict=feed_dict)
         print("test loss:",test_loss)
     
-    def next_state(self, sess, prev_state, control_input):
+    def predict_next_state(self, sess, prev_state, control_input):
         # Predict the next state based on our trained neural network
-        input_state = np.hstack((prev_state, control_input))
-        feed_dict = {self.input_ph:input_state}
-        return sess.run(self.prediction)
+        # Make sure the state and control input both are shape ([m, n_s]) and ([m, n_a])
+        input_vector = np.hstack((prev_state, control_input))
+        feed_dict = {self.input_ph:input_vector}
+        return sess.run(self.prediction, feed_dict=feed_dict)
     
 
