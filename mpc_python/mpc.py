@@ -1,10 +1,10 @@
 
 from scipy.optimize import minimize
-# import numdifftools as nd
+import numdifftools as nd
 import numpy as np
 from math import *
 from copy import copy
-
+from IPython import embed
 
 class MPC(object):
 	"""docstring for MPC"""
@@ -76,10 +76,29 @@ class MPC(object):
 		return c
 
 	def Jacobian(self, u):
-		# return nd.jacobian(self.CostFunction(u))
+		gradient = np.zeros(self.N)
+		# embed()
+		delta = 0.001
+		c0 = self.CostFunction(u)
+		# print("entered")
+		for i in range(self.N):
+			y = copy(u)
+			# embed()
+			y[i] += delta
+			cPlus = self.CostFunction(y)
+			y[i] -= 2.*delta
+			cMinus = self.CostFunction(y)
+			
+			gradient[i] = (cPlus - cMinus)/(2.*delta)
+			# embed()
+
+		# y = nd.Jacobian(self.CostFunction)
+		# print(y(u))
+		# embed()
+		return gradient
 
 	def optimize(self, uopt, x, u0, xref):
 		self.x = x
 		self.u0 = u0
 		self.xref = xref
-		return minimize(self.CostFunction, uopt, args=(), method='SLSQP', bounds=self.bnds, constraints=self.cons)
+		return minimize(self.CostFunction, uopt, args=(), method='SLSQP',jac=self.Jacobian, bounds=self.bnds, constraints=self.cons)
