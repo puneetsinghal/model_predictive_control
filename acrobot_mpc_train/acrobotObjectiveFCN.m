@@ -15,7 +15,7 @@ function J = acrobotObjectiveFCN(p, xref, u0, params)
         uk = u(:,i);
         xk1 = p(1:4,i);
 %         xk1 = acrobotDynamicsDT(xk1, uk, params);
-        
+       	xref 
         J = J + (xk1-xref)'*Q*(xk1-xref);
 %         J = J + (xk1)'*Q*(xk1);
 
