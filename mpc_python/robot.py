@@ -18,41 +18,50 @@ class Acrobot(object):
 
 	def dynamics(self, x, u):
 
-		theta_1 = x[0][0]
-		theta_2 = x[1][0]
-		dtheta_1 = x[2][0]
-		dtheta_2 = x[3][0]
+		theta_1 = x[0]
+		theta_2 = x[1]
+		dtheta_1 = x[2]
+		dtheta_2 = x[3]
+
+		sine_2 = np.sin(theta_2)
+		cosine_2 = np.cos(theta_2)
 
 		try:
 			M = np.zeros((2,2))
 
-			M[0,0] = self.m1*(self.l1/2)**2 + self.m2*(self.l1**2 + (self.l2/2)**2 + 2*self.l1*(self.l2/2)*np.cos(theta_2)) + self.I1 + self.I2
-			M[0,1] = self.m2*((self.l2/2)**2 + self.l1*(self.l2/2)*np.cos(theta_2)) + self.I2
+			M[0,0] = self.m1*(self.l1/2)**2 + self.m2*(self.l1**2 + (self.l2/2)**2 + 2*self.l1*(self.l2/2)*cosine_2) + self.I1 + self.I2
+			M[0,1] = self.m2*((self.l2/2)**2 + self.l1*(self.l2/2)*cosine_2) + self.I2
 			M[1,0] = M[0,1]
 			M[1,1] = self.m2*(self.l2/2)**2 + self.I2
 
+			# M[0,0] = self.m2*(self.l1**2 + 2*self.l1*(self.l2/2)*cosine_2) + self.I1 + self.I2
+			# M[0,1] = self.m2*(self.l1*(self.l2/2)*cosine_2) + self.I2
+			# M[1,0] = M[0,1]
+			# M[1,1] = self.I2
 			Cor = np.zeros((2,2))
-			Cor[0,0] = -2*self.m2* self.l1*(self.l2/2)*np.sin(theta_2)*dtheta_2
-			Cor[0,1] = -self.m2*self.l1*(self.l2/2)*np.sin(theta_2)*dtheta_2
-			Cor[1,0] = self.m2*self.l1*(self.l2/2)*np.sin(theta_2)*dtheta_1
+			Cor[0,0] = -2*self.m2* self.l1*(self.l2/2)*sine_2*dtheta_2
+			Cor[0,1] = -self.m2*self.l1*(self.l2/2)*sine_2*dtheta_2
+			Cor[1,0] = self.m2*self.l1*(self.l2/2)*sine_2*dtheta_1
 
 			G_vector = np.zeros((2,1))
 			G_vector[0,0] = (self.m1*(self.l1/2) + self.m2*self.l1)*self.g*np.cos(np.pi/2+theta_1) + self.m2* (self.l2/2)*self.g*np.cos(np.pi/2+theta_1 + theta_2)
 			G_vector[1,0] = self.m2*(self.l2/2)*self.g*np.cos(np.pi/2 + theta_1 + theta_2)
 
 			B = np.array([0, 1]).reshape((2,1))
-
-			xk1 = np.zeros((4,1))
-			xk1[0,0] = dtheta_1
-			xk1[1,0] = dtheta_2
+			# B = np.identity(2)
+			xk1 = np.zeros(4)
+			xk1[0] = dtheta_1
+			xk1[1] = dtheta_2
 			# print(np.linalg.pinv(M))
 			# print(B*u)
 			# print(np.matmul(Cor,np.array([dtheta_1, dtheta_2]).reshape((2,1))))
 			# print(G)
 			# print((B*u - np.matmul(Cor, np.array([dtheta_1, dtheta_2]).reshape((2,1))) - G))
 			# print(np.matmul(np.linalg.pinv(M),(B*u - np.matmul(Cor, np.array([dtheta_1, dtheta_2])))))
-			xk1[2:4,:] = np.matmul(np.linalg.pinv(M), (B*u - np.matmul(Cor,np.array([dtheta_1, dtheta_2]).reshape((2,1))) - G_vector))
+			temp = np.matmul(np.linalg.pinv(M), (B*u - np.matmul(Cor,np.array([dtheta_1, dtheta_2]).reshape((2,1))) - G_vector))
+			xk1[2:4] = temp[:,0]
 		except:
+			# pass
 			print(x)
 			
 		return xk1
@@ -101,7 +110,7 @@ class Acrobot(object):
 
 		ani = animation.FuncAnimation(fig, animate, np.arange(1, len(z)), interval=100, blit=True, init_func=init)
 
-		# ani.save('double_pendulum.mp4', fps=15)
+		ani.save('double_pendulum.mp4', fps=15)
 		plt.show()
 
 

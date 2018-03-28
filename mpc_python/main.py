@@ -12,144 +12,158 @@ import time
 import pickle
 import argparse
 from copy import copy
+import scipy.io as sio
 
 from robot import Acrobot
 from mpc import MPC
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', type=str, default='test')
-    parser.add_argument('--suffix', type=str, default='')
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--mode', type=str, default='test')
+	parser.add_argument('--model', type=str, default='acrobot_results')
+	parser.add_argument('--type', type=str, default='waypoints')
 
-    args = parser.parse_args()
-    t = time.time()
+	args = parser.parse_args()
+	t = time.time()
 
 
-    params = {}
-    params['m1'] = 1.
-    params['m2'] = 1.
-    params['l1'] = 0.5
-    params['l2'] = 0.5 
-    params['g'] = -9.81
-    params['I1'] = 0.1
-    params['I2'] = 0.1
-    params['x0'] = np.array([0, 0, 0, 0]).reshape((4,1)) # current state space
-    params['Ts'] = 0.05             # time iteration
-    params['N'] = 10              # Event horizon = 10
-    params['u0'] = 0               # initial force
-    params['Duration'] = 2.5        # max time 
-    params['numIterations'] = int(params['Duration']/params['Ts'])
-    print('total number of iterations are: {}'.format(params['numIterations']))
+	params = {}
+	params['m1'] = 1.
+	params['m2'] = 1.
+	params['l1'] = 0.5
+	params['l2'] = 0.5 
+	params['g'] = -9.81
+	params['I1'] = 0.1
+	params['I2'] = 0.1
+	params['x0'] = np.array([0., 0., 0., 0.])		# current state space
+	params['u0'] = 0.							# initial force
 
-    params['xMidPoints'] = np.array([[0, 0.7022, 0.5790, 0.0513, -1.0845, -1.0845, 1.3254, 2.1820, 2.6058, 3.1416], 
-                            [0, -1.2763, -2.2228, -2.0331, 0.0265, 2.4347, 4.1818, 4.4895, 3.9700, 3.1416],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+	LB = -100.									# input force Lower Bound 
+	UP = 100.									# input force Upper Bound
+	
+	if (args.type == 'waypoints'):
+		params['Ts'] = 0.05						# time iteration
+		params['N'] = 5							# Event horizon = 10
+		params['Duration'] = 2.0				# max time 
+		params['numIterations'] = int(params['Duration']/params['Ts'])
+		# params['waypoints'] = np.array([[0, 0.7022, 0.5790, 0.0513, -1.0845, -1.0845, 1.3254, 2.1820, 2.6058, 3.1416], 
+		#                         [0, -1.2763, -2.2228, -2.0331, 0.0265, 2.4347, 4.1818, 4.4895, 3.9700, 3.1416],
+		#                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+		#                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
-    # params['xMidPoints'] = np.array([[0, 0.7022, 0.5790, 0.0513, -2., -2., 1.3254, 2.1820, 2.6058, 3.1416], 
-    #                         [0, -1.2763, -2.2228, -2.0331, 0.0265, 0.0265, 4.1818, 4.4895, 3.9700, 3.1416],
-    #                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    #                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
-    
-    params['numsegment'] = params['xMidPoints'].shape[1] - 1 # subtracting one to get segments
-    params['Q'] = np.diag([100.,10.,0.1, 0.1])
-    params['R'] = 0.01
+		params['waypoints'] = np.array([[0, 0.7022, 0.5790, 0.0513, -3.0, -3.0, 1.3254, 2.1820, 2.6058, 3.1416, 3.1416, 3.1416], 
+								[0, -1.2763, -2.2228, -2.0331, 0.0265, 0.0265, 4.1818, 4.4895, 3.9700, 3.1416, 3.1416, 3.1416],
+								[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+								[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
+		
+		params['waypoints'][1,:] = params['waypoints'][1,:] - params['waypoints'][0,:]
+		params['waypoints'][3,:] = params['waypoints'][3,:] - params['waypoints'][2,:]
+		params['trajectory']= None
+		params['Q'] = np.diag([100.,10.,0.1, 0.1])
+		params['R'] = 0.01
+		bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))#, (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
 
-    uopt = np.zeros(params['N']) 
-    u0 = params['u0']
-    x = params['x0']
-    
-    # arrays to save data
-    uHistory = np.zeros((params['numIterations']+1))
-    uHistory[0] = u0             # force history
-    xHistory = np.zeros((params['numIterations']+1, 4))
-    xHistory[0,:] = params['x0'][:,0]      # position history
-    xRefHistory = np.zeros((params['numIterations']+1, 4))
+	else:
+		params['Ts'] = 0.02				# time iteration
+		params['N'] = 10				# Event horizon
+		params['waypoints'] = None
+		params['Duration'] = 2.0		# max time 
+		params['numIterations'] = int(params['Duration']/params['Ts'])
 
-    robot = Acrobot(params)
-    print("Robot object created")
+		data = sio.loadmat('acrobot_trajectory.mat')
+		params['trajectory']= data['z']
+		params['trajectory'][1,:] = params['trajectory'][1,:] - params['trajectory'][0,:]
+		params['trajectory'][3,:] = params['trajectory'][3,:] - params['trajectory'][2,:]
+		# print(params['trajectory'].shape)
+		params['Q'] = np.diag([100.,10.,0.1, 0.1])
+		params['R'] = 0.01
+		bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
 
-    LB = -100            # input force Lower Bound 
-    UP = 100             # input force Upper Bound
-    bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
-    controller = MPC(robot, params, bnds)
-    print("Controller object created")
+	print('total number of iterations are: {}'.format(params['numIterations']))
+	uopt = np.zeros(params['N']) 
+	u0 = params['u0']
+	x = params['x0']
+	
+	# arrays to save data
+	uHistory = np.zeros((params['numIterations']+1))
+	uHistory[0] = u0             # force history
+	xHistory = np.zeros((params['numIterations']+1, 4))
+	xHistory[0,:] = params['x0']#[:,0]      # position history
+	# xRefHistory = np.zeros((params['numIterations']+1, 4))
 
-    # cons = ({'type': 'ineq', 'fun': Contraints, 'args':(x, robot,)})
-    # contraint jacobian can also be added to possibly speed up 
-    
-    if (args.mode == 'train'):
-        for ct in range(params['numIterations']):
-            print('iteration # {} of {}'.format(ct, params['numIterations']))
-            
-            # fetch the xref from waypoints
-            index = int(params['numsegment']*ct*params['Ts']/params['Duration']) + 1 
-            xref = copy(params['xMidPoints'][:,index])
-            xref = xref.reshape((4,1))
-            xref[1,0] -= xref[0,0]
-            xref[3,0] -= xref[2,0]
-            xRefHistory[ct,:] = xref[:,0]
-            print("reference value: {}, {}".format(index, xref.T))
+	robot = Acrobot(params)
+	print("Robot object created")
 
-            # optimize
-            results = controller.optimize(uopt, x, u0, xref)
+	controller = MPC(robot, params, bnds, args.type)
+	print("Controller object created")
 
-            # prepare variable for next run and save the output in history arrays
-            uopt = results.x
-            print(uopt.shape)
-            u0 = uopt[0]
-            x = controller.IntegrationEstimation(x, u0, 30)
-            print("next state: {}".format(x.T))
-            
-            uHistory[ct+1] = u0
-            xHistory[ct+1,:] = x[:,0]
+	# cons = ({'type': 'ineq', 'fun': Contraints, 'args':(x, robot,)})
+	# contraint jacobian can also be added to possibly speed up 
 
-        print(time.time()-t)
-        xRefHistory[ct+1,:] = xRefHistory[ct,:] 
-        filename = './acrobot_results' + args.suffix
-        pickle.dump([params, xHistory, uHistory, xRefHistory], open(filename, 'wb'))
-    else:
-        filename = './acrobot_results' + args.suffix
-        params, xHistory, uHistory, xRefHistory = pickle.load(open(filename, 'rb'))   
-    
-    # Displaying Graphs
-    t = np.linspace(0, params['Duration'], params['Duration']/params['Ts']+1)
+	if (args.mode == 'train'):
+		for ct in range(params['numIterations']):
+			t = time.time()
+			print('iteration # {} of {}'.format(ct, params['numIterations']))
 
-    xRefHistory = np.array(xRefHistory)
-    xHistory = np.array(xHistory)
+			# optimize
+			results = controller.optimize(uopt, x, u0)
 
-    f, axarr = plt.subplots(2, 2)
-    axarr[0, 0].plot(t, xHistory[:,0])
-    axarr[0, 0].plot(t, xRefHistory[:,0])
-    axarr[0, 0].set_title('Joint 1 Position')
-    axarr[0, 0].set_xlabel('time')
-    axarr[0, 0].set_ylabel('theta_1')
+			# prepare variable for next run and save the output in history arrays
+			uopt = results.x
+			# print(uopt.shape)
+			u0 = uopt[0]
+			x = controller.IntegrationEstimation(x, u0, 30)
+			print("State Achieved: {}".format(x.T))
+			print("Time taken: {}".format((time.time()-t)))
+			uHistory[ct+1] = u0
+			xHistory[ct+1,:] = x#[:,0]
 
-    axarr[0, 1].plot(t, xHistory[:,1])
-    axarr[0, 1].plot(t, xRefHistory[:,1])
-    axarr[0, 1].set_title('Joint 2 Position')
-    axarr[0, 1].set_xlabel('time')
-    axarr[0, 1].set_ylabel('theta_2')
+		print(time.time()-t)
+		controller.xRefHistory+= [controller.xRefHistory[ct]]
+		xRefHistory = np.array(controller.xRefHistory)
+		filename = './acrobot_results'
+		pickle.dump([params, xHistory, uHistory, xRefHistory], open(filename, 'wb'))
+	else:
+		filename = args.model
+		params, xHistory, uHistory, xRefHistory = pickle.load(open(filename, 'rb'))   
+	
+	# Displaying Graphs
+	t = np.linspace(0, params['Duration'], params['Duration']/params['Ts']+1)
+	# xHistory = np.array(xHistory)
+	# print(xRefHistory)
+	# print(xRefHistory.shape)
+	f, axarr = plt.subplots(2, 2)
+	axarr[0, 0].plot(t, xHistory[:,0])
+	axarr[0, 0].plot(t, xRefHistory[:,0])
+	axarr[0, 0].set_title('Joint 1 Position')
+	axarr[0, 0].set_xlabel('time')
+	axarr[0, 0].set_ylabel('theta_1')
 
-    axarr[1, 0].plot(t, xHistory[:,2])
-    axarr[1, 0].plot(t, xRefHistory[:,2])
-    axarr[1, 0].set_title('Joint 1 Velocity')
-    axarr[1, 0].set_xlabel('time')
-    axarr[1, 0].set_ylabel('ang_vel_1')
+	axarr[0, 1].plot(t, xHistory[:,1])
+	axarr[0, 1].plot(t, xRefHistory[:,1])
+	axarr[0, 1].set_title('Joint 2 Position')
+	axarr[0, 1].set_xlabel('time')
+	axarr[0, 1].set_ylabel('theta_2')
 
-    axarr[1, 1].plot(t, xHistory[:,3])
-    axarr[1, 1].plot(t, xRefHistory[:,3])
-    axarr[1, 1].set_title('Joint 2 Velocity')
-    axarr[1, 1].set_xlabel('time')
-    axarr[1, 1].set_ylabel('ang_vel_2')
+	axarr[1, 0].plot(t, xHistory[:,2])
+	axarr[1, 0].plot(t, xRefHistory[:,2])
+	axarr[1, 0].set_title('Joint 1 Velocity')
+	axarr[1, 0].set_xlabel('time')
+	axarr[1, 0].set_ylabel('ang_vel_1')
 
-    plt.figure()
-    plt.plot(t, uHistory)
-    plt.legend('Actuator Torque')
-    plt.xlabel('time')
-    plt.ylabel('inputs')
+	axarr[1, 1].plot(t, xHistory[:,3])
+	axarr[1, 1].plot(t, xRefHistory[:,3])
+	axarr[1, 1].set_title('Joint 2 Velocity')
+	axarr[1, 1].set_xlabel('time')
+	axarr[1, 1].set_ylabel('ang_vel_2')
 
-    robot.animate(xHistory)
-    plt.show()
+	plt.figure()
+	plt.plot(t, uHistory)
+	plt.legend('Actuator Torque')
+	plt.xlabel('time')
+	plt.ylabel('inputs')
+
+	robot.animate(xHistory)
+	plt.show()
 
