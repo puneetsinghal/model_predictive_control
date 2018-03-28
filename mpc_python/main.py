@@ -76,7 +76,8 @@ if __name__ == '__main__':
 		params['trajectory'][1,:] = params['trajectory'][1,:] - params['trajectory'][0,:]
 		params['trajectory'][3,:] = params['trajectory'][3,:] - params['trajectory'][2,:]
 		# print(params['trajectory'].shape)
-		params['Q'] = np.diag([100.,10.,0.1, 0.1])
+		# params['Q'] = np.diag([100.,10.,0.1, 0.1])
+		params['Q'] = np.diag([1., 1., 100., 1.])
 		params['R'] = 0.01
 		bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
 
@@ -122,7 +123,7 @@ if __name__ == '__main__':
 		print(time.time()-t)
 		controller.xRefHistory+= [controller.xRefHistory[ct]]
 		xRefHistory = np.array(controller.xRefHistory)
-		filename = './acrobot_results'
+		filename = './models/acrobot_results'
 		pickle.dump([params, xHistory, uHistory, xRefHistory], open(filename, 'wb'))
 	else:
 		filename = args.model
