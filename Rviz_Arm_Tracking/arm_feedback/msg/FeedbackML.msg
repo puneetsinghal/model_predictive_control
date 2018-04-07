@@ -1,0 +1,10 @@
+std_msgs/Header header
+sensor_msgs/JointState jointState
+trajectory_msgs/JointTrajectoryPoint trajectoryCmd
+float64[] deflections
+float64[] velocityFlt
+float64[] windingTemp
+float64[] windingTempFlt
+float64[] torqueCmd
+float64[] torqueID
+float64[] accel

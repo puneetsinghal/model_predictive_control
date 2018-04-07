@@ -1,0 +1,31 @@
+<launch>
+	<!-- Spawn two arms -->
+	<arg name="rvizconfig" default="$(find arm_rviz)/rviz/imr_arm_rviz.rviz" /> 
+  <arg name="gui" default="False" />
+
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(find arm_rviz)/urdf/imr_arm_rviz_updated.urdf.xacro' prefix:=-0.5" />
+  <param name="use_gui" value="$(arg gui)" />
+  <param name="use_sim_time" type="bool" value="false"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="$(arg rvizconfig)" required="true" />
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  	<rosparam param="source_list">[jointState_fbk]</rosparam>
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+	</node>
+	
+	<group ns="arm2">
+		<param name="robot_description" command="$(find xacro)/xacro.py '$(find arm_rviz)/urdf/imr_arm_rviz_updated.urdf.xacro' prefix:=0.5" />
+		<node name="joint_state_publisher2" pkg="joint_state_publisher" type="joint_state_publisher">
+			<rosparam param="source_list">[jointState_fbk]</rosparam>
+			<rosparam param="tf_prefix">"arm2"</rosparam>
+		</node>
+		<node name="robot_state_publisher2" pkg="robot_state_publisher" type="state_publisher">
+			<rosparam param="tf_prefix">"arm2"</rosparam>
+		</node>
+	</group>
+
+	<node pkg="tf" type="static_transform_publisher" name="world"
+	args="0 0 0 0 0 0 world /arm2/world 100"/>-->
+
+</launch>
