@@ -1,6 +1,6 @@
 # Author:
 #     Puneet Singhal: puneetatpks@gmail.com
-#     Aditya Raghu Chavvali:
+#     Aditya Raghu Chavvali: adikiran007@gmail.com
 
 # For detailed information on the minimize function visit:
 # https://docs.scipy.org/doc/scipy/reference/tutorial/optimize.html
@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--mode', type=str, default='test')
-	parser.add_argument('--model', type=str, default='acrobot_results')
+	parser.add_argument('--model', type=str, default='./models/acrobot_results')
 	parser.add_argument('--type', type=str, default='waypoints')
 
 	args = parser.parse_args()
@@ -34,8 +34,8 @@ if __name__ == '__main__':
 	params['l1'] = 0.5
 	params['l2'] = 0.5 
 	params['g'] = -9.81
-	params['I1'] = 0.1
-	params['I2'] = 0.1
+	params['I1'] = 0.0
+	params['I2'] = 0.0
 	params['x0'] = np.array([0., 0., 0., 0.])		# current state space
 	params['u0'] = 0.							# initial force
 
@@ -66,9 +66,9 @@ if __name__ == '__main__':
 
 	else:
 		params['Ts'] = 0.02				# time iteration
-		params['N'] = 10				# Event horizon
+		params['N'] = 20				# Event horizon
 		params['waypoints'] = None
-		params['Duration'] = 2.0		# max time 
+		params['Duration'] = 2.		# max time 
 		params['numIterations'] = int(params['Duration']/params['Ts'])
 
 		data = sio.loadmat('acrobot_trajectory.mat')
@@ -77,9 +77,9 @@ if __name__ == '__main__':
 		params['trajectory'][3,:] = params['trajectory'][3,:] - params['trajectory'][2,:]
 		# print(params['trajectory'].shape)
 		# params['Q'] = np.diag([100.,10.,0.1, 0.1])
-		params['Q'] = np.diag([1., 1., 100., 1.])
+		params['Q'] = np.diag([1., 1., 1., 1.])
 		params['R'] = 0.01
-		bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
+		bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
 
 	print('total number of iterations are: {}'.format(params['numIterations']))
 	uopt = np.zeros(params['N']) 
