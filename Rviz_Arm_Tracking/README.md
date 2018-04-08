@@ -7,7 +7,7 @@ Authors: Ky Woodard (arm_rviz/arm_feedback) and Megan Yu (trace_path)
 
 ## How to Run
  ```
-  roslaunch arm_rviz imr_arm_rviz.launch
+  roslaunch arm_rviz kdc_arm.launch
  ```
 - Now start a new terminal and run the following
 ```
