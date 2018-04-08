@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="imr_arm">
+	<link name="world"/>
+    <link name="X5-9">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="0.35" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+							<mesh filename="package://arm_rviz/meshes/X5-9.dae"/>
+            </geometry>
+        </visual>
+        <!-- <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.001"/>
+            </geometry>
+        </collision> -->
+    </link>
+    <link name="base">
+        <inertial>
+            <origin rpy="0 0 0" xyz="-0.005 0.016 0.044" />
+            <mass value="0.6216" />
+            <inertia ixx="0.00528" ixy="0.000041" ixz="-0.000036" iyy="0.000743" iyz="0.000021" izz="0.000516"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                 <mesh filename="package://arm_rviz/meshes/base_assembly.dae"/>
+            </geometry>
+        </visual>
+        <!-- <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </collision> -->
+    </link>
+    <link name="link1">
+        <origin rpy="0 0 0" xyz="0 0.001 0.212" />
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <mass value="0.6616" />
+            <inertia ixx="0.006440" ixy="0.000006" ixz="0.000007" iyy="0.006426" iyz="0.000596" izz="0.000393"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                 <mesh filename="package://arm_rviz/meshes/link1_assembly.dae"/>
+            </geometry>
+        </visual>
+        <!-- <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </collision> -->
+    </link>
+     <link name="link2">
+        <inertial>
+            <origin rpy="0 0 0" xyz="-0.001 0 0.210" />
+            <mass value="6.6416" />
+            <inertia ixx="0.006348" ixy="0.000006" ixz="-0.000008" iyy="0.006331" iyz="-0.000585" izz="0.000385" />
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                 <mesh filename="package://arm_rviz/meshes/link2_assembly.dae"/>
+            </geometry>
+        </visual>
+     <!-- <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.001"/>
+            </geometry>
+        </collision>-->
+    </link>
+     <link name="wrist">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.010 -0.035 0.050" />
+            <mass value="0.4014" />
+            <inertia ixx="0.000311" ixy="-0.000138" ixz="0.000028" iyy="-0.000383" iyz="-0.000063" izz="0.000941"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                 <mesh filename="package://arm_rviz/meshes/wrist_assembly.dae"/>
+            </geometry>
+        </visual>
+     <!-- <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.001"/>
+            </geometry>
+        </collision>-->
+    </link>
+
+     <link name="EE">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.001" />
+            <mass value="0.001" />
+            <inertia ixx="0.000001" ixy="0.000001" ixz="0.000001" iyy="0.000001" iyz="0.000001" izz="0.000001"/>
+        </inertial>
+        <!-- <visual>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                 <mesh filename="package://arm_rviz/meshes/wrist_assembly.dae"/>
+            </geometry>
+        </visual> -->
+     <!-- <collision>
+            <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+                <box size="0.1 0.1 0.001"/>
+            </geometry>
+        </collision>-->
+    </link>
+
+		<joint name="Joint0" type="fixed">
+				<origin rpy="0 0 0" xyz="$(arg prefix) 0 0"/>
+				<parent link="world"/>
+        <child link="X5-9"/>
+    </joint>
+
+    <joint name="Joint1" type="continuous">
+        <origin rpy="0 0 0" xyz="0 0 0.031"/>
+        <axis xyz="0 0 1"/>
+        <parent link="X5-9"/>
+        <child link="base"/>
+        <!-- <limit lower="-2.6" upper="2.6" effort="9.0" velocity="1.5"/> -->
+        <dynamics damping="11.0" friction="0.0"/>
+    </joint>
+    
+    <joint name="Joint2" type="continuous">
+        <origin rpy="0 0 0" xyz="0 -0.006 0.055"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="base"/>
+        <child link="link1"/>
+        <!-- <limit lower="-3.14" upper="3.14" effort="9.0" velocity="1.5"/> -->
+        <dynamics damping="11.0" friction="0.0"/>
+    </joint>
+
+    <joint name="Joint3" type="continuous">
+        <origin rpy="0 0 0" xyz="0 0.031 0.280"/>
+        <axis xyz="0 1 0"/>
+        <parent link="link1"/>
+        <child link="link2"/>
+        <!-- <limit lower="-6.4" upper="6.6" effort="9.0" velocity="1.5"/> -->
+        <dynamics damping="10.0" friction="0.0"/>
+    </joint>
+    <joint name="Joint4" type="continuous">
+        <origin rpy="0 0 0" xyz="0 -0.031 0.280"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="link2"/>
+        <child link="wrist"/>
+        <!-- <limit effort="9.0" velocity="1.5"/> -->
+        <dynamics damping="9.0" friction="0.0"/>
+    </joint>
+    <joint name="Joint5" type="continuous">
+        <origin rpy="0 0 0" xyz="0 -0.04 0.07"/>
+        <axis xyz="0 -1 0"/>
+        <parent link="wrist"/>
+        <child link="EE"/>
+        <!-- <limit effort="9.0" velocity="1.5"/> -->
+        <dynamics damping="9.0" friction="0.0"/>
+    </joint>
+</robot>

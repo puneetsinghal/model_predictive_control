@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: arm_rviz
+    relative_path: urdf/imr_arm_rviz_updated.urdf
+  SRDF:
+    relative_path: config/imr_arm.srdf
+  CONFIG:
+    author_name: Kalyan
+    author_email: kalyanv@andrew.cmu.edu
+    generated_timestamp: 1523148529

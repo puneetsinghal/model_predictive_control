@@ -1,0 +1,27 @@
+<launch>
+
+<!-- 	<param name="model" textfile="$(find arm_rviz)/urdf/imr_arm_rviz_updated.urdf" />
+  <arg name="rvizconfig" default="$(find arm_rviz)/rviz/imr_arm_rviz.rviz" />
+  <arg name="gui" default="False" />
+
+  <param name="robot_description" textfile="$(find arm_rviz)/urdf/imr_arm_rviz_updated.urdf" />
+  <param name="use_gui" value="$(arg gui)" />
+  <param name="use_sim_time" type="bool" value="false"/>
+ 
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+     <rosparam param="source_list">["/jointState_fbk"]</rosparam>
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" /> -->
+
+  
+  <include file="$(find bio_arm_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>  
+
+  <rosparam command="load" file="$(find bio_arm_config)/config/kinematics.yaml"/>
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+  <node name="arm_feedback" pkg="arm_feedback" type="arm_feedback" respawn="true"/>
+  <node name="ref_path" pkg="trace_path" type="ref_path" respawn="false"/>
+ -->
+</launch>
