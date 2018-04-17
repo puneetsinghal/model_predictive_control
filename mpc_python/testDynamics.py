@@ -1,6 +1,7 @@
 from scipy.integrate import ode
 from robot import Acrobot
 import numpy as np
+from IPython import embed
 
 def IntegrationEstimation(xk, uk, Ts, M = 5):
 	# Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)
@@ -25,12 +26,15 @@ if __name__ == '__main__':
 	params['I1'] = 0.1
 	params['I2'] = 0.1
 
-	params['x0'] = np.array([1.0, 0, 0, 0]).reshape((4,1)) # current state space
+	params['x0'] = np.array([1.0, 0, 0, 0])# current state space
 	params['Ts'] = 0.01             # time iteration
 	params['N'] = 10              # Event horizon = 10
 	params['u0'] = 0               # initial force
 
 	robot = Acrobot(params)
+
+	# params['x0'] = np.array(np.random.uniform(-1,1,4))
+	# params['u0'] = np.array(np.random.uniform(-5,5,2))
 
 	# results = ode45(@(t,x)acrobotDynamicsCT(t, x, u, params), linspace(0,4,4/params.Ts), x0);
 
@@ -38,15 +42,17 @@ if __name__ == '__main__':
 	energy = np.zeros((int(10.0/params['Ts']),1))
 	xk = params['x0']
 	uk = 0
-	xHistory = [xk[:,0].tolist()]
+	xHistory = [xk.tolist()]
 
 	for i in range(int(10.0/params['Ts'])):
 		xk = IntegrationEstimation(xk, uk, params['Ts'], 30)
 
-		KE = 0.5*params['m1']*(params['l1']**2)/4*xk[2,0]**2 + params['m2']*(0.5*params['l1']**2*xk[2,0]**2 + 0.5*(params['l2']**2)/4*(xk[2,0] + xk[3,0])**2 + params['l1']*params['l2']/2*xk[2,0]*(xk[2,0] + xk[3,0]))*np.cos(xk[1,0])+ 0.5*params['I1']*xk[2,0]**2 + 0.5*params['I2']*xk[3,0]**2
+		KE = 0.5*params['m1']*(params['l1']**2)/4*xk[2]**2 + params['m2']*(0.5*params['l1']**2*xk[2]**2 + 0.5*(params['l2']**2)/4*(xk[2] + xk[3])**2 + params['l1']*params['l2']/2*xk[2]*(xk[2] + xk[3]))*np.cos(xk[1])+ 0.5*params['I1']*xk[2]**2 + 0.5*params['I2']*xk[3]**2
 
-		PE = params['m1']*params['l1']/2*params['g']*(np.cos(xk[0,0])) + params['m2']*params['g']*(params['l1']*np.cos(xk[0,0])+ params['l2']/2*np.cos(xk[0,0] + xk[1,0]))
+		PE = params['m1']*params['l1']/2*params['g']*(np.cos(xk[0])) + params['m2']*params['g']*(params['l1']*np.cos(xk[0])+ params['l2']/2*np.cos(xk[0] + xk[1]))
 
 		energy[i] = KE + PE
-		xHistory += [xk[:,0].tolist()]
+		xHistory += [xk[:].tolist()]
+		# embed()
+	# embed()
 	robot.animate(np.array(xHistory))
