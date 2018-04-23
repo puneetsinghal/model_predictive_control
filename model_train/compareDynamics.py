@@ -18,6 +18,27 @@ def IntegrationEstimation(xk, uk, Ts, M = 5):
         xk1 = xk1 + delta*(k1/6 + k2/3 + k3/3 + k4/6)
     return xk1
 
+def Purturb(purturbed_params, percentage):
+    purturbed_params = {}
+    purturbed_params['m1'] = 1.
+    purturbed_params['m2'] = 1.
+    purturbed_params['l1'] = 0.5
+    purturbed_params['l2'] = 0.5 
+    purturbed_params['g'] = params['g']
+    purturbed_params['I1'] = 0.1
+    purturbed_params['I2'] = 0.1
+
+    purturbed_params['x0'] = np.array([1, 0, 0, 0]).reshape((4,1)) # current state space
+    purturbed_params['Ts'] = 0.01             # time iteration
+    purturbed_params['N'] = 10              # Event horizon = 10
+    purturbed_params['u0'] = 0               # initial force
+    
+   
+    
+    
+    return purturbed_params
+
+
 if __name__ == '__main__':
     # Set up analytical model
     params = {}
@@ -69,8 +90,6 @@ if __name__ == '__main__':
             
             net_xk = network.predict_next_state(test_sess, net_xk, net_uk)            
             net_xHistory += [net_xk[0,:].tolist()] 
-        print(np.array(sim_xHistory).shape)
-        print(np.array(net_xHistory).shape)
     robot.animate(np.array(net_xHistory))
 
 
