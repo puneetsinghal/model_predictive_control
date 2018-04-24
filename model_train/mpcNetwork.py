@@ -25,7 +25,8 @@ class Data:
 
 # Acrobot network
 class Network:
-    def __init__(self, lrn_rate, total_epoch, batch_size, network_type, model_path, log_path):
+    def __init__(self, lrn_rate=0.001, total_epoch=1000, batch_size=256, network_type='Feedforward', \
+            model_path=None, log_path=None):
         self.lrn_rate = lrn_rate
         self.total_epoch = total_epoch
         self.batch_size = batch_size
