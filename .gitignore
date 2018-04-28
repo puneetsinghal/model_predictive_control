@@ -1,5 +1,7 @@
+__pycache__
 .DS_Store
-.swp
+*.swp
 logs
 model
 mpc_python_backup
+**.npy

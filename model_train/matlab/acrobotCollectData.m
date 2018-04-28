@@ -54,7 +54,7 @@ save('train_data.mat','Input_data','Output_data');
 
 sprintf('finish generating training points');
 % Total data points to collect
-test_points = 10000;
+test_points = 1000;
 %	Input column: [sita0, sita1, w0, w1, tau]
 % Output columt: [sita0, sita1, w0, w1] (t+1)
 Input_data = zeros(5,test_points);
@@ -96,8 +96,8 @@ save('test_data.mat','Input_data','Output_data');
 
 % Return a random input data within a reasonable range
 function x_rand = rand_state()
-	sita_min = -pi;
-	sita_max = pi;
+	sita_min = -2*pi;
+	sita_max = 2*pi;
 	w_min = -20;
 	w_max = 20;
 	
