@@ -88,59 +88,63 @@ class RNNNetwork():
         
         return sess.run([self.final_prediction], 
                 feed_dict={self.rnn_inputs:prev_state, self.network_batch_size:1})
-    
 
 
-# Build network
+def main():
+    # Build network
+    time_steps = 5
+    batch_size = 200
+    num_batch = 10
+    input_state_size = 5 # [sita1 w1 sita2 w2 torque]_t
+    output_state_size = 4 # [sita1 w1 sita2 w2]_t+1
+    hidden_state_size = 10
+    num_epoch = 100000
+    lrn_rate = 1e-4
 
-time_steps = 5
-batch_size = 200
-num_batch = 10
-input_state_size = 5 # [sita1 w1 sita2 w2 torque]_t
-output_state_size = 4 # [sita1 w1 sita2 w2]_t+1
-hidden_state_size = 10
-num_epoch = 100000
-lrn_rate = 1e-4
+    # Build computational graph
+    network_batch_size = tf.placeholder(tf.int32, [])
 
-# Build computational graph
-network_batch_size = tf.placeholder(tf.int32, [])
+    rnn_inputs = tf.placeholder(tf.float32, [None, None, input_state_size])
+    actual_state = tf.placeholder(tf.float32, [None, None, output_state_size])
 
-rnn_inputs = tf.placeholder(tf.float32, [None, None, input_state_size])
-actual_state = tf.placeholder(tf.float32, [None, None, output_state_size])
-
-#cell = tf.contrib.rnn.BasicRNNCell(hidden_state_size)
-cell = tf.contrib.rnn.LSTMCell(hidden_state_size, state_is_tuple=True)
-init_states = cell.zero_state(network_batch_size, tf.float32)
-rnn_outputs, final_state = tf.nn.dynamic_rnn(cell, rnn_inputs, initial_state=init_states)
+    #cell = tf.contrib.rnn.BasicRNNCell(hidden_state_size)
+    cell = tf.contrib.rnn.LSTMCell(hidden_state_size, state_is_tuple=True)
+    init_states = cell.zero_state(network_batch_size, tf.float32)
+    rnn_outputs, final_state = tf.nn.dynamic_rnn(cell, rnn_inputs, initial_state=init_states)
 
 
-outputs = tf.reshape(rnn_outputs, [-1, hidden_state_size])
-print(outputs)
+    outputs = tf.reshape(rnn_outputs, [-1, hidden_state_size])
+    print(outputs)
 
-another = tf.layers.dense(outputs, output_state_size, activation=tf.nn.relu)
+    another = tf.layers.dense(outputs, output_state_size, activation=tf.nn.relu)
 
-W = tf.get_variable('W', [hidden_state_size, output_state_size])
-b = tf.get_variable('b', [output_state_size])
-predictions = tf.matmul(outputs, W) + b
-print(predictions)
-print(actual_state)
-loss = tf.losses.mean_squared_error(predictions, tf.reshape(actual_state, [-1, output_state_size]))
-print(loss)
+    W = tf.get_variable('W', [hidden_state_size, output_state_size])
+    b = tf.get_variable('b', [output_state_size])
+    predictions = tf.matmul(outputs, W) + b
+    print(predictions)
+    print(actual_state)
+    loss = tf.losses.mean_squared_error(predictions, tf.reshape(actual_state, [-1, output_state_size]))
+    print(loss)
 
-train_step = tf.train.AdamOptimizer(learning_rate=lrn_rate).minimize(loss)
+    train_step = tf.train.AdamOptimizer(learning_rate=lrn_rate).minimize(loss)
 
-print(final_state[1])
+    print(final_state[1])
 
-final_prediction = tf.matmul(final_state[1], W) + b
+    final_prediction = tf.matmul(final_state[1], W) + b
 
-input_epoch, output_epoch = gen_epoch('train_data.mat', batch_size, time_steps, input_state_size, output_state_size)
-print(num_batch)
-with tf.Session() as sess:
-    # Initialize network
-    sess.run(tf.global_variables_initializer())
-    for epoch in range(num_epoch):
-        for batch in range(num_batch):
-            train_loss, _  = sess.run([loss, train_step], feed_dict={network_batch_size:batch_size,rnn_inputs:input_epoch[batch], actual_state:output_epoch[batch]})
-        if epoch % 100 == 0:
-            print("epoch", epoch, "loss", train_loss)
-    
+    input_epoch, output_epoch = gen_epoch('train_data.mat', batch_size, time_steps, input_state_size, output_state_size)
+    print(num_batch)
+    with tf.Session() as sess:
+        # Initialize network
+        sess.run(tf.global_variables_initializer())
+        for epoch in range(num_epoch):
+            for batch in range(num_batch):
+                train_loss, _  = sess.run([loss, train_step], feed_dict={network_batch_size:batch_size,rnn_inputs:input_epoch[batch], actual_state:output_epoch[batch]})
+            if epoch % 100 == 0:
+                print("epoch", epoch, "loss", train_loss)
+
+if __name__ == '__main__':
+    main()
+
+
+

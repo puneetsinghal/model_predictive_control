@@ -3,6 +3,35 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 
+
+def IntegrationEstimation(xk, uk, Ts, robot, M = 5):
+	# Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)
+	# Better ODE solvers can be used here 
+	delta = Ts/M
+	xk1 = xk
+	for ct in range(M):
+		k1 = robot.dynamics(xk1, uk)
+		k2 = robot.dynamics(xk1 + k1*delta/2, uk)
+		k3 = robot.dynamics(xk1 + k2*delta/2, uk)
+		k4 = robot.dynamics(xk1 + k3*delta, uk)
+		xk1 = xk1 + delta*(k1/6 + k2/3 + k3/3 + k4/6)
+	return xk1
+
+
+def Energy(params, xk):
+    KE = 0.5*params['m1']*(params['l1']**2)/4*xk[2,0]**2 + \
+            params['m2']*(0.5*params['l1']**2*xk[2,0]**2 + \
+            0.5*(params['l2']**2)/4*(xk[2,0] + xk[3,0])**2 + \
+            params['l1']*params['l2']/2*xk[2,0]*(xk[2,0] + xk[3,0]))*np.cos(xk[1,0])+ \
+            0.5*params['I1']*xk[2,0]**2 + 0.5*params['I2']*xk[3,0]**2
+
+    PE = params['m1']*params['l1']/2*params['g']*(np.cos(xk[0,0])) + \
+            params['m2']*params['g']*(params['l1']*np.cos(xk[0,0])+ \
+            params['l2']/2*np.cos(xk[0,0] + xk[1,0]))
+
+    return KE + PE
+
+
 class Acrobot(object):
 	"""docstring for ClassName"""
 	def __init__(self, params):
