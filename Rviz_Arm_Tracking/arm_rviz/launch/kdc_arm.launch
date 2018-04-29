@@ -19,6 +19,7 @@
   </include>  
 
   <rosparam command="load" file="$(find bio_arm_config)/config/kinematics.yaml"/>
+  <node name="kdc_arm_feedback" pkg="arm_feedback" type="kdc_arm_feedback" respawn="true"/>
   <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 
   <node name="arm_feedback" pkg="arm_feedback" type="arm_feedback" respawn="true"/>

@@ -1,6 +1,6 @@
 
 from scipy.optimize import minimize
-import numdifftools as nd
+#import numdifftools as nd
 import numpy as np
 from math import *
 from copy import copy

@@ -2,6 +2,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+import sys
+import rospy
+from arm_feedback.srv import *
+
+
+class  KdcArm(object):
+	"""docstring for  KdcArm"""
+	def __init__(self, params):
+		pass
+	
+	def dynamics(self, x, u):
+		rospy.wait_for_service('forwardDynamics')
+		try:
+			fds = rospy.ServiceProxy('forwardDynamics', FI)
+			res = fds(x+u)
+			return res.output
+		except rospy.ServiceException, e:
+			print "Service call failed: %s"%e
+
 
 class Acrobot(object):
 	"""docstring for ClassName"""
