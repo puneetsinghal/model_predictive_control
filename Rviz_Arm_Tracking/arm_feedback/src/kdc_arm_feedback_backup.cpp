@@ -27,6 +27,10 @@
 #include <ros/console.h>
 #include <arm_dynamics.hpp>
 #include <arm_kinematics.cpp>
+#include <boost/numeric/odeint.hpp>
+
+#include <boost/array.hpp>
+
 using namespace Eigen;
 using namespace std;
 
@@ -51,14 +55,20 @@ int main(int argc, char* argv[])
   ROS_INFO(" Hello World Kalyan !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
   VectorXd theta(5);
-  theta << 0,0,0,0,0;
+  theta << 0.6,0.1,0.2,0.3,0;
   VectorXd omega(5);
   omega << 0,0,0,0,0;
   VectorXd alpha(5);
   alpha << 0,0,0,0,0;
-  VectorXd torque;
+  Eigen::VectorXd torque;
 
-  inverseDynamics(theta, omega, alpha, torque);
+  forwardDynamics(theta, omega, alpha, torque);
+
+  for (int i =0; i < 5; ++i)
+  {
+    
+    ROS_INFO("joint[%i]: %f", i, torque[i]);
+  }
 
   /*forwardDynamics(const Eigen::VectorXd &theta, const Eigen::VectorXd &omega, 
             const Eigen::VectorXd &torque,  Eigen::VectorXd &alpha)*/
@@ -69,7 +79,7 @@ int main(int argc, char* argv[])
   // clean tutorial on using the kinematics
   // http://docs.ros.org/indigo/api/moveit_tutorials/html/doc/pr2_tutorials/kinematics/src/doc/kinematic_model_tutorial.html  
   // https://github.com/ros-planning/moveit_tutorials/blob/indigo-devel/doc/pr2_tutorials/kinematics/src/kinematic_model_tutorial.cpp
-  ArmKinematics kin_solver;
+ /* ArmKinematics kin_solver;
   vector<double> angles(5,0);
 
   // forward kinematics
@@ -79,7 +89,7 @@ int main(int argc, char* argv[])
   bool success = kin_solver.inverseKinematics(end_effector_pose, angles);
 
   cout << "Inverse Kinematics case: "<< success << endl;
-
+*/
   return 0;
 
 }

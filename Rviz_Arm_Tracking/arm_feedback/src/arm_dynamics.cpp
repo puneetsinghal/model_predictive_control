@@ -58,7 +58,8 @@
 #include <arm_dynamics.hpp>
 #include <math.h>
 #include <eigen3/Eigen/Eigen>
-
+#include "ros/ros.h"
+#include <ros/console.h>
 void gravityComp(const std::vector<double> &theta, std::vector<double> &torque)
 {
 	double g = 9.81; //Gravity
@@ -116,7 +117,7 @@ void forwardDynamics(const Eigen::VectorXd &theta, const Eigen::VectorXd &omega,
 	Eigen::VectorXd fric_torque(5);
 	Eigen::VectorXd vec_f(5);
 
-	Eigen::VectorXd comp_alpha(5);
+	Eigen::VectorXd comp_alpha;
 
 	vec_f << 8.,9.5,8.,2.,9.;  //Changed friction of 0th and 2nd joint from 10
 	ViscousFriction << vec_f[0],0,0,0,0,
@@ -166,6 +167,8 @@ void forwardDynamics(const Eigen::VectorXd &theta, const Eigen::VectorXd &omega,
 	gravity(theta,gravity_torque);
 
 	//Compute the forward dynamics angular accelerations
+	//ROS_INFO("rank %f", Inertia.rank());
+
 	alpha = (Inertia.inverse())*(torque - (gravity_torque + Corriolis*omega + ViscousFriction*omega));
 }
 
@@ -199,7 +202,7 @@ void inverseDynamics(const Eigen::VectorXd &theta,const Eigen::VectorXd &omega,
 	torque = Inertia*alpha+Corriolis*omega+gravity_torque+ViscousFriction*omega;
 }
 
-
+/*
 void inverseDynamics(const Eigen::VectorXd &theta,const Eigen::VectorXd &omega,
 					const Eigen::VectorXd &alpha,std::vector<double> &torque)
 {
@@ -207,7 +210,7 @@ void inverseDynamics(const Eigen::VectorXd &theta,const Eigen::VectorXd &omega,
 	Eigen::MatrixXd Corriolis(5,5);
 	Eigen::MatrixXd ViscousFriction(5,5);
 	Eigen::VectorXd gravity_torque(5);
-	Eigen::VectorXd comp_torque(5);
+	Eigen::VectorXd comp_torque;
 	Eigen::VectorXd fric_torque(5);
 	Eigen::VectorXd vec_f(5);
 
@@ -233,7 +236,7 @@ void inverseDynamics(const Eigen::VectorXd &theta,const Eigen::VectorXd &omega,
 	{
 		torque[i] = comp_torque[i];
 	}
-}
+}*/
 
 void gravity(const Eigen::VectorXd &theta,Eigen::VectorXd &torque)
 {
@@ -287,7 +290,7 @@ void gravity(const Eigen::VectorXd &theta,Eigen::VectorXd &torque)
 void inertia(const Eigen::VectorXd &theta,Eigen::MatrixXd &Inertia)
 {
 	//Masses of each of the links
-	double m[5] = {0.6216,0.6616,0.6416,0.4014,0};
+	double m[5] = {0.6216,0.6616,0.6416,0.4014,0.00001};
 	//Center of mass of each link
 	double COM[5][3] = {{-0.005,0.016,0.044},{0.,0.001,0.212},
 					  {-0.001,0.,0.210},{0.010,-0.035,0.050},

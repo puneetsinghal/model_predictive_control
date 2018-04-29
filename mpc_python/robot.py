@@ -16,6 +16,7 @@ class  KdcArm(object):
 		rospy.wait_for_service('forwardDynamics')
 		try:
 			fds = rospy.ServiceProxy('forwardDynamics', FI)
+			print "Debug############"
 			res = fds(x+u)
 			return res.output
 		except rospy.ServiceException, e:

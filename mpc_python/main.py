@@ -16,7 +16,7 @@ import argparse
 from copy import copy
 import scipy.io as sio
 
-from robot import Acrobot
+from robot import *
 from mpc import MPC
 
 if __name__ == '__main__':
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 	params['I1'] = 0.0
 	params['I2'] = 0.0
 	params['I3'] = 0.0
-	params['x0'] = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])		# current state space - edited for 5DOF
+	params['x0'] = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])		# current state space - edited for 5DOF
 	params['u0'] = np.array([0.,0.,0.,0.,0.])							# initial force - edited
 
 	LB = np.array([-100., -100., -100., -100.,-100.])		# input force Lower Bound - modified for 5 DOF
@@ -109,15 +109,21 @@ if __name__ == '__main__':
 	x = params['x0']
 	
 	# arrays to save data
-	uHistory = np.zeros((params['numIterations']+1),5)
+
+	
+
+	uHistory = np.zeros((params['numIterations']+1,5))
 	uHistory[0,:] = u0             # force history
 	xHistory = np.zeros((params['numIterations']+1, 10))
 	xHistory[0,:] = params['x0']#[:,0]      # position history
-	# xRefHistory = np.zeros((params['numIterations']+1, 4))
-	'''
+	xRefHistory = np.zeros((params['numIterations']+1, 4))
 	##################### KALYAN THIS HAS TO BE CHANGED##################
 	robot = KdcArm(params)
 	print("Robot object created")
+
+	print robot.dynamics( [1., 0., 0., 0., 0., 0., 0., 0., 0., 0.] , [.0,.0,.0,.0,.0])
+
+	'''
 
 	controller = MPC(robot, params, bnds, args.type)
 	print("Controller object created")

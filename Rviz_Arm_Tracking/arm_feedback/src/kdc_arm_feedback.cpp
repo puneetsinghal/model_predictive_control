@@ -57,15 +57,16 @@ public:
     VectorXd torque(5);
     torque << req.input[10],req.input[11],req.input[12],req.input[13],req.input[14];
 
-    std::vector<double> alpha;
+    Eigen::VectorXd alpha;
     
     forwardDynamics(theta, omega, torque, alpha); 
     
-    
+    res.output.resize(5);
 
     for (int i =0; i < 5; ++i)
     {
       res.output[i] = alpha[i];
+      ROS_INFO("joint[%i]: %f", i, res.output[i]);
     }
 
     res.status = true;
@@ -82,15 +83,16 @@ public:
     VectorXd alpha(5);
     alpha << req.input[10],req.input[11],req.input[12],req.input[13],req.input[14];
 
-    std::vector<double> torque;
+    Eigen::VectorXd torque;
     
     inverseDynamics(theta, omega,  alpha,  torque); 
     
-    
+    res.output.resize(5);
 
     for (int i =0; i < 5; ++i)
     {
-      res.output[i] = torque[i];
+      res.output[i] = 2;//torque[i];
+      ROS_INFO("joint[%i]: %f", i, res.output[i]);
     }
 
     res.status = true;
@@ -108,7 +110,7 @@ public:
     }
 
     Eigen::Affine3d end_effector_pose = kin_solver.forwardKinematics(angles);
-
+    res.output.resize(3);
     res.output[0] = end_effector_pose(0,3);
     res.output[1] = end_effector_pose(1,3);
     res.output[2] = end_effector_pose(2,3);
@@ -138,8 +140,8 @@ public:
   {
     fds_ = nh_.advertiseService("forwardDynamics", &FI::forwardDynamicsSrv, this);
     ids_ = nh_.advertiseService("inverseDynamics", &FI::inverseDynamicsSrv, this);
-    fks_ = nh_.advertiseService("forwardKinematics", &FI::forwardDynamicsSrv, this);
-    iks_ = nh_.advertiseService("inverseKinematics", &FI::inverseDynamicsSrv, this);
+    fks_ = nh_.advertiseService("forwardKinematics", &FI::forwardKinematicsSrv, this);
+    iks_ = nh_.advertiseService("inverseKinematics", &FI::inverseKinematicsSrv, this);
   }
 
 };
