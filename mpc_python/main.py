@@ -16,13 +16,13 @@ import argparse
 from copy import copy
 import scipy.io as sio
 
-from robot import *
+from robo_temp import *
 from mpc import MPC
 
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--mode', type=str, default='test')
+	parser.add_argument('--mode', type=str, default='train')
 	parser.add_argument('--model', type=str, default='./models/acrobot_results')
 	parser.add_argument('--type', type=str, default='waypoints')
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 		#						[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 		#						[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 		params['waypoints'] = np.array ([[ 1.70143204, 1.70143204, 1.70143204, 0.64113454, 0.64113454, 0.64113454, 1.68242039, 1.68242039, 1.68242039],
-									[-0.87753143, -1.06585094, -0.87753143, -0.86225178, -0.62944913, -0.53075948, -0.53075948, -0.53075948],
+									[-0.87753143,-1.06585094,-0.87753143,-0.62944913,-0.86225178,-0.62944913,-0.53075948,-0.53075948,-0.53075948],
 									[ 0.91630422, 1.02217488, 0.91630422, 1.34251619, 1.4312865, 1.34251619, 1.50072625, 1.50072625, 1.50072625],
 									[-1.347757,-1.05356684,-1.347757,-1.16962734,-0.84805437,-1.16962734,-1.11010693,-1.11010693,-1.11010693],
 									[0.13063571, 0.13063571, 0.13063571, 0.64113454, 0.64113454, -0.92966179, 0.11162407, 0.11162407,0.11162407],
@@ -116,40 +116,39 @@ if __name__ == '__main__':
 	uHistory[0,:] = u0             # force history
 	xHistory = np.zeros((params['numIterations']+1, 10))
 	xHistory[0,:] = params['x0']#[:,0]      # position history
-	xRefHistory = np.zeros((params['numIterations']+1, 4))
+	xRefHistory = np.zeros((params['numIterations']+1, 10))
+    
 	##################### KALYAN THIS HAS TO BE CHANGED##################
 	robot = KdcArm(params)
 	print("Robot object created")
 
-	print robot.dynamics( [1., 0., 0., 0., 0., 0., 0., 0., 0., 0.] , [.0,.0,.0,.0,.0])
+	print(robot.dynamics( [1., 0., 0., 0., 0., 0., 0., 0., 0., 0.] , [.0,.0,.0,.0,.0]))
 
-	'''
+	
 
 	controller = MPC(robot, params, bnds, args.type)
-	print("Controller object created")
+	print("Controller object created")    
 
-	# cons = ({'type': 'ineq', 'fun': Contraints, 'args':(x, robot,)})
+    # cons = ({'type': 'ineq', 'fun': Contraints, 'args':(x, robot,)})
 	# contraint jacobian can also be added to possibly speed up 
 
 	if (args.mode == 'train'):
 		for ct in range(params['numIterations']):
 			t = time.time()
 			print('iteration # {} of {}'.format(ct, params['numIterations']))
-
 			# optimize
 			results = controller.optimize(uopt, x, u0)
-
 			# prepare variable for next run and save the output in history arrays
 			uopt = results.x
-			# print(uopt.shape)
+			print(uopt.shape)  
 			u0 = uopt[0]
 			x = controller.IntegrationEstimation(x, u0, 30)
-			print("State Achieved: {}".format(x.T))
-			print("Time taken: {}".format((time.time()-t)))
+			#print("State Achieved: {}".format(x.T))
+			#print("Time taken: {}".format((time.time()-t)))
 			uHistory[ct+1] = u0
 			xHistory[ct+1,:] = x#[:,0]
 
-		print(time.time()-t)
+		#print(time.time()-t)       
 		controller.xRefHistory+= [controller.xRefHistory[ct]]
 		xRefHistory = np.array(controller.xRefHistory)
 		filename = './models/acrobot_results'
@@ -157,7 +156,7 @@ if __name__ == '__main__':
 	else:
 		filename = args.model
 		params, xHistory, uHistory, xRefHistory = pickle.load(open(filename, 'rb'))   
-	
+	'''	
 	######################## TO BE CHANGED - X IS NOW 10 DIMENSIONAL COPY -PASTE THE SAME ###################
 	# Displaying Graphs
 	t = np.linspace(0, params['Duration'], params['Duration']/params['Ts']+1)

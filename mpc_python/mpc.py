@@ -31,13 +31,14 @@ class MPC(object):
 		if(method=='trajectory'):
 			self.numPoints = (params['trajectory']).shape[1]
 			trajectoryLength = self.numPoints+self.N-1
-			self.trajectory = np.zeros((4,trajectoryLength))
+			self.trajectory = np.zeros((10,trajectoryLength))  # Changed this !
 			self.trajectory[:,0:self.numPoints] = params['trajectory']
 			xf = self.trajectory[:,self.numPoints-1]
 			for i in range(self.N-1):
 				self.trajectory[:,self.numPoints+i] = xf
-		else:
-			self.numSegment = (self.waypoints).shape[1] - 1 # subtracting one to get segments
+		else:            
+			self.numSegment = (self.waypoints).shape[1] - 1 # subtracting one to get segments - HARDCODED
+			#self.numSegment =  8    
 		# self.setupFigure()
 		# self.jac = ({'type': 'ineq', 'fun': self.Jacobian, 'args':()})
 
@@ -166,13 +167,13 @@ class MPC(object):
 		#Simple Linerization:
 		delta = 0.001
 		c0 = self.robot.dynamics(x0,u0)
-		A = np.zeros((4,4))
-		B = np.zeros(4)
-		C = np.identity(4)
+		A = np.zeros((10,10))
+		B = np.zeros((10,5))
+		C = np.identity(5)
 		a = copy(x0)
 		b = copy(u0)
 
-		for i in range(4):
+		for i in range(10):
 			a = copy(x0)
 			a[i] = a[i] + delta
 			ca = self.robot.dynamics(a,u0)
@@ -190,7 +191,7 @@ class MPC(object):
 		self.u0 = u0
 		if(self.method=='waypoints'):
 			# fetch the xref from waypoints
-			waypointIndex = min(int(self.numSegment*self.currentTime/self.Duration) + 1, self.numSegment)
+			waypointIndex = min(int(self.numSegment*self.currentTime/self.Duration) + 1, self.numSegment)          
 			self.xref = copy(self.waypoints[:,waypointIndex])
 			self.xRefHistory += [(self.xref).tolist()]
 			print("reference value: {}".format(self.xref.T))
