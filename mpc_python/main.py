@@ -33,20 +33,14 @@ if __name__ == '__main__':
 	params = {}
 	params['m1'] = 1.
 	params['m2'] = 1.
-	##################
 	params['m3'] = 1.
-	##################
 	params['l1'] = 0.5
 	params['l2'] = 0.5
-	###################
 	params['l3'] = 0.5
-	################### 
 	params['g'] = -9.81
 	params['I1'] = 0.0
 	params['I2'] = 0.0
-	###################
 	params['I3'] = 0.0
-	###################
 	params['x0'] = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])		# current state space - edited for 5DOF
 	params['u0'] = np.array([0.,0.,0.,0.,0.])							# initial force - edited
 
@@ -63,7 +57,6 @@ if __name__ == '__main__':
 		#                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
 		#                         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
-		############################# DONE !!!!!!!!!!!!!####################################33
 		#params['waypoints'] = np.array([[0, 0.7022, 0.5790, 0.0513, -3.0, -3.0, 1.3254, 2.1820, 2.6058, 3.1416, 3.1416, 3.1416], 
 		#						[0, -1.2763, -2.2228, -2.0331, 0.0265, 0.0265, 4.1818, 4.4895, 3.9700, 3.1416, 3.1416, 3.1416],
 		#						[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -96,7 +89,14 @@ if __name__ == '__main__':
 		data = sio.loadmat('acrobot_trajectory.mat')
 		params['trajectory']= data['z']
 		params['trajectory'][1,:] = params['trajectory'][1,:] - params['trajectory'][0,:]
+		params['trajectory'][2,:] = params['trajectory'][2,:] - params['trajectory'][1,:]
 		params['trajectory'][3,:] = params['trajectory'][3,:] - params['trajectory'][2,:]
+		params['trajectory'][4,:] = params['trajectory'][4,:] - params['trajectory'][3,:]
+		
+		params['trajectory'][6,:] = params['trajectory'][6,:] - params['trajectory'][5,:]
+		params['trajectory'][7,:] = params['trajectory'][7,:] - params['trajectory'][6,:]
+		params['trajectory'][8,:] = params['trajectory'][8,:] - params['trajectory'][7,:]
+		params['trajectory'][9,:] = params['trajectory'][9,:] - params['trajectory'][8,:]
 		# print(params['trajectory'].shape)
 		# params['Q'] = np.diag([100.,10.,0.1, 0.1])
 		params['Q'] = np.diag([1., 1., 1., 1.])
@@ -109,12 +109,12 @@ if __name__ == '__main__':
 	x = params['x0']
 	
 	# arrays to save data
-	uHistory = np.zeros((params['numIterations']+1))
-	uHistory[0] = u0             # force history
-	xHistory = np.zeros((params['numIterations']+1, 4))
+	uHistory = np.zeros((params['numIterations']+1),5)
+	uHistory[0,:] = u0             # force history
+	xHistory = np.zeros((params['numIterations']+1, 10))
 	xHistory[0,:] = params['x0']#[:,0]      # position history
 	# xRefHistory = np.zeros((params['numIterations']+1, 4))
-
+	'''
 	##################### KALYAN THIS HAS TO BE CHANGED##################
 	robot = KdcArm(params)
 	print("Robot object created")
@@ -191,4 +191,5 @@ if __name__ == '__main__':
 
 	robot.animate(xHistory)
 	plt.show()
+	'''
 
