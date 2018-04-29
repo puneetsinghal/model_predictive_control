@@ -5,3 +5,4 @@ logs
 model
 mpc_python_backup
 **.npy
+model_train/models
