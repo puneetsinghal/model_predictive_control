@@ -12,7 +12,7 @@
      <rosparam param="source_list">["/jointState_fbk"]</rosparam>
   </node>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" /> -->
-
+<arg name="rvizconfig" default="$(find arm_rviz)/rviz/kdc_arm.rviz" /> 
   
   <include file="$(find bio_arm_config)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true"/>
@@ -20,8 +20,8 @@
 
   <rosparam command="load" file="$(find bio_arm_config)/config/kinematics.yaml"/>
   <node name="kdc_arm_feedback" pkg="arm_feedback" type="kdc_arm_feedback" output="screen"  respawn="true"/>
-  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
-
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  <!-- 
   <node name="arm_feedback" pkg="arm_feedback" type="arm_feedback" respawn="true"/>
   <node name="ref_path" pkg="trace_path" type="ref_path" respawn="false"/>
  -->

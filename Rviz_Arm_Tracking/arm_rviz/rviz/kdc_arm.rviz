@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /MarkerArray1
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 540
   - Class: rviz/Selection
@@ -99,11 +100,19 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /ref_way_points
+      Enabled: false
+      Marker Topic: /
       Name: MarkerArray
       Namespaces:
         {}
+      Queue Size: 100
+      Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /ref_way_points
+      Name: Marker
+      Namespaces:
+        "": true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -130,22 +139,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.1522
+      Distance: 3.33372
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: -0.0354755
+        Y: 0.116935
+        Z: -8.09575e-05
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.790398
+      Pitch: 0.904798
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.57858
+      Yaw: 0.295398
     Saved: ~
 Window Geometry:
   Displays:
@@ -163,5 +172,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 51
-  Y: 52
+  X: 578
+  Y: 157
