@@ -9,20 +9,6 @@ import argparse
 from logger import Logger
 from RNN import RNNNetwork
 
-def loadRawData(fileName):
-	data=pickle.load(open(fileName,'rb'))
-
-	#Uploading the data into xk_data and uk_data
-	X_and_U = np.zeros([10, 1000, 5])
-
-	for row in range(len(data)):
-		firstIndex = row//1000
-		secondIndex = row%1000
-		X_and_U[firstIndex, secondIndex, :4] = data[row][0]
-		X_and_U[firstIndex, secondIndex, 4:] = data[row][1]
-
-	return X_and_U
-
 def main(args):
 	# Network parameters
 	time_steps = 3

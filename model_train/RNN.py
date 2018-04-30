@@ -2,50 +2,14 @@ import tensorflow as tf
 import numpy as np
 from matplotlib import pyplot as plt
 from logger import Logger
-import pickle
-
-def loadRawData(fileName):
-	data=pickle.load(open(fileName,'rb'))
-
-	#Uploading the data into xk_data and uk_data
-
-	X_and_U = np.zeros([int(len(data)/1000), 1000, 5])
-
-	for row in range(len(data)):
-		firstIndex = row//1000
-		secondIndex = row%1000
-		X_and_U[firstIndex, secondIndex, :4] = data[row][0]
-		X_and_U[firstIndex, secondIndex, 4:] = data[row][1]
-
-	return X_and_U
+from data_processor import DB_Processor
 
 def make_log_dir(log_parent_dir):
 	import datetime, os
 	current_timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 	return current_timestamp
 
-def gen_epoch(data_file, batch_size, time_steps, input_state_size, output_state_size):
-	rawData = loadRawData(data_file) # X and U concatenated
-	rawInputData 	= rawData[:, :-1, :]
-	rawOutputData 	= rawData[:, 1:, :]
-
-	numDataSamples = rawData.shape[0]
-	numSamples_list = [rawData.shape[1]-1 for i in range(rawData.shape[0])]
-	numBatches_List = [(samples - time_steps + 1) for samples in numSamples_list]
-
-	num_batch = sum(numBatches_List)
-	input_epoch = np.zeros([num_batch, time_steps, input_state_size])
-	output_epoch = np.zeros([num_batch, time_steps, output_state_size])
-
-	for i in range(numDataSamples):
-		for batchNum in range(numBatches_List[i]):
-			input_epoch[i*numDataSamples + batchNum, :, :] = rawInputData[i, batchNum:batchNum+time_steps, :]
-			output_epoch[i*numDataSamples + batchNum, :, :] = rawInputData[i, batchNum:batchNum+time_steps, :output_state_size]
-
-	return input_epoch, output_epoch, num_batch
-
-
-class RNNNetwork():
+class RNNNetwork(object):
 	def __init__(self, lrn_rate, input_state_size, hidden_state_size, output_state_size):
 		self.lrn_rate = lrn_rate
 		self.input_state_size = input_state_size
@@ -87,7 +51,7 @@ class RNNNetwork():
 		self.saver = tf.train.Saver()
 
 	def train(self, sess, num_epoch, data_file, batch_size, time_steps, model=None):
-		input_epoch, output_epoch, num_batch = gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
+		input_epoch, output_epoch, num_batch = DB_Processor.gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
 		
 		log_dir 	= make_log_dir('')
 		self.logger 		= Logger('./' + log_dir + '/train_log/')
@@ -116,7 +80,7 @@ class RNNNetwork():
 
 	def test(self, sess, num_epoch, data_file, batch_size, time_steps, modelPath=None):
 		# batch_size = None
-		input_epoch, output_epoch, num_batch = gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
+		input_epoch, output_epoch, num_batch = DB_Processor.gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
 
 		self.load_model_weights(sess, modelPath)
 

@@ -2,7 +2,7 @@ from scipy.integrate import ode
 from robot import Acrobot
 import numpy as np
 from collections import deque
-from rnn_dynamics import RNNNetwork
+from RNN import RNNNetwork
 import tensorflow as tf
 import argparse
 from IPython import embed
@@ -54,7 +54,7 @@ def testAnalyticalModel(params):
 
 def testRNNModel(params, modelName):
 	robot = Acrobot(params)
-	network = RNNNetwork(lrn_rate=0.0001, input_state_size=5, hidden_state_size=16, output_state_size=4)
+	network = RNNNetwork(lrn_rate=0.0001, input_state_size=5, hidden_state_size=8, output_state_size=4)
 	
 	energy = np.zeros((int(10.0/params['Ts']),1))
 	xk = np.array([0.4, 0, 0., 0., 0.]).reshape((1,5))
