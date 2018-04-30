@@ -25,4 +25,15 @@
   <node name="arm_feedback" pkg="arm_feedback" type="arm_feedback" respawn="true"/>
   <node name="ref_path" pkg="trace_path" type="ref_path" respawn="false"/>
  -->
+<param name="use_gui" value="true"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+   <!--  <remap from="robot_description" to="myrobot" />
+    <remap from="joint_states" to="myrobot/joint_states" /> -->
+
+
+
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+
 </launch>
