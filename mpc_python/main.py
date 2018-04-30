@@ -44,9 +44,13 @@ if __name__ == '__main__':
 	params['x0'] = np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])		# current state space - edited for 5DOF
 	params['u0'] = np.array([0.,0.,0.,0.,0.])							# initial force - edited
 
-	LB = np.array([-100., -100., -100., -100.,-100.])		# input force Lower Bound - modified for 5 DOF
-	UP = np.array([100., 100., 100., 100.,100.])			# input force Upper Bound - modified for 5DOF
+	#LB = np.array([-100., -100., -100., -100.,-100.])		# input force Lower Bound - modified for 5 DOF
+	#UP = np.array([100., 100., 100., 100.,100.])			# input force Upper Bound - modified for 5DOF
 	
+	LB = -100.0		# input force Lower Bound - modified for 5 DOF
+	UP = 100.			# input force Upper Bound - modified for 5DOF
+	 
+    
 	if (args.type == 'waypoints'):
 		params['Ts'] = 0.05						# time iteration
 		params['N'] = 5							# Event horizon = 10
@@ -74,6 +78,16 @@ if __name__ == '__main__':
 		
 		#params['waypoints'][1,:] = params['waypoints'][1,:] - params['waypoints'][0,:]
 		#params['waypoints'][3,:] = params['waypoints'][3,:] - params['waypoints'][2,:]
+		params['waypoints'][1,:] = params['waypoints'][1,:] - params['waypoints'][0,:]
+		params['waypoints'][2,:] = params['waypoints'][2,:] - params['waypoints'][1,:]
+		params['waypoints'][3,:] = params['waypoints'][3,:] - params['waypoints'][2,:]
+		params['waypoints'][4,:] = params['waypoints'][4,:] - params['waypoints'][3,:]
+		
+		params['waypoints'][6,:] = params['waypoints'][6,:] - params['waypoints'][5,:]
+		params['waypoints'][7,:] = params['waypoints'][7,:] - params['waypoints'][6,:]
+		params['waypoints'][8,:] = params['waypoints'][8,:] - params['waypoints'][7,:]
+		params['waypoints'][9,:] = params['waypoints'][9,:] - params['waypoints'][8,:]
+
 		params['trajectory']= None
 		params['Q'] = np.diag([100.,10.,10., 10.,0.1, 0.1, 0.1, 0.1, 0.1, 0.1])
 		params['R'] = np.diag([0.01, 0.01, 0.01, 0.01,0.01])
@@ -137,11 +151,11 @@ if __name__ == '__main__':
 			t = time.time()
 			print('iteration # {} of {}'.format(ct, params['numIterations']))
 			# optimize
-			results = controller.optimize(uopt, x, u0)
-			# prepare variable for next run and save the output in history arrays
-			uopt = results.x
-			print(uopt.shape)  
-			u0 = uopt[0]
+			for i in range(len(u0)):            
+				results = controller.optimize(uopt, x, u0[i])
+				# prepare variable for next run and save the output in history arrays
+				uopt = results.x  
+				u0[i] = uopt[0] # -- This must be a vector, loop and accumulate
 			x = controller.IntegrationEstimation(x, u0, 30)
 			#print("State Achieved: {}".format(x.T))
 			#print("Time taken: {}".format((time.time()-t)))

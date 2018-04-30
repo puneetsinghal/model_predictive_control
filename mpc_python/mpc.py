@@ -65,7 +65,7 @@ class MPC(object):
 	    # Cost function taken from MatLab's nMPC example code 
 		J = 0.
 		xk = self.x
-
+		print(u)
 		for ct in range(len(u)):
 			uk = u[ct]
 
@@ -73,14 +73,14 @@ class MPC(object):
 
 			# for i in range(len(xk1)):
 			J += np.matmul(np.matmul((xk1-self.xref),self.Q),(xk1-self.xref))
-
 			if ct==0:
-				J += (uk-self.u0)*self.R*(uk-self.u0)
+				J += (uk-self.u0)*self.R*(uk-self.u0)                
 			else:
 				J += (uk-u[ct-1])*self.R*(uk-u[ct-1])
 
 			xk = copy(xk1)
-		return J
+            
+		return J[0,0]
 
 	def CostFunctionTrajectory(self, u):
 	    # Cost function taken from MatLab's nMPC example code 
@@ -194,15 +194,13 @@ class MPC(object):
 			waypointIndex = min(int(self.numSegment*self.currentTime/self.Duration) + 1, self.numSegment)          
 			self.xref = copy(self.waypoints[:,waypointIndex])
 			self.xRefHistory += [(self.xref).tolist()]
-			print("reference value: {}".format(self.xref.T))
-
+			print("reference value: {}".format(self.xref.T))                    
 			results = minimize(self.CostFunctionGoal, uopt, args=(), method='SLSQP', jac=self.Jacobian, bounds=self.bnds, constraints=self.cons)
 		else:
 			trajIndex = min(int((self.currentTime - self.startTime)/self.Ts), self.numPoints-1)
 			self.xref = copy(self.trajectory[:,trajIndex])
 			self.xRefHistory += [(self.xref).tolist()]
-			print("reference value: {}".format(self.xref.T))
-			
+			print("reference value: {}".format(self.xref.T))  
 			results = minimize(self.CostFunctionTrajectory, uopt, args=(), method='SLSQP', bounds=self.bnds, constraints=self.cons)
 		
 		self.currentTime += self.Ts
