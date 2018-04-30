@@ -17,45 +17,49 @@ from visualization_msgs.msg import MarkerArray
 def talker(input_joints, task_space_way_points):
 	rospy.init_node('joint_state_publisher_viz')
 	pub = rospy.Publisher('joint_status', JointState, queue_size=10)
-	way_pub = rospy.Publisher('ref_way_points', MarkerArray, queue_size=10)
+	way_pub = rospy.Publisher('ref_way_points', Marker, queue_size=10)
 
 
 	# visualize the path in the form of waypoints
-	markers = []
+
+	robotMarker = Marker()
+	robotMarker.header.frame_id = "world"
+	robotMarker.header.stamp    = rospy.get_rostime()
+	#robotMarker.ns = "robot"
+	robotMarker.id = 1
+	robotMarker.type = robotMarker.LINE_STRIP # sphere
+	robotMarker.action = 0 #robotMarker.ADD
+	# robotMarker.pose.orientation.x = 0
+	# robotMarker.pose.orientation.y = 0
+	# robotMarker.pose.orientation.z = 0
+	# robotMarker.pose.orientation.w = 1.0
+	robotMarker.scale.x = .05
+	robotMarker.scale.y = .05
+	robotMarker.scale.z = .05
+
+	robotMarker.color.r = 1.0
+	robotMarker.color.g = 0.0
+	robotMarker.color.b = 0.0
+	robotMarker.color.a = 1.0
+
+	#robotMarker.lifetime = rospy.Duration()
+
+
+
+	
 	for i in xrange(len(task_space_way_points)):
+
 		point = Point()
 		point.x = task_space_way_points[i][0]
 		point.y = task_space_way_points[i][1]
 		point.z = task_space_way_points[i][2]
 
-		robotMarker = Marker()
-		robotMarker.header.frame_id = "world"
-		robotMarker.header.stamp    = rospy.get_rostime()
-		#robotMarker.ns = "robot"
-		robotMarker.id = i
-		robotMarker.type = robotMarker.LINE_STRIP # sphere
-		robotMarker.action = robotMarker.ADD
-		robotMarker.pose.position = point
-		robotMarker.pose.orientation.x = 0
-		robotMarker.pose.orientation.y = 0
-		robotMarker.pose.orientation.z = 0
-		robotMarker.pose.orientation.w = 1.0
-		robotMarker.scale.x = .5
-		robotMarker.scale.y = .5
-		robotMarker.scale.z = .5
+		
+		robotMarker.points.append(point)
 
-		robotMarker.color.r = 1.0
-		robotMarker.color.g = 0.0
-		robotMarker.color.b = 0.0
-		robotMarker.color.a = 1.0
+	
 
-		robotMarker.lifetime = rospy.Duration()
-		markers.append(robotMarker)
-
-	markerArray = MarkerArray()
-	markerArray.markers = markers
-
-	way_pub.publish(markerArray)
+	way_pub.publish(robotMarker)
 	print "Hellolllllllllllllll"
 
 
@@ -72,7 +76,7 @@ def talker(input_joints, task_space_way_points):
 	    hello_str.velocity = []
 	    hello_str.effort = []
 	    pub.publish(hello_str)
-	    way_pub.publish(markerArray)
+	    way_pub.publish(robotMarker)
 	    rate.sleep()
 
 if __name__ == '__main__':
