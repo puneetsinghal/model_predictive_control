@@ -2,6 +2,31 @@ import tensorflow as tf
 import numpy as np
 import scipy.io as sio
 import sys
+import pickle
+
+def generateData(data): 
+    #Uploading the data into xk_data and uk_data
+    xk_data = np.empty([len(data),4])
+    uk_data = np.empty([len(data),1])
+    for row in range(len(data)):
+        x = data[row][0]
+        u = data[row][1]
+        xk_data[row,:] = np.array(x)
+        uk_data[row] = np.array(u)
+
+    xk_data = xk_data.T
+    uk_data = uk_data.T
+    data = np.concatenate((xk_data, uk_data))
+    input_data = data[:,:-1]
+    output_data = data[:4,1:]
+    print(xk_data.shape)
+    print(uk_data.shape)
+    print(input_data.shape)
+    print(output_data.shape)
+    print(np.mean(input_data, axis=1))
+    print(np.std(input_data, axis=1))
+    
+    return input_data.T, output_data.T
 
 def load_matfile(matfile):
     # Load matlab mat file 
@@ -26,26 +51,30 @@ class Data:
 # Acrobot network
 class Network:
     def __init__(self, lrn_rate=0.001, total_epoch=1000, batch_size=256, network_type='Feedforward', \
-            model_path=None, log_path=None):
+            model_path=None, log_path=None, hidden_units=[32,32]):
         self.lrn_rate = lrn_rate
         self.total_epoch = total_epoch
         self.batch_size = batch_size
         self.model_path = model_path
         
+
+        mean = np.array([[-0.0012, -0.028, -0.004,  -0.012,  0.0008]])
+        std = np.array([[0.364, 0.8, 1.5, 3.1, 0.56]])
+
         # build the network 
         if network_type == 'Feedforward':
-            self.build_feedforward_network()
+            self.build_feedforward_network(mean, std, hidden_units)
         else:
             print('No such type of network')
             sys.exit(0)
         self.init = tf.global_variables_initializer()
         self.saver = tf.train.Saver()
-        self.summary_writer = tf.summary.FileWriter(log_path,tf.get_default_graph())
+        self.summary_writer = tf.summary.FileWriter(log_path, tf.get_default_graph())
         
         # count for loss record used in tensorboard
         self.count = 0
 
-    def build_feedforward_network(self):
+    def build_feedforward_network(self, mean, std, hidden_units=[32,32]):
         # Two hidden layers feedforward network
         # Build the computation graph
         # Input [sita1 sita2 w1 w2 tao] of t
@@ -58,19 +87,29 @@ class Network:
         print("build feedforward network with hidden units", hidden_units[0], hidden_units[1])
         self.input_ph = tf.placeholder(tf.float32, shape=[None, self.input_dim], name="input")
         self.output_ph = tf.placeholder(tf.float32, shape=[None, self.output_dim], name="output")
+
+        scaled_input_ph = (self.input_ph - mean)/std
+        scaled_output_ph = (self.output_ph - mean[:,0:4])/std[:,0:4]
         
+        hidden_layer = scaled_input_ph
         with tf.name_scope('dense_layers'):
-            self.hidden_layer1 = tf.layers.dense(self.input_ph, hidden_units[0], activation = tf.nn.relu)
-            self.hidden_layer2 = tf.layers.dense(self.hidden_layer1, hidden_units[1], activation = tf.nn.relu)
+            for units in hidden_units:
+                hidden_layer = tf.layers.dense(hidden_layer, units, activation = tf.nn.relu)
         with tf.name_scope('prediction'):
-            self.prediction = tf.layers.dense(self.hidden_layer2, self.output_dim, activation = None)
+            self.prediction = tf.layers.dense(hidden_layer, self.output_dim, activation = None)
         
-        with tf.name_scope('loss'):
-            # Define loss
-            self.loss = tf.losses.mean_squared_error(self.output_ph, self.prediction)
+        scaled_prediction = (self.prediction - mean[:,0:4])/std[:,0:4]
+        print(scaled_output_ph, scaled_prediction) 
+        
+        # Define loss
+        self.loss = tf.losses.mean_squared_error(scaled_output_ph, scaled_prediction)
+        print(self.loss)
+       
+        optimizer = tf.train.AdamOptimizer(self.lrn_rate)
+       
         with tf.name_scope('optimize'):
             # Step of optimization
-            self.train_step = tf.train.AdamOptimizer(learning_rate = self.lrn_rate).minimize(self.loss)
+            self.train_step = optimizer.minimize(self.loss)
 
     def load_model_weights(self, sess):
         self.saver.restore(sess, self.model_path)
@@ -80,8 +119,15 @@ class Network:
     
     def train(self, sess, train_file, reload_model = False):
         # Train our neural network
-        input_data, output_data = load_matfile(train_file)
+        #input_data, output_data = load_matfile(train_file)
+        #data = Data(input_data, output_data)
+        
+        train_file = "Correct_data_small.dat"
+
+        pickle_data = pickle.load(open(train_file,'rb'))
+        input_data, output_data = generateData(pickle_data)
         data = Data(input_data, output_data)
+
         if reload_model is True:
             self.load_model_weights(sess)
         else:
@@ -101,7 +147,6 @@ class Network:
 
         print("Finish training")
         self.save_model_weights(sess)
-    
     
     def test(self, sess, test_file, reload_model = False):
         # Test the results of the training of our neural network

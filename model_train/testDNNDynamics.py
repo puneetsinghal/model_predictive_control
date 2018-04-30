@@ -1,10 +1,10 @@
 from scipy.integrate import ode
 import scipy.io as sio
-from robot import Acrobot
+from robot import Acrobot, Energy
 import numpy as np
 import mpcNetwork
 import tensorflow as tf
-
+import matplotlib.pyplot as plt
 def IntegrationEstimation(xk, uk, Ts, robot, M = 5):
     # Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)
     # Better ODE solvers can be used here 
@@ -70,7 +70,35 @@ if __name__ == '__main__':
     uHistory = []
     xk = params['x0']
     uk = 0
+    xHistory = [xk[:, 0].tolist()]
     
+    # Set up neural network model
+    model_path = './dnn_models/model.cpkt'
+    log_path = './logs/test'
+    train_file = 'train_data.mat'
+    test_file = 'test_data.mat'
+    network_type = 'Feedforward'
+    load_model = True
+    lrn_rate = 0.0001
+    total_epoch = 10000
+    batch_size = 256
+
+    network = mpcNetwork.Network(lrn_rate, total_epoch, batch_size, network_type, model_path,
+            log_path)
+    energy = []
+    with tf.Session() as sess:
+        network.load_model_weights(sess) 
+        uk = np.array(0).reshape(1,1)
+        for i in range(int(10.0/params['Ts'])):
+            xk = network.predict_next_state(sess, xk.reshape(1,4), uk)            
+            
+            xHistory += [xk[0,:].tolist()]
+            energy_k = Energy(params, xk.T)    
+            energy.append(energy_k)
+    print(np.array(xHistory).shape)    
+    real_robot.animate(np.array(xHistory))
+    plt.plot(energy) 
+    plt.show()
     """
     # Simulate responses on real robot
     for i in range(int(10.0/Ts)):
@@ -88,15 +116,12 @@ if __name__ == '__main__':
     print(uHistory)
     np.save('xHistory', xHistory)
     np.save('uHistory', uHistory)
-    """
-    xHistory = np.load('xHistory.npy')
-    uHistory = np.load('uHistory.npy')
     
     
     data_points = uHistory.shape[1]
         
     # Set up neural network model
-    model_path = './models/model.cpkt'
+    model_path = './dnn_models/model.cpkt'
     log_path = './logs/test'
     train_file = 'train_data.mat'
     test_file = 'test_data.mat'
@@ -108,7 +133,7 @@ if __name__ == '__main__':
 
     network = mpcNetwork.Network(lrn_rate, total_epoch, batch_size, network_type, model_path,
             log_path)
-    
+     
     sess = tf.Session()
     network.load_model_weights(sess) 
     # See response on our model
@@ -146,4 +171,4 @@ if __name__ == '__main__':
     print(np.mean(np.sqrt(errorHistory_net), axis=1, keepdims=True))  
       
     sess.close() 
-
+    """
