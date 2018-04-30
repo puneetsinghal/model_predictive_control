@@ -11,11 +11,11 @@ from RNN import RNNNetwork
 
 def main(args):
 	# Network parameters
-	time_steps = 3
+	time_steps = 10
 	batch_size = 1024
 	input_state_size = 5 # [sita1 w1 sita2 w2 torque]_t
 	output_state_size = 4 # [sita1 w1 sita2 w2]_t+1
-	hidden_state_size = 8
+	hidden_state_size = 16
 	num_epoch = 100000
 	lrn_rate = 1e-4
 	
@@ -37,7 +37,6 @@ def main(args):
 			network.test(sess, num_epoch, dataFileName, batch_size, time_steps, modelName)
 	else:
 		modelName = args.model
-
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
