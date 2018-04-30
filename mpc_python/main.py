@@ -16,7 +16,7 @@ import argparse
 from copy import copy
 import scipy.io as sio
 
-from robo_temp import *
+from robot import *
 from mpc import MPC
 
 if __name__ == '__main__':
@@ -136,7 +136,7 @@ if __name__ == '__main__':
 	robot = KdcArm(params)
 	print("Robot object created")
 
-	print(robot.dynamics( [1., 0., 0., 0., 0., 0., 0., 0., 0., 0.] , [.0,.0,.0,.0,.0]))
+	#print(robot.dynamics( [1., 0., 0., 0., 0., 0., 0., 0., 0., 0.] , [.0,.0,.0,.0,.0]))
 
 	
 

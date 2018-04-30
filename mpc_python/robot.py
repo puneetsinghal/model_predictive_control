@@ -16,10 +16,20 @@ class  KdcArm(object):
 		rospy.wait_for_service('forwardDynamics')
 		try:
 			fds = rospy.ServiceProxy('forwardDynamics', FI)
-			print("Debug############")
 			res = fds(x+u)
-			return res.output
-		except rospy.ServiceException, e:
+			#print (res.output)
+
+			time = 0.0000000001
+			r = list(x[5:]) + list(res.output)
+
+			result = np.array([x * time for x in r])
+			print(result)
+
+			#return result
+			return np.array(r)
+			#return np.zeros(10)
+
+		except (rospy.ServiceException, e):
 			print("Service call failed: %s"%e)
 
 
@@ -85,7 +95,7 @@ class Acrobot(object):
 			print(x)
 			
 		#return xk1
-       return np.zeros(10)
+		return np.zeros(10)
 
 	def kinematics(self, z):
 		q1 = z[0]
