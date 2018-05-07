@@ -28,7 +28,7 @@ class RNNNetwork(object):
 		# LSTM cell
 		cell = tf.contrib.rnn.LSTMCell(hidden_state_size, state_is_tuple=True, activation=tf.sigmoid)
 		# cell = tf.contrib.rnn.LayerNormBasicLSTMCell(hidden_state_size, dropout_keep_prob=1.0)
-		# cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=dropout)
+		cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=dropout)
 		init_states = cell.zero_state(self.network_batch_size, tf.float32)
 		rnn_outputs, final_state = tf.nn.dynamic_rnn(cell, self.prev_state, initial_state=init_states)
 		outputs = tf.reshape(rnn_outputs, [-1, hidden_state_size])

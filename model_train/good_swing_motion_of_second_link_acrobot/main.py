@@ -46,8 +46,6 @@ def main(args):
 		with tf.Session() as sess:
 			network.train(sess, num_epoch, dataFileName, batch_size, time_steps, log_dir)
 	elif(args.mode=='test'):
-		if(args.data == None):
-			dataFileName = 'acrobot_small_test_data_10000.dat'
 		modelName = args.model
 		with tf.Session() as sess:
 			network.test(sess, num_epoch, dataFileName, batch_size, time_steps, modelName)
