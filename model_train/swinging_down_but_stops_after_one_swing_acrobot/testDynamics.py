@@ -5,12 +5,9 @@ from collections import deque
 from RNN import RNNNetwork
 import tensorflow as tf
 import argparse
-#from IPython import embed
-import matplotlib.pyplot as plt
+from IPython import embed
 
-
-
-def IntegrationEstimation(xk, uk, Ts, robot,M = 5):
+def IntegrationEstimation(xk, uk, Ts, M = 5):
 	# Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)
 	# Better ODE solvers can be used here 
 	delta = Ts/M
@@ -49,13 +46,11 @@ def testAnalyticalModel(params):
 	xHistory = [xk[:,0].tolist()]
 
 	for i in range(int(10.0/params['Ts'])):
-		xk = IntegrationEstimation(xk, uk, params['Ts'], robot, 30)
+		xk = IntegrationEstimation(xk, uk, params['Ts'], 30)
 		energy[i] = Energy(params, xk)
 		xHistory += [xk[:,0].tolist()]
     
-	#robot.animate(np.array(xHistory))
-	plt.plot(energy)
-	plt.show()
+	robot.animate(np.array(xHistory))
 
 def testRNNModel(params, modelName):
 	robot = Acrobot(params)
@@ -72,8 +67,7 @@ def testRNNModel(params, modelName):
 		network.load_model_weights(sess, modelName)
 		for i in range(5000):
 			# embed()
-			feed_dict = {network.network_batch_size:1, network.prev_state:np.array(input_state)[np.newaxis,:,:],
-							network.dropout_prob:1.0}
+			feed_dict = {network.network_batch_size:1, network.prev_state:np.array(input_state)[np.newaxis,:,:]}
 			predicted_x = sess.run([network.final_prediciton], feed_dict= feed_dict)[0]
 			nextState[0,0:4] = predicted_x
 			# nextState[0,4] = 0.1
@@ -105,7 +99,7 @@ if __name__ == '__main__':
 
 	# testAnalyticalModel(params)
 
-	testRNNModel(params)
+	testRNNModel(params, args.model)
 
 
 
