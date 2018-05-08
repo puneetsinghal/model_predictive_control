@@ -25,8 +25,8 @@ def main(args):
 	input_state_size = 5 # [sita1 w1 sita2 w2 torque]_t
 	output_state_size = 4 # [sita1 w1 sita2 w2]_t+1
 	hidden_state_size = 8
-	num_epoch = 500000
-	lrn_rate = 1e-3
+	num_epoch = 100000
+	lrn_rate = 1e-4
 	dropout_prob = 0.85
 	
 	# Training data file 	
