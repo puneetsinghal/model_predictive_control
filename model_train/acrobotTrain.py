@@ -31,9 +31,9 @@ if __name__ == '__main__':
     
     with tf.Session() as sess:
         network.train(sess, train_file, load_model)
-        network.test(sess, test_file, load_model)
+        #network.test(sess, test_file, load_model)
 
-    
+    """ 
     # Test the network as the model
     test_cycle = 100
     x0 = np.array([[0.1,0,0,0]])
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     print(x0.shape) 
     x_prev = x0
     u_prev = u0
-    
+     
     # Test the prediction
     with tf.Session() as test_sess:
         network.load_model_weights(test_sess)
@@ -50,6 +50,6 @@ if __name__ == '__main__':
             next_state = network.predict_next_state(test_sess, x_prev, u_prev)
             #print(next_state[0])
             x_prev = next_state
-
+    """
 
 

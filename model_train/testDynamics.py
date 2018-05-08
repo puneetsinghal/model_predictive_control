@@ -5,9 +5,12 @@ from collections import deque
 from RNN import RNNNetwork
 import tensorflow as tf
 import argparse
-from IPython import embed
+#from IPython import embed
+import matplotlib.pyplot as plt
 
-def IntegrationEstimation(xk, uk, Ts, M = 5):
+
+
+def IntegrationEstimation(xk, uk, Ts, robot,M = 5):
 	# Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)
 	# Better ODE solvers can be used here 
 	delta = Ts/M
@@ -46,11 +49,13 @@ def testAnalyticalModel(params):
 	xHistory = [xk[:,0].tolist()]
 
 	for i in range(int(10.0/params['Ts'])):
-		xk = IntegrationEstimation(xk, uk, params['Ts'], 30)
+		xk = IntegrationEstimation(xk, uk, params['Ts'], robot, 30)
 		energy[i] = Energy(params, xk)
 		xHistory += [xk[:,0].tolist()]
     
-	robot.animate(np.array(xHistory))
+	#robot.animate(np.array(xHistory))
+	plt.plot(energy)
+	plt.show()
 
 def testRNNModel(params, modelName):
 	robot = Acrobot(params)
@@ -99,7 +104,7 @@ if __name__ == '__main__':
 
 	# testAnalyticalModel(params)
 
-	testRNNModel(params, args.model)
+	testRNNModel(params)
 
 
 

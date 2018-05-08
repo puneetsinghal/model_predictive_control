@@ -64,7 +64,7 @@ if __name__ == '__main__':
     purturbed_params = PurturbParams(params, percentage)
     real_robot = Acrobot(purturbed_params)
     
-    T = 10.0
+    T = 10000
     Ts = params['Ts']
     xHistory = params['x0'] 
     uHistory = []
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         network.load_model_weights(sess) 
         uk = np.array(0).reshape(1,1)
-        for i in range(int(10.0/params['Ts'])):
+        for i in range(int(50.0/params['Ts'])):
             xk = network.predict_next_state(sess, xk.reshape(1,4), uk)            
             
             xHistory += [xk[0,:].tolist()]

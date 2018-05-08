@@ -17,14 +17,23 @@ def generateData(data):
     xk_data = xk_data.T
     uk_data = uk_data.T
     data = np.concatenate((xk_data, uk_data))
-    input_data = data[:,:-1]
-    output_data = data[:4,1:]
-    print(xk_data.shape)
-    print(uk_data.shape)
+    print('data',data.shape)
+    #input_data = data[:,:-1]
+    #output_data = data[:4,1:]
+    points = xk_data.shape[1]
+    episodes = points // 1000
+    print(episodes)
+    input_data = np.zeros((data.shape[0], xk_data.shape[1]-episodes))
+    output_data = np.zeros((xk_data.shape[0], xk_data.shape[1]-episodes))
+    for episode in range(episodes):
+        input_data[:, 999*episode:999*(episode+1)] = data[:,1000*episode:1000*(episode+1)-1]
+        #print('input', input_data.shape)
+        output_data[:, 999*episode:999*(episode+1)] = data[:4,1000*episode+1:1000*(episode+1)]
+    
     print(input_data.shape)
     print(output_data.shape)
-    print(np.mean(input_data, axis=1))
-    print(np.std(input_data, axis=1))
+    print(np.mean(data, axis=1))
+    print(np.std(data, axis=1))
     
     return input_data.T, output_data.T
 
@@ -59,7 +68,7 @@ class Network:
         
 
         mean = np.array([[-0.0012, -0.028, -0.004,  -0.012,  0.0008]])
-        std = np.array([[0.364, 0.8, 1.5, 3.1, 0.56]])
+        std = np.array([[0.364, 2.0, 1.5, 3.1, 0.56]])
 
         # build the network 
         if network_type == 'Feedforward':
@@ -122,12 +131,11 @@ class Network:
         #input_data, output_data = load_matfile(train_file)
         #data = Data(input_data, output_data)
         
-        train_file = "Correct_data_small.dat"
+        train_file = "acrobot_large_data_500000.dat"
 
         pickle_data = pickle.load(open(train_file,'rb'))
         input_data, output_data = generateData(pickle_data)
         data = Data(input_data, output_data)
-
         if reload_model is True:
             self.load_model_weights(sess)
         else:
