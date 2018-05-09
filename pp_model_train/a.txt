@@ -1,0 +1,64 @@
+10
+(6, 9990)
+(4, 9990)
+[ 0.09104109  0.2472049   1.87056115 -6.01452037 -0.12852308 -0.12047955]
+[   1.78123538    1.77291845   55.68989208  152.55857133    2.90099388
+    2.91228084]
+build feedforward network with hidden units 64 64
+Tensor("truediv_1:0", shape=(?, 4), dtype=float32) Tensor("truediv_2:0", shape=(?, 4), dtype=float32)
+Tensor("mean_squared_error/value:0", shape=(), dtype=float32)
+10
+(6, 9990)
+(4, 9990)
+[ 0.09104109  0.2472049   1.87056115 -6.01452037 -0.12852308 -0.12047955]
+[   1.78123538    1.77291845   55.68989208  152.55857133    2.90099388
+    2.91228084]
+epoch 0 loss 0.483853
+epoch 1000 loss 0.271988
+epoch 2000 loss 0.104276
+epoch 3000 loss 0.0881249
+epoch 4000 loss 0.0642437
+epoch 5000 loss 0.0594713
+epoch 6000 loss 0.043201
+epoch 7000 loss 0.0583812
+epoch 8000 loss 0.0406749
+epoch 9000 loss 0.0318274
+epoch 10000 loss 0.037294
+epoch 11000 loss 0.0439552
+epoch 12000 loss 0.032494
+epoch 13000 loss 0.0352909
+epoch 14000 loss 0.0362658
+epoch 15000 loss 0.0265937
+epoch 16000 loss 0.0244773
+epoch 17000 loss 0.0313912
+epoch 18000 loss 0.0288516
+epoch 19000 loss 0.0255899
+epoch 20000 loss 0.0276216
+epoch 21000 loss 0.0256652
+epoch 22000 loss 0.0298446
+epoch 23000 loss 0.0257966
+epoch 24000 loss 0.0207194
+epoch 25000 loss 0.0216556
+epoch 26000 loss 0.0269966
+epoch 27000 loss 0.0247663
+epoch 28000 loss 0.0199172
+epoch 29000 loss 0.0370761
+epoch 30000 loss 0.0247181
+epoch 31000 loss 0.0250408
+epoch 32000 loss 0.0245955
+epoch 33000 loss 0.0257672
+epoch 34000 loss 0.0251477
+epoch 35000 loss 0.0268122
+epoch 36000 loss 0.0295481
+epoch 37000 loss 0.0179505
+epoch 38000 loss 0.0253052
+epoch 39000 loss 0.0244704
+epoch 40000 loss 0.0262411
+epoch 41000 loss 0.0255114
+epoch 42000 loss 0.0264279
+epoch 43000 loss 0.0216725
+epoch 44000 loss 0.0302536
+epoch 45000 loss 0.0192109
+epoch 46000 loss 0.030233
+epoch 47000 loss 0.0217532
+epoch 48000 loss 0.0243643
