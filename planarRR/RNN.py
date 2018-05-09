@@ -93,7 +93,8 @@ class RNNNetwork(object):
 
 	def test(self, sess, num_epoch, dropout_prob, data_file, batch_size, time_steps, log_dir=None):
 		# batch_size = None
-		input_epoch, output_epoch, num_batch = DB_Processor.gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
+		input_epoch, output_epoch, num_batch = \
+						DB_Processor.gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
 
 		modelPath = log_dir
 		self.load_model_weights(sess, modelPath)

@@ -95,25 +95,13 @@ if __name__ == '__main__':
     np.save('xHistory', xHistory)
     np.save('uHistory', uHistory)
     """
-    xHistory = np.load('xHistory.npy')
-    uHistory = np.load('uHistory.npy')
+    # xHistory = np.load('xHistory.npy')
+    # uHistory = np.load('uHistory.npy')
+    # data_points = uHistory.shape[1]
     
-    
-    data_points = uHistory.shape[1]
-    
-    input_epoch, output_epoch, num_batch = DB_Processor.gen_epoch(args.data, batch_size, time_steps, self.input_state_size, self.output_state_size)
-
-
     # Set up neural network model
     model_path = args.model
     log_path = './logs/test'
-    # train_file = 'train_data.mat'
-    # test_file = 'test_data.mat'
-    network_type = 'Feedforward'
-    load_model = True
-    lrn_rate = 0.0001
-    total_epoch = 10000
-    batch_size = 256
 
     # network = mpcNetwork.Network(lrn_rate, total_epoch, batch_size, network_type, model_path,
             # log_path)
@@ -127,38 +115,40 @@ if __name__ == '__main__':
     lrn_rate = 1e-3
     dropout_prob = 0.90
 
+    input_epoch, output_epoch, num_batch = \
+                DB_Processor.gen_epoch(args.data, batch_size, time_steps, self.input_state_size, self.output_state_size)
+
     network = RNNNetwork(lrn_rate, input_state_size, hidden_state_size, output_state_size)
     
     sess = tf.Session()
     network.load_model_weights(sess, model_path) 
     # See response on our model
 
-    for i in range(data_points):
-        xk = xHistory[:,i]
-        #print(xk)
+    for i in range(input_epoch.shape[0]):
+        xk = np.array(input_epoch[i,0,0])
         x_pred = xk.reshape(4,1)
         x_pred_net = xk.reshape(1,4)
         # Unroll and predict
         for j in range(time_steps):
-            if i+j <= data_points-1:
+            # if i+j <= data_points-1:
                 
-                uk = uHistory[:, i+j].reshape(1,1)
-                uk = np.array(0).reshape(1,1)
-                
-                # Model
-                x_pred = IntegrationEstimation(x_pred, uk, Ts, model_robot, 30)
-                error = np.square(xHistory[:,i+j+1].reshape(4,1) - x_pred)
-                
-                # Neural Model
-                x_pred_net = network.predict_next_state(sess, x_pred_net, uk)            
-                error_net = np.square(xHistory[:,i+j+1].reshape(4,1) - x_pred_net.reshape(4,1))
+            uk = np.array(input_epoch[i,0,1]).reshape(2,1)
+            # uk = np.array(0).reshape(1,1)
+            
+            # Model
+            x_pred = IntegrationEstimation(x_pred, uk, Ts, model_robot, 30)
+            error = np.square(xHistory[:,i+j+1].reshape(4,1) - x_pred)
+            
+            # Neural Model
+            x_pred_net = network.predict_next_state(sess, x_pred_net, uk)            
+            error_net = np.square(xHistory[:,i+j+1].reshape(4,1) - x_pred_net.reshape(4,1))
 
-                if i+j == 0:
-                    errorHistory = error 
-                    errorHistory_net = error_net 
-                else:
-                    errorHistory = np.append(errorHistory, error, axis=1)
-                    errorHistory_net = np.append(errorHistory_net, error_net, axis=1)
+            if i+j == 0:
+                errorHistory = error 
+                errorHistory_net = error_net 
+            else:
+                errorHistory = np.append(errorHistory, error, axis=1)
+                errorHistory_net = np.append(errorHistory_net, error_net, axis=1)
         # xk = IntegrationEstimation(xk, uk, Ts, model_robot, 30)
         #predictHistory = np.append(predictHistory, xk, axis=1)
     np.save('errorHistory', errorHistory)
