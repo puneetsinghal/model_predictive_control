@@ -1,0 +1,6 @@
+model_checkpoint_path: "model_final.cpkt"
+all_model_checkpoint_paths: "model_99600.cpkt"
+all_model_checkpoint_paths: "model_99700.cpkt"
+all_model_checkpoint_paths: "model_99800.cpkt"
+all_model_checkpoint_paths: "model_99900.cpkt"
+all_model_checkpoint_paths: "model_final.cpkt"
