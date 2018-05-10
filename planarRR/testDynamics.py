@@ -1,11 +1,13 @@
 from scipy.integrate import ode
-from robot import Acrobot
 import numpy as np
 from collections import deque
-from RNN import RNNNetwork
 import tensorflow as tf
 import argparse
 from IPython import embed
+
+from RNN import RNNNetwork
+from robot import Acrobot
+
 
 def IntegrationEstimation(xk, uk, Ts, M = 5):
 	# Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)

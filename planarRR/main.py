@@ -24,10 +24,10 @@ def main(args):
 	batch_size = 1024
 	input_state_size = 6 # [sita1 w1 sita2 w2 torque]_t
 	output_state_size = 4 # [sita1 w1 sita2 w2]_t+1
-	hidden_state_size = 16
+	hidden_state_size = 8
 	num_epoch = 100000
 	lrn_rate = 1e-3
-	dropout_prob = 0.90
+	dropout_prob = 0.95
 	
 	# Training data file 	
 	dataFileName = args.data
@@ -35,7 +35,7 @@ def main(args):
 	network = RNNNetwork(lrn_rate, input_state_size, hidden_state_size, output_state_size)
 	if(args.mode=='train'):
 		if(args.data == None):
-			dataFileName = 'data_for_rnn_small.dat'
+			dataFileName = 'data_for_rnn_50000.dat'
 		
 		log_dir 	= make_log_dir('./')
 
@@ -46,6 +46,7 @@ def main(args):
 		shutil.copyfile('testDynamics.py', (log_dir + '/testDynamics.py'))
 		shutil.copyfile('robot.py', (log_dir + '/robot.py'))
 		shutil.copyfile('data_processor.py', (log_dir + '/data_processor.py'))
+		shutil.copyfile('compareDynamics.py', (log_dir + '/compareDynamics.py'))
 
 		with tf.Session() as sess:
 			network.train(sess, num_epoch, dropout_prob, dataFileName, batch_size, time_steps, log_dir, args.model)
@@ -53,7 +54,7 @@ def main(args):
 	elif(args.mode=='test'):
 		# use 'acrobot_small_test_data_10000.dat' for testing as default if datafile is not given in arguments
 		if(args.data == None):
-			dataFileName = 'data_for_rnn_small.dat'
+			dataFileName = 'data_for_rnn_5000.dat'
 		modelName = args.model
 		with tf.Session() as sess:
 			network.test(sess, num_epoch, 1.0, dataFileName, batch_size, time_steps, modelName)
