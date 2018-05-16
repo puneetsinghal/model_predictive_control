@@ -23,10 +23,12 @@ class RNNNetwork(object):
 		self.network_batch_size = tf.placeholder(tf.int32, [])
 		
 		# LSTM cell
-		cell = tf.contrib.rnn.LSTMCell(hidden_state_size, state_is_tuple=True, activation=tf.sigmoid)
+		cell = tf.contrib.rnn.LSTMCell(hidden_state_size, state_is_tuple=True, 
+											activation=tf.sigmoid)
 		cell = tf.nn.rnn_cell.DropoutWrapper(cell, input_keep_prob=self.dropout_prob)
 		init_states = cell.zero_state(self.network_batch_size, tf.float32)
-		rnn_outputs, final_state = tf.nn.dynamic_rnn(cell, self.prev_state, initial_state=init_states)
+		rnn_outputs, final_state = tf.nn.dynamic_rnn(cell, self.prev_state, 
+											initial_state=init_states)
 		outputs = tf.reshape(rnn_outputs, [-1, hidden_state_size])
 		
 		# Combine LSTM output with control usage and current state
@@ -35,7 +37,7 @@ class RNNNetwork(object):
 		predictions = tf.matmul(outputs, W) + b
 		
 		self.loss = tf.losses.mean_squared_error(predictions,
-							tf.reshape(self.future_state, [-1, output_state_size]))
+									tf.reshape(self.future_state, [-1, output_state_size]))
 		# embed()
 		self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lrn_rate)
 		self.trainer = self.optimizer.minimize(self.loss)
@@ -95,7 +97,7 @@ class RNNNetwork(object):
 		# batch_size = None
 		input_epoch, output_epoch, num_batch = \
 						DB_Processor.gen_epoch(data_file, batch_size, time_steps, self.input_state_size, self.output_state_size)
-
+		embed()
 		modelPath = log_dir
 		self.load_model_weights(sess, modelPath)
 
@@ -116,8 +118,9 @@ class RNNNetwork(object):
 		plt.show()
 
 	def predict(self, sess, prev_state):
-		feed_dict = {self.prev_state:prev_state, self.network_batch_size:1}
-		return sess.run([self.final_prediction], feed_dict=feed_dict)
+		feed_dict 	= {self.network_batch_size:1, self.prev_state:prev_state,
+								self.dropout_prob:1.0}
+		return sess.run([self.final_prediction], feed_dict=feed_dict)[0]
 	
 	def save_model_weights(self, sess, file_path):
 		self.saver.save(sess, file_path)
