@@ -50,4 +50,3 @@ class DB_Processor(object):
 						embed()
 				firstIndex += 1
 		return input_epoch, output_epoch, num_batch
-

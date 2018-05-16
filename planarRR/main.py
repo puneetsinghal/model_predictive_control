@@ -20,14 +20,14 @@ def make_log_dir(log_parent_dir):
 
 def main(args):
 	# Network parameters
-	time_steps = 5
-	batch_size = 1024
+	time_steps = 10
+	batch_size = 512
 	input_state_size = 6 # [sita1 w1 sita2 w2 torque]_t
 	output_state_size = 4 # [sita1 w1 sita2 w2]_t+1
 	hidden_state_size = 8
-	num_epoch = 100000
-	lrn_rate = 1e-3
-	dropout_prob = 0.95
+	num_epoch = 500000
+	lrn_rate = 1e-4
+	dropout_prob = 0.90
 	
 	# Training data file 	
 	dataFileName = args.data

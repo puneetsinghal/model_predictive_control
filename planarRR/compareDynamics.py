@@ -66,7 +66,7 @@ if __name__ == '__main__':
 	params['I2']    = 0.1
 	
 	params['Ts']    = 0.01             # time iteration
-	params['N']     = 10              # Event horizon = 10
+	params['N']     = 1              # Event horizon = 10
 	Ts              = params['Ts']
 	
 	model_robot     = PlanarRR(params)
@@ -112,7 +112,7 @@ if __name__ == '__main__':
 	hidden_state_size   = 8
 	num_epoch           = 100000
 	lrn_rate            = 1e-3
-	dropout_prob        = 0.90
+	dropout_prob        = 0.95
 
 	# input_epoch, output_epoch, num_batch = \
 	#             DB_Processor.gen_epoch(args.data, batch_size, time_steps, self.input_state_size, self.output_state_size)
@@ -144,7 +144,7 @@ if __name__ == '__main__':
 			for pred_step in range(params['N']):                   
 				if (pred_step > 0):
 					nextState 			= np.zeros([1,6])
-					nextState[0,0:4] 	= x_pred_net
+					nextState[0,0:4] 	= copy(x_pred_net)
 					uk 					= np.array(rawData[i, t + pred_step, 1])
 					nextState[0,4:] 	= uk
 					input_state_with_prediction.append(nextState[0])
@@ -156,18 +156,19 @@ if __name__ == '__main__':
 				x_pred_net 	= sess.run([network.final_prediciton], feed_dict= feed_dict)[0]	
 				
 				xk1 		= np.array(rawData[i,t + pred_step + 1, 0])
-				error 		+= np.sum(np.square(xk1-x_pred_net))
+				error 		+= np.mean(np.square(xk1-x_pred_net))
 				# error_net = np.square(xHistory[:,i+j+1].reshape(4,1) - x_pred_net.reshape(4,1))
 
 			errorHistory.append(error)
 				# errorHistory_net.append(error_net)
 	
 	errorHistory = np.array(errorHistory)
+	print(np.mean(errorHistory))
 	np.save('errorHistory', errorHistory)
 	plt.figure()
 	plt.plot(errorHistory)
 	plt.show()
-	print(np.mean(np.sqrt(errorHistory), axis=1, keepdims=True))  
+	# print(np.mean(np.sqrt(errorHistory), axis=1, keepdims=True))  
 	# print(np.mean(np.sqrt(errorHistory_net), axis=1, keepdims=True))  
 	  
 	sess.close()

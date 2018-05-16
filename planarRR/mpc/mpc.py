@@ -1,14 +1,21 @@
 
+import sys
+sys.path.insert(0, '../')
+
 from scipy.optimize import minimize
 import numdifftools as nd
 import numpy as np
 from math import *
 from copy import copy
 from IPython import embed
+import tensorflow as tf
+from collections import deque
+
+from RNN import RNNNetwork
 
 class MPC(object):
 	"""docstring for MPC"""
-	def __init__(self, robot, params, bnds, method = 'waypoints'):
+	def __init__(self, robot, params, bnds, method = 'waypoints', model_type='Analytical', sess=None, model_params=None):
 		self.Q = params['Q']
 		self.R = params['R']
 		self.robot = robot
@@ -25,6 +32,8 @@ class MPC(object):
 		self.currentTime = 0.
 		self.method = method
 		self.xRefHistory = []
+		self.model_type = model_type
+		self.sess = sess
 
 		# expanding trajectory by (N-1) points with final state.
 		# This is to generate reference values for last iteration without using if condition (possibly will save time)
@@ -40,24 +49,51 @@ class MPC(object):
 			self.numSegment = (self.waypoints).shape[1] - 1 # subtracting one to get segments
 		# self.setupFigure()
 		# self.jac = ({'type': 'ineq', 'fun': self.Jacobian, 'args':()})
+		if (self.model_type=='Analytical'):
+			self.dynamics = self.robot.dynamics
+		elif(self.model_type=='RNN'):
+			self.dynamics = self.dynamicsRNN
+
+			self.network         					= \
+					RNNNetwork(model_params['lrn_rate'], model_params['input_state_size'], 
+						model_params['hidden_state_size'], model_params['output_state_size'])
+			self.network.load_model_weights(self.sess, model_params['model_path'])
+		
+			self.input_state                     = deque(maxlen=model_params['time_steps'])
+			self.input_state_with_prediction     = deque(maxlen=model_params['time_steps'])
 
 	# def setupFigure(self):
 	# 	self.fig = plt.figure()
 	# 	self.ax = self.fig.add_subplot(111, autoscale_on=False, xlim=(-1.5, 1.5), ylim=(-1.5, 1.5))
 	# 	self.ax.grid()
 	# 	self.line, = self.ax.plot([], [], 'o-', lw=2)
-
+	def dynamicsRNN(self, xk, uk):
+		
+		input_temp 			= copy(self.input_state_with_prediction)
+		# nextState 			= np.zeros([1,6])
+		# nextState[0,0:4] 	= copy(xk)
+		# nextState[0,4:] 	= uk
+		# input_temp.append(nextState[0])
+		# Neural Model
+		# embed()
+		feed_dict 	= {self.network.network_batch_size:1, self.network.prev_state:np.array(input_temp)[np.newaxis,:,:],
+						self.network.dropout_prob:1.0}
+		x_pred_net 	= self.sess.run([self.network.final_prediciton], feed_dict= feed_dict)[0]
+		# print(x_pred_net.shape)
+		return x_pred_net[0]
+			
 	def IntegrationEstimation(self, xk, uk, M = 5):
 		# Runge-Kutta 4th order (M = 5 optimization problem, M = 30 updating state space)
 		# Better ODE solvers can be used here 
 		delta = self.Ts/M
 		xk1 = xk
 		for ct in range(M):
-			k1 = self.robot.dynamics(xk1, uk)
-			k2 = self.robot.dynamics(xk1 + delta/2*k1, uk)
-			k3 = self.robot.dynamics(xk1 + delta/2*k2, uk)
-			k4 = self.robot.dynamics(xk1 + delta*k3, uk)
+			k1 = self.dynamics(xk1, uk)
+			k2 = self.dynamics(xk1 + delta/2*k1, uk)
+			k3 = self.dynamics(xk1 + delta/2*k2, uk)
+			k4 = self.dynamics(xk1 + delta*k3, uk)
 			xk1 = xk1 + delta*(k1/6 + k2/3 + k3/3 + k4/6)
+		# print(xk1.shape)
 		return xk1
 
 	def CostFunctionGoal(self, u):
@@ -82,15 +118,26 @@ class MPC(object):
 		return J
 
 	def CostFunctionTrajectory(self, u):
-	    # Cost function taken from MatLab's nMPC example code 
+		# Cost function taken from MatLab's nMPC example code 
 		u = u.reshape(self.N, 2)
 		J = 0.
 		xk = self.x
 		trajIndex = int((self.currentTime - self.startTime)/self.Ts)
+		if(self.model_type=='RNN'):
+			self.input_state_with_prediction = copy(self.input_state)
+		
 		for ct in range(self.N):
 			uk = u[ct]
 
-			xk1 = self.IntegrationEstimation(xk, uk);
+			if(self.model_type=='RNN'):
+				nextState 			= np.zeros([1,6])
+				nextState[0,0:4] 	= copy(xk)
+				nextState[0,4:] 	= uk
+				self.input_state_with_prediction.append(nextState[0])
+				xk1 = self.dynamicsRNN(xk, uk)
+
+			else:
+				xk1 = self.IntegrationEstimation(xk, uk)
 
 			# for i in range(len(xk1)):
 			J += np.matmul(np.matmul((xk1-self.trajectory[:,trajIndex]),self.Q),(xk1-self.trajectory[:,trajIndex]))
@@ -111,17 +158,25 @@ class MPC(object):
 		phiMax = 10
 		xk = copy(self.x)
 		c = np.zeros(self.N*2)
+		if(self.model_type=='RNN'):
+			self.input_state_with_prediction = copy(self.input_state)
 
 		for ct in range(self.N):
 			uk = u[ct]
 			# print(uk)
-			xk1 = self.IntegrationEstimation(xk, uk, 5)
-
+			if(self.model_type=='RNN'):
+				nextState 			= np.zeros([1,6])
+				nextState[0,0:4] 	= copy(xk)
+				nextState[0,4:] 	= uk
+				self.input_state_with_prediction.append(nextState[0])
+				xk1 = self.dynamicsRNN(xk, uk)
+			else: 
+				xk1 = self.IntegrationEstimation(xk, uk)
+			# print(xk1)
 			# -phi + phiMin > 0
 			c[2*ct] = xk1[0]-phiMin
 			# phi - phiMax > 0
 			c[2*ct+1] = -xk1[0]+phiMax
-
 			#update plant state and input for next step
 			xk = xk1
 		return c

@@ -14,6 +14,7 @@ import pickle
 import argparse
 from copy import copy
 import scipy.io as sio
+import tensorflow as tf
 
 from robot import Acrobot
 from robot import PlanarRR
@@ -25,8 +26,10 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--mode', type=str, default='test')
-	parser.add_argument('--model', type=str, default='planarRR_trajectory.dat')
-	parser.add_argument('--type', type=str, default='waypoints')
+	parser.add_argument('--ref_traj', type=str, default='../Trajectory/planarRR_trajectory')
+	parser.add_argument('--model_type', type=str, default='Analytical')
+	parser.add_argument('--method', type=str, default='waypoints')
+	parser.add_argument('--model_path', type=str, default=None)
 
 	args = parser.parse_args()
 	t = time.time()
@@ -45,7 +48,7 @@ if __name__ == '__main__':
 	LB = -100.									# input force Lower Bound 
 	UP = 100.									# input force Upper Bound
 	
-	if (args.type == 'waypoints'):
+	if (args.method == 'waypoints'):
 		params['Ts'] = 0.05						# time iteration
 		params['N'] = 5							# Event horizon = 10
 		params['Duration'] = 2.0				# max time 
@@ -72,15 +75,15 @@ if __name__ == '__main__':
 		params['N'] = 5				# Event horizon
 		params['waypoints'] = None
 		params['Duration'] = 12			# max time 
-		params['numIterations'] = int(params['Duration']/params['Ts'])
+		params['numIterations'] = 100#int(params['Duration']/params['Ts'])
 
-		joints = pickle.load(open('../Trajectory/planarRR_trajectory', 'rb'))
+		joints = pickle.load(open(args.ref_traj, 'rb'))
 		# embed()
 		params['trajectory'] = (np.array(joints).T)[:4,:]
 		print(params['trajectory'].shape)
 		params['x0'] = params['trajectory'][:,0]
 		# params['Q'] = np.diag([100.,10.,0.1, 0.1])
-		params['Q'] = np.diag([1., 1., 100., 100.])
+		params['Q'] = np.diag([100., 100., 1., 1.])
 		params['R'] = np.diag([0.01, 0.01])
 		bnds = ((LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP), (LB, UP))
 
@@ -99,7 +102,18 @@ if __name__ == '__main__':
 	robot = PlanarRR(params)
 	print("Robot object created")
 
-	controller = MPC(robot, params, bnds, args.type)
+	if(args.model_type == 'Analytical'):
+		controller = MPC(robot, params, bnds, args.method)
+	elif(args.model_type == 'RNN'):
+		sess = tf.Session()
+		model_params						= {}
+		model_params['time_steps']          = 10
+		model_params['input_state_size']    = 6 # [sita1 w1 sita2 w2 torque]_t
+		model_params['output_state_size']   = 4 # [sita1 w1 sita2 w2]_t+1
+		model_params['hidden_state_size']   = 8
+		model_params['lrn_rate']            = 1e-3
+		model_params['model_path'] 			= args.model_path
+		controller 			= MPC(robot, params, bnds, args.method, args.model_type, sess, model_params)
 	print("Controller object created")
 
 	# cons = ({'type': 'ineq', 'fun': Contraints, 'args':(x, robot,)})
@@ -109,7 +123,11 @@ if __name__ == '__main__':
 		for ct in range(params['numIterations']):
 			t = time.time()
 			print('iteration # {} of {}'.format(ct, params['numIterations']))
-
+			if(args.model_type == 'RNN'):
+				nextState 			= np.zeros([1,6])
+				nextState[0,0:4] 	= copy(x)
+				nextState[0,4:] 	= u0
+				controller.input_state.append(nextState[0])
 			# optimize
 			results = controller.optimize(uopt, x, u0)
 
@@ -126,17 +144,19 @@ if __name__ == '__main__':
 		print(time.time()-t)
 		controller.xRefHistory+= [controller.xRefHistory[ct]]
 		xRefHistory = np.array(controller.xRefHistory)
-		filename = './models/acrobot_results_' + str(params['N'])
+		filename = './models/planarRR_results_' + str(params['N'])
 		pickle.dump([params, xHistory, uHistory, xRefHistory], open(filename, 'wb'))
 	else:
 		filename = args.model
 		params, xHistory, uHistory, xRefHistory = pickle.load(open(filename, 'rb'))   
 	
 	# Displaying Graphs
-	t = np.linspace(0, params['Duration'], params['Duration']/params['Ts']+1)
+	# t = np.linspace(0, params['Duration'], params['Duration']/params['Ts']+1)
+	t = np.linspace(0, 100*params['Ts'], xHistory.shape[0])
 	# xHistory = np.array(xHistory)
 	# print(xRefHistory)
 	# print(xRefHistory.shape)
+	# embed()
 	f, axarr = plt.subplots(2, 2)
 	axarr[0, 0].plot(t, xHistory[:,0], 'r')
 	axarr[0, 0].plot(t, xRefHistory[:,0], 'g')

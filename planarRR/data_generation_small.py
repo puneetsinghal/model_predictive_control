@@ -32,13 +32,13 @@ params['g'] = -9.81
 params['I1'] = 0.1
 params['I2'] = 0.1
 
-params['Ts'] = 0.01             # time iteration
-params['N'] = 10              # Event horizon = 10
+params['Ts'] = 0.01				# time iteration
+params['N'] = 10				# Event horizon = 10
 
 robot = PlanarRR(params)
 
-T = 0.5
-N = 100
+T = 0.2
+N = 500
 PIK = 'data_for_rnn_' + str(int(N*T/params['Ts'])) + '.dat'
 data = []
 
@@ -46,15 +46,11 @@ with open(PIK, "wb") as f:
 
 	for j in range(N):
 
-		params['x0'] = pi*np.array(np.random.uniform(-1,1,4))
-		params['u0'] = np.array(np.random.uniform(-1,1,2))
-
-		# energy = np.zeros((int(10.0/params['Ts']),1))
-		xk = params['x0']
-		uk = params['u0']
-		xHistory = [xk.tolist()]
+		xk = np.array(np.random.uniform(-1,1,4))
+		
 		subData = []
 		for i in range(int(T/params['Ts'])):
+			uk = np.array(np.random.uniform(-1,1,2))
 			xk = IntegrationEstimation(xk, uk, params['Ts'], 30)
 			subData.append((xk[:].tolist(),uk[:].tolist()))
 			# subData.append([totuple(xk[:]),totuple(uk[:])])
